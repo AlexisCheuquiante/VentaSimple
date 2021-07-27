@@ -1,0 +1,126 @@
+﻿<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" />
+    <title>Generar boleta</title>
+    <!-- Estilos y funciones básicas de funcionamiento -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <!-- Semantic UI CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+
+    <script src="~/ScriptsVistas/LogicaMantenedorBodegas.js"></script>
+
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            background-image: url();
+            background-image: url('../../Recursos/Imagenes/Fondo.jpg');
+            background-position: center;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.ui.selection.dropdown').dropdown();
+            $('.ui.menu .ui.dropdown').dropdown({
+                on: 'hover'
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div @*class="modal fade"*@ id="modalGeneraVentas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="opacity:1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">Genera venta</h3>
+                </div>
+                @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
+                <div class="modal-body">
+                    <div class="image content">
+                        <div class="ui info message">
+                            <div class="header">
+                                Atención al completar los campos!
+                            </div>
+                            Debes completar todos los campos para emitir la boleta!
+                            <div class="ui divider"></div>
+                            <div class="ui form">
+                                <form>
+                                    <div class="two fields">
+                                        <div id="divtxtRut" style="width:40%" class="field">
+                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rut</font></font></label>
+                                            <input id="txtRut" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                        </div>
+                                        <div id="divtxtContribuyente" style="width:100%" class="field">
+                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contribuyente</font></font></label>
+                                            <input id="txtContribuyente" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                        </div>
+                                    </div>
+                                    <div class="two fields">
+                                        <div id="divtxtDetalle" style="width:100%" class="field">
+                                            <label>Detalle de la venta</label>
+                                            <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="two fields">
+                                        <div id="divtxtCantidad" class="field">
+                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></label>
+                                            <input id="txtCantidad" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                        </div>
+                                        <div id="divtxtValor" class="field">
+                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
+                                            <input id="txtValor" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divExito" class="ui icon hidden positive  message">
+                        <i class="stopwatch icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Éxito!!
+                            </div>
+                            <p>La bodega fue guardada con éxito.</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div id="DivMessajeErrorGeneral" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                Se han encontrado algunos problemas, revíselos...
+                            </div>
+                            <ul id="listMessajeError" class="list"></ul>
+                        </div>
+                    </div>
+                    <button id="btnGuardarBodega" class="ui fluid labeled blue icon button" onclick="GuardarBodega();">
+                        <i class="checkmark icon"></i>
+                        Emitir boleta
+                    </button>
+                    <div style="height:5px">
+
+                    </div>
+                    <button class="ui fluid labeled red icon button" onclick="window.location.replace('/MantenedorBodegas')">
+                        <i class="left chevron icon"></i>
+                        Volver
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
