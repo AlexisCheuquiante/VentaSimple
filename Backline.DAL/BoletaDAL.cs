@@ -75,7 +75,6 @@ namespace Backline.DAL
                     OBJ.Rut = (String)(!reader.IsDBNull(RUT) ? reader.GetValue(RUT) : string.Empty);
                     OBJ.Contribuyente = (String)(!reader.IsDBNull(CONTRIBUYENTE) ? reader.GetValue(CONTRIBUYENTE) : string.Empty);
                     OBJ.Usuario = (String)(!reader.IsDBNull(USUARIO) ? reader.GetValue(USUARIO) : string.Empty);
-                    OBJ.Establecimiento = (String)(!reader.IsDBNull(ESTABLECIMIENTO) ? reader.GetValue(ESTABLECIMIENTO) : string.Empty);
                     OBJ.Sucursal = (String)(!reader.IsDBNull(ESTABLECIMIENTO) ? reader.GetValue(ESTABLECIMIENTO) : string.Empty);
 
                     //EndFields

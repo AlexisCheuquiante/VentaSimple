@@ -1,13 +1,8 @@
-﻿@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/GeneraVenta/GeneraVenta.cshtml";
-}
-
-<html>
+﻿<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" />
-    <title>Generar boleta</title>
+    <title>Cambiar contraseña</title>
     <!-- Estilos y funciones básicas de funcionamiento -->
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -19,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
     <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
 
-    <script src="~/ScriptsVistas/LogicaGeneraVenta.js"></script>
+    <script src="~/ScriptsVistas/LogicaCambiarContraseña.js"></script>
 
     <style>
         body {
@@ -36,8 +31,7 @@
 
     <script>
 
-        var urlObtenerContribuyente = '@Url.Action("ObtenerContribuyente", "GeneraVenta")';
-        var urlInsertarFactura = '@Url.Action("InsertarFactura", "GeneraVenta")';
+        var urlCambiarClave = '@Url.Action("CambiarClave", "CambiarContraseña")';
 
         $(document).ready(function () {
 
@@ -50,14 +44,12 @@
     </script>
 </head>
 <body>
-    <div @*class="modal fade"*@ id="modalGeneraVentas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="opacity:1">
+    <div style="height:50px"></div>
+    <div id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="opacity:0.9">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="ui center aligned header">
-                        <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
-                        Generar venta
-                    </h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Cambiar contraseña</h3>
                 </div>
                 @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
                 <div class="modal-body">
@@ -66,74 +58,53 @@
                             <div class="header">
                                 Atención al completar los campos!
                             </div>
-                            Debes completar todos los campos para emitir la boleta!
+                            Debes completar todos los campos para guardar!
                             <div class="ui divider"></div>
                             <div class="ui form">
                                 <form>
+
                                     <div class="two fields">
-                                        <div id="divtxtRut" style="width:40%" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rut</font></font></label>
-                                            <input id="txtRut" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;" onblur="ObtenerContribuyente();">
-                                        </div>
-                                        <div id="divtxtContribuyente" style="width:100%" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contribuyente</font></font></label>
-                                            <input id="txtContribuyente" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                        <div id="divtxtContraseña" class="field" style="width:70%">
+                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nueva contraseña</font></font></label>
+                                            <input id="txtContraseñaNueva" type="password" placeholder="" autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="two fields">
-                                        <div id="divtxtDetalle" style="width:100%" class="field">
-                                            <label>Detalle de la venta</label>
-                                            <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="two fields">
-                                        <div id="divtxtCantidad" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></label>
-                                            <input id="txtCantidad" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
-                                        </div>
-                                        <div id="divtxtValor" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
-                                            <input id="txtValor" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                        <div id="divtxtContraseñaConfirmacion" class="field" style="width:70%">
+                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Confirme contraseña</font></font></label>
+                                            <input id="txtContraseñaConfirmacion" type="password" placeholder="" autocomplete="off">
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+
                     <div id="divExito" class="ui icon hidden positive  message">
-                        <i class="stopwatch icon"></i>
+                        <i class="key icon"></i>
                         <div class="content">
                             <div class="header">
-                                Éxito!!
+                                Seguridad
                             </div>
-                            <p>La boleta fue generada con éxito.</p>
-                        </div>
-                    </div>
-                    <div id="divError" class="ui icon hidden positive  message">
-                        <i class="stopwatch icon"></i>
-                        <div class="content">
-                            <div class="header">
-                                Error!!
-                            </div>
-                            <p>La boleta no fue generada.</p>
+                            <p>Se ha cambiado su contraseña con éxito, la sessión se cerrará en 5 segundos.</p>
                         </div>
                     </div>
                     <div class="actions">
                         <div id="DivMessajeErrorGeneral" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
-                            <i class="close icon"></i>
                             <div class="header">
                                 Se han encontrado algunos problemas, revíselos...
                             </div>
                             <ul id="listMessajeError" class="list"></ul>
                         </div>
                     </div>
-                    <button id="btnGuardarBoleta" class="ui fluid labeled blue icon button" onclick="GuardarFactura();">
-                        <i class="checkmark icon"></i>
-                        Emitir boleta
-                    </button>
-                    <div style="height:5px">
 
-                    </div>
+                    <div style="height:5px"></div>
+                    @*<br />*@
+                    <button id="btnCambiarContrasena" class="ui fluid labeled green icon button" onclick="UpdateContraseña();">
+                        <i class="checkmark icon"></i>
+                        Cambiar
+                    </button>
+                    <div style="height:5px"></div>
                     <button class="ui fluid labeled red icon button" onclick="window.location.replace('/Home')">
                         <i class="left chevron icon"></i>
                         Volver

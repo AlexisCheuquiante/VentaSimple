@@ -14,5 +14,6 @@ namespace Backline.Entidades
 
         public int EmpId { get; set; }
         public int EstId { get; set; }
+        public int ContId { get; set; }
     }
 }

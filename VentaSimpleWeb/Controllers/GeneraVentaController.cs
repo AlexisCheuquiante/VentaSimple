@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Text;
+using System.IO;
+using System.Configuration;
 
 namespace VentaSimpleWeb.Controllers
 {
@@ -12,6 +15,92 @@ namespace VentaSimpleWeb.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public JsonResult ObtenerContribuyente(string rut, Backline.Entidades.Filtro filtro)
+        {
+            var rutDevuelto = VentaSimpleWeb.Utiles.ObtieneRut_INT(rut);
+            Session["RutCode"] = rutDevuelto;
+
+            List<Backline.Entidades.Contribuyente> contribuyente = new List<Backline.Entidades.Contribuyente>();
+            filtro.RutCode = rutDevuelto;
+            contribuyente = Backline.DAL.ContribuyenteDAL.ObtenerContribuyente(filtro);
+
+            if (contribuyente.Count == 1)
+            {
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = contribuyente[0], JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+
+            return new JsonResult() { ContentEncoding = Encoding.Default, Data = "noEncontrado", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        public JsonResult InsertarFactura(Backline.Entidades.Factura entity, Backline.Entidades.Contribuyente contribuyente)
+        {
+            try
+            {
+                var idContribuyente = 0;
+                var rutFormateado = "";
+                if (entity.ContId == 0)
+                {
+                    var rutDevuelto = VentaSimpleWeb.Utiles.ObtieneRut_INT(entity.Rut);
+                    Session["RutCode"] = rutDevuelto;
+                    rutFormateado = VentaSimpleWeb.Utiles.FormateaRut(entity.Rut);
+                    contribuyente.Rut = rutFormateado;
+                    contribuyente.Razon_Social = entity.Contribuyente;
+                    contribuyente.Rut_Code = rutDevuelto;
+                    Backline.DAL.ContribuyenteDAL.InsertarContribuyente(contribuyente);
+                    idContribuyente = contribuyente.Id;
+                }
+
+
+                List<Backline.Entidades.DetalleFactura> detalleArticulos = new List<Backline.Entidades.DetalleFactura>();
+                Backline.Entidades.DetalleFactura detalle = new Backline.Entidades.DetalleFactura();
+                detalle.Cantidad = entity.Cantidad;
+                detalle.DescripcionProducto = entity.Glosa;
+                detalle.Valor = entity.Total;
+
+                detalleArticulos.Add(detalle);
+
+                Backline.DTE.APIResult apiResult = new Backline.DTE.APIResult();
+                int folioSII = 0;
+                string rutaPDF = string.Empty;
+                bool validadaSII = false;
+                if (rutFormateado != "")
+                {
+                    entity.Rut = rutFormateado;
+                }
+                validadaSII = Utiles.GenerarBoletaElectronica(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.BoletaElectronicaExenta, out folioSII, out rutaPDF, out apiResult);
+                entity.NumeroSII = folioSII;
+                //MessageBox.Show("Número" + folioSII.ToString());
+
+                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + "Boleta_" + folioSII.ToString() + ".pdf";
+
+                if (rutaPDF == null || rutaPDF == "")
+                {
+                    return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };               
+                }
+
+               if (idContribuyente != 0)
+                {
+                    entity.ContId = idContribuyente;
+                }
+                entity.EmpId = SessionH.Usuario.Emp_Id;
+                entity.NumeroSII = folioSII;
+                entity.Fecha = DateTime.Now;
+                entity.Usr_Id = SessionH.Usuario.Id;
+                entity.EstId = SessionH.Usuario.Est_Id;
+                Backline.DAL.BoletaDAL.InsertarFactura(entity);
+
+
+
+
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+
+
         }
     }
 }

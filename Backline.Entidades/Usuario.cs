@@ -25,5 +25,6 @@ namespace Backline.Entidades
         public string Clave_FE { get; set; }
 
         public bool Administrador { get; set; }
+        public bool Eliminado { get; set; }
     }
 }

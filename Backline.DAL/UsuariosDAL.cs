@@ -11,12 +11,33 @@ namespace Backline.DAL
 {
     public class UsuariosDAL
     {
+        public static Backline.Entidades.Usuario InsertarUsuario(Backline.Entidades.Usuario usuario)
+        {
+            Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
+            DbCommand dbCommand = db.GetStoredProcCommand("SP_USR_USUARIO_INS");
+
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, usuario.Id != 0 ? usuario.Id : (object)null);
+            db.AddInParameter(dbCommand, "NOMBRE", DbType.String, usuario.Nombre != "" ? usuario.Nombre.ToUpper() : (object)null);
+            db.AddInParameter(dbCommand, "USUARIO", DbType.String, usuario.NombreUsuario != "" ? usuario.NombreUsuario.ToUpper() : (object)null);
+            db.AddInParameter(dbCommand, "PASSWORD", DbType.String, usuario.Password != "" ? usuario.Password.ToUpper() : (object)null);
+            db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, usuario.Emp_Id != 0 ? usuario.Emp_Id : (object)null);
+            db.AddInParameter(dbCommand, "EST_ID", DbType.Int32, usuario.Est_Id != 0 ? usuario.Est_Id : (object)null);
+            db.AddInParameter(dbCommand, "ADMINISTRADOR", DbType.Byte, usuario.Administrador == true ? 1 : 0);
+            db.AddInParameter(dbCommand, "ELIMINADO", DbType.Byte, usuario.Eliminado == true ? 1 : 0);
+
+            usuario.Id = int.Parse(db.ExecuteScalar(dbCommand).ToString());
+
+
+            return usuario;
+
+        }
         public static List<Backline.Entidades.Usuario> ObtenerUsuario(Backline.Entidades.Usuario usuarios)
         {
             List<Backline.Entidades.Usuario> listaUsuarios = new List<Backline.Entidades.Usuario>();
             Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
             DbCommand dbCommand = db.GetStoredProcCommand("SP_USR_USUARIO_LEER");
 
+            db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, usuarios.Emp_Id != 0 ? usuarios.Emp_Id : (object)null);
             db.AddInParameter(dbCommand, "USUARIO", DbType.String, usuarios.NombreUsuario != "" ? usuarios.NombreUsuario : (object)null);
             db.AddInParameter(dbCommand, "PASSWORD", DbType.String, usuarios.Password != "" ? usuarios.Password : (object)null);
 
@@ -78,7 +99,17 @@ namespace Backline.DAL
             return listaUsuarios;
 
         }
+        public static void EliminarUsuario(int id)
+        {
+            Microsoft.Practices.EnterpriseLibrary.Data.Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
+            DbCommand dbCommand = db.GetStoredProcCommand("SP_USR_USUARIO_DEL");
 
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, id);
+
+
+            db.ExecuteNonQuery(dbCommand);
+
+        }
         public static void CambiarClave(Entidades.Usuario usuario)
         {
             Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");

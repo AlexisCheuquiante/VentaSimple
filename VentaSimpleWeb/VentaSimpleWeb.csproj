@@ -120,26 +120,52 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CambiarContraseñaController.cs" />
     <Compile Include="Controllers\GeneraVentaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LibroVentasController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MantenedorUsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\HomeModel.cs" />
+    <Compile Include="Models\LibroVentasModel.cs" />
+    <Compile Include="Models\MantenedorUsuariosModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionH.cs" />
+    <Compile Include="Utiles.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="CSS\bootstrap.min.css" />
+    <Content Include="CSS\semantic.css" />
+    <Content Include="CSS\semantic.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Recursos\Imagenes\botonGeneraVenta.png" />
+    <Content Include="Recursos\Imagenes\botonGeneraVenta2.png" />
+    <Content Include="Recursos\Imagenes\botonMantenedorUsuarios.png" />
+    <Content Include="Recursos\Imagenes\botonRevisaSolicitudes.jpg" />
     <Content Include="Recursos\Imagenes\Fondo.jpg" />
+    <Content Include="Recursos\Imagenes\Fondo2.jpg" />
+    <Content Include="Recursos\Imagenes\Login.png" />
+    <Content Include="Recursos\Imagenes\LogoBackline.png" />
+    <Content Include="ScriptsVistas\LogicaCambiarContraseña.js" />
+    <Content Include="ScriptsVistas\LogicaGeneraVenta.js" />
+    <Content Include="ScriptsVistas\LogicaLibroVentas.js" />
+    <Content Include="ScriptsVistas\LogicaLogin.js" />
+    <Content Include="ScriptsVistas\LogicaMantenedorUsuarios.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="CSS\Themes\Default\Assets\Fonts\icons.woff2" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -150,6 +176,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\semantic.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -165,10 +193,18 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\GeneraVenta\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\LibroVentas\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutMenu.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\CambiarContraseña\Index.cshtml" />
+    <Content Include="Views\MantenedorUsuarios\Index.cshtml" />
+    <Content Include="Views\MantenedorUsuarios\MantenedorUsuarios.cshtml" />
+    <Content Include="Views\GeneraVenta\GeneraVenta.cshtml" />
+    <Content Include="Views\LibroVentas\LibroVentas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -187,6 +223,10 @@
     <ProjectReference Include="..\Backline.DAL\Backline.DAL.csproj">
       <Project>{c4c6b8ce-e6a8-4192-a3a4-d4c9b7a95cf5}</Project>
       <Name>Backline.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Backline.DTE\Backline.DTE.csproj">
+      <Project>{dfe5fe23-f5d4-4970-9b18-39b297f2bfb4}</Project>
+      <Name>Backline.DTE</Name>
     </ProjectReference>
     <ProjectReference Include="..\Backline.Entidades\Backline.Entidades.csproj">
       <Project>{4f80a6ed-58df-480f-9001-39c9aee19208}</Project>

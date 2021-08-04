@@ -10,21 +10,10 @@ namespace VentaSimpleWeb.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            VentaSimpleWeb.Models.HomeModel model = new Models.HomeModel();
+            model.NombreUsuario = SessionH.Usuario.Nombre;
+            return View(model);
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
     }
 }

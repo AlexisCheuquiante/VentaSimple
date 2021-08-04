@@ -1,0 +1,102 @@
+﻿<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" />
+    <title>Login</title>
+    <!-- Estilos y funciones básicas de funcionamiento -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/CSS/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="~/Scripts/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Semantic UI CSS -->
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.css">
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
+    <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
+
+    <script src="~/ScriptsVistas/LogicaLogin.js"></script>
+
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            background-image: url();
+            background-image: url('../../Recursos/Imagenes/Fondo2.jpg');
+            background-position: center;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+
+    <script>
+
+        var urlValidaUsuario = '@Url.Action("ValidarLogin", "Login")';
+
+        $(document).ready(function () {
+
+            $('.ui.selection.dropdown').dropdown();
+            $('.ui.menu .ui.dropdown').dropdown({
+                on: 'hover'
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <!-- Modal Productos (bootstrap) -->
+    <div id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="opacity:1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div style="height:3px">
+
+                </div>
+                <h3 class="ui center aligned header">
+                    <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
+                    Sistema de venta simple
+                </h3>
+                <img class="ui fluid image" src="~/Recursos/Imagenes/Login.png" />
+                <div class="modal-body">
+                    <div class="image content">
+                        <div class="ui info message">
+                            <div>
+                                Indique su usuario y contraseña
+                            </div>
+                            <div class="ui divider"></div>
+                            <div class="ui form">
+                                <form>
+                                    <div id="divtxtUsuario" class="field">
+                                        <label>Usuario</label>
+                                        <input id="txtUsuario" name="txtEmail" type="text" placeholder="Digite su usuario..." autocomplete="off">
+                                    </div>
+                                    <div id="divtxtPassword" class="field">
+                                        <label>Password</label>
+                                        <input id="txtPassword" name="txtPassword" type="password" placeholder="Digite su password..." autocomplete="off">
+                                    </div>
+                                    <div id="divErroLogin" class="ui icon hidden negative message">
+                                        <i class="exclamation triangle icon"></i>
+                                        <div class="content">
+                                            <div class="header">
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">
+                                                        Error de login
+                                                    </font>
+                                                </font>
+                                            </div>
+                                            <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">El nombre de usuario o la contraseña son incorrectos.</font></font></p>
+                                        </div>
+                                    </div>
+                                </form>
+                                <button id="btnLogin" class="ui fluid labeled green icon button" onclick="ValidarUsuario();">
+                                    <i class="checkmark icon"></i>
+                                    Ingresar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

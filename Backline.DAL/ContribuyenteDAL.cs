@@ -33,7 +33,7 @@ namespace Backline.DAL
             Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
             DbCommand dbCommand = db.GetStoredProcCommand("SP_CONT_CONTRIBUYENTE_LEER");
 
-
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, filtro.ContId != 0 ? filtro.ContId : (object)null);
             db.AddInParameter(dbCommand, "RUT_CODE", DbType.Int32, filtro.RutCode != 0? filtro.RutCode : (object)null);
 
             IDataReader reader = (IDataReader)db.ExecuteReader(dbCommand);

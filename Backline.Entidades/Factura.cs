@@ -28,7 +28,7 @@ namespace Backline.Entidades
         public Int32 RutContribuyente { get; set; }
         public Int32 EmpId { get; set; }
         public string descripcionTipoFactura;
-        public string Sucursal;
+        public string Sucursal { get; set; }
 
         public string Establecimiento;
         public string Cajero { get; set; }
