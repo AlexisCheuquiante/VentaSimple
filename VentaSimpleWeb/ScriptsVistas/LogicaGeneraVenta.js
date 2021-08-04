@@ -12,12 +12,13 @@ function ObtenerContribuyente() {
             if (data != "noEncontrado") {
                 $('#txtRut').val(data.Rut);
                 $('#txtContribuyente').val(data.Razon_Social);
-                
+                $('#divtxtContribuyente').addClass('disabled');
             }
             else
             {
                 $('#txtRut').val(rut);
                 $('#txtContribuyente').val("");
+                $('#divtxtContribuyente').removeClass('disabled');
             }
             _idContribuyente = data.Id;
         },

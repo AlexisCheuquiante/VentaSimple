@@ -20,6 +20,7 @@
         data: { entity: strParams },
         success: function (data) {
             if (data === 'exito') {
+                $('#divErroLogin').addClass("hidden");
                 window.location.href = "/home/index";
             }
             if (data === 'error') {

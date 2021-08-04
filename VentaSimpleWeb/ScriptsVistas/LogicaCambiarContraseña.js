@@ -43,6 +43,7 @@ function UpdateContraseña() {
         data: { entity: strParams },
         success: function (data) {
             if (data === 'exito') {
+                $('#DivMessajeErrorGeneral').addClass("hidden");
                 $('#divExito').removeClass("hidden");
                 setTimeout(() => { Salir(); }, 5000);
             }
