@@ -1,4 +1,6 @@
-﻿<html>
+﻿@model VentaSimpleWeb.Models.LoginModel
+
+<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" />
@@ -13,6 +15,10 @@
     <link rel="stylesheet" type="text/css" href="~/CSS/semantic.css">
     <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
     <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
+
+    <!-- Fotorama from CDNJS, 19 KB -->
+    <link href="~/CSS/fotorama.css" rel="stylesheet">
+    <script src="~/Scripts/fotorama.js"></script>
 
     <script src="~/ScriptsVistas/LogicaLogin.js"></script>
 
@@ -52,18 +58,17 @@
 
                 </div>
                 <h3 class="ui center aligned header">
-                    <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
                     Sistema de venta simple
                 </h3>
                 <img class="ui fluid image" src="~/Recursos/Imagenes/Login.png" />
                 <div class="modal-body">
                     <div class="image content">
                         <div class="ui info message">
-                            <div>
-                                Indique su usuario y contraseña
-                            </div>
-                            <div class="ui divider"></div>
                             <div class="ui form">
+                                <div>
+                                    Indique su usuario y contraseña
+                                </div>
+                                <div class="ui divider"></div>
                                 <form>
                                     <div id="divtxtUsuario" class="field">
                                         <label>Usuario</label>

@@ -52,10 +52,20 @@
     <div class="ui link cards">
         <div class="container">
             <div style="height:5px"></div>
-            <h2 style="color:white" class="ui center aligned header">
-                <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
-                Bienvenido al sistema de venta simple @Model.NombreUsuario
-            </h2>
+            @if (Request.Browser.IsMobileDevice)
+            {
+                <h2 style="color:white" class="ui center aligned header">
+                    @*<img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">*@
+                    Bienvenido al sistema de venta simple @Model.NombreUsuario
+                </h2>
+            }
+            else
+            {
+                <h2 style="color:white" class="ui center aligned header">
+                    <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
+                    Bienvenido al sistema de venta simple @Model.NombreUsuario
+                </h2>
+            }
             <div class="row">
                 @if (SessionH.Usuario.Administrador == false)
                 {

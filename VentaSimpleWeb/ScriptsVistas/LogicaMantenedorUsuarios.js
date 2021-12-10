@@ -12,7 +12,7 @@ function ObtenerEstablecimientos() {
         success: function (data) {
             $('#cmbEstablecimiento').dropdown('clear');
             $('#cmbEstablecimiento').empty();
-            $('#cmbEstablecimiento').append('<option value="-1">[Seleccione establecimiento]</option>');
+            $('#cmbEstablecimiento').append('<option value="0">[Seleccione establecimiento]</option>');
             $.each(data,
                 function (value, item) {
 
@@ -28,6 +28,14 @@ function ObtenerEstablecimientos() {
         }
     });
 
+}
+function fnAdministrador(id) {
+    var id = $('#idEsAdministrador').val();
+
+
+    if (id === 'False') {
+        $('#divcmbEstablecimiento').show();
+    }
 }
 function GuardarUsuario() {
 
@@ -71,7 +79,6 @@ function GuardarUsuario() {
 function LimpiaEstilos() {
     //Limpio el estilo Error antes de validar
     $('#divtxtNombreCompleto').removeClass("error");
-    $('#cmbEstablecimiento').removeClass("error");
     $('#divcmbEsAdministrador').removeClass("error");
     $('#divtxtUsuario').removeClass("error");
     $('#divtxtContraseña').removeClass("error");
@@ -87,10 +94,6 @@ function ValidaGuardar() {
         errores.push('Debe indicar el nombre completo');
     }
 
-    if ($('#cmbEstablecimiento').val() < 1) {
-        $('#divcmbEstablecimiento').addClass("error");
-        errores.push('Debe seleccionar al menos un establecimiento');
-    }
 
     if ($('#idEsAdministrador').val() === '') {
         $('#divcmbEsAdministrador').addClass("error");

@@ -74,7 +74,7 @@
                         <tr>
 
 
-                            <td style="width: 10%; word-wrap: break-word; background-color: deepskyblue">
+                            <td style="width: 10%">
                                 <button class="ui icon red button" data-toggle="modal" data-target="#modalEliminarUsuario" value="@listaUsuarios.Id" onclick="PreparaEliminarUsuario(this.value, this);">
                                     <i class="trash icon"></i>
                                 </button>
@@ -82,18 +82,18 @@
                                     <i class="pencil icon"></i>
                                 </button>*@
                             </td>
-                            <td style="word-wrap: break-word; background-color: deepskyblue">Nommbre: @listaUsuarios.Nombre</td>
-                            <td style="word-wrap: break-word; background-color: deepskyblue">Usuario de ingreso: @listaUsuarios.NombreUsuario</td>
+                            <td>Nommbre: @listaUsuarios.Nombre</td>
+                            <td>Usuario de ingreso: @listaUsuarios.NombreUsuario</td>
                             @if (listaUsuarios.Administrador == true)
                             {
-                                <td style="word-wrap: break-word; background-color: deepskyblue">Administrador: Si</td>
+                                <td>Administrador: Si</td>
                             }
                             else
                             {
-                                <td style="word-wrap: break-word; background-color: deepskyblue">Administrador: No</td>
+                                <td>Administrador: No</td>
                             }
-                            <td style="word-wrap: break-word; background-color: deepskyblue">Empresa: @listaUsuarios.NombreEmpresa</td>
-                            <td style="word-wrap: break-word; background-color: deepskyblue">Establecimiento: @listaUsuarios.NombreEstablecimiento</td>
+                            <td>Empresa: @listaUsuarios.NombreEmpresa</td>
+                            <td>Establecimiento: @listaUsuarios.NombreEstablecimiento</td>
                         </tr>
                     }
                 </tbody>
@@ -204,16 +204,9 @@
                                         </div>
                                     </div>
                                     <div class="two fields">
-                                        <div id="divcmbEstablecimiento" class="field" style="width:100%">
-                                            <label>Establecimiento</label>
-                                            <select id="cmbEstablecimiento" name="cmbEstablecimiento" class="ui search selection dropdown">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="two fields">
                                         <div id="divcmbEsAdministrador" class="field" style="width:100%">
                                             <label>Es administrador</label>
-                                            <div id="cmbEsAdministrador" class="ui search selection dropdown">
+                                            <div id="cmbEsAdministrador" class="ui search selection dropdown" onchange="fnAdministrador(this.value, this);">
                                                 <input type="hidden" id="idEsAdministrador" name="idEsAdministrador">
                                                 <i class="dropdown icon"></i>
                                                 <div class="default text">Seleccione</div>
@@ -222,6 +215,13 @@
                                                     <div class="item" data-value="False">No</div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="two fields">
+                                        <div id="divcmbEstablecimiento" class="field" style="width: 100%; display:none">
+                                            <label>Establecimiento</label>
+                                            <select  id="cmbEstablecimiento" name="cmbEstablecimiento" class="ui search selection dropdown">
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="two fields">

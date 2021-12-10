@@ -22,7 +22,7 @@ namespace Backline.DTE
             var result = new APIResult();
             var guid = Guid.NewGuid().ToString();
             //DESKTOP-D1K9R0A
-            if (Environment.MachineName == "WIN-GI4K2VPTRF2" || Environment.MachineName == "PC_EDURIO" || Environment.MachineName == "DESKTOP-D1K9R0A")
+            if (Environment.MachineName == "PC_EDURIO" || Environment.MachineName == "DESKTOP-D1K9R0A")
             {
                 ambiente = "cer";
             }
@@ -56,7 +56,7 @@ namespace Backline.DTE
             var guid = Guid.NewGuid().ToString();
 
             
-            if (Environment.MachineName == "WIN-GI4K2VPTRF2" || Environment.MachineName == "PC_EDURIO" || Environment.MachineName == "DESKTOP-D1K9R0A")
+            if (Environment.MachineName == "PC_EDURIO" || Environment.MachineName == "DESKTOP-D1K9R0A")
             {
                 ambiente = "cer";
             }

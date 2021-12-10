@@ -22,13 +22,13 @@ namespace Backline.Entidades
         public Int32 UsrIdCaja { get; set; }
 
         public Int32 NumeroBoletaFisica { get; set; }
-        public Int64 NumeroSII { get; set; }
+        
         public Int32 DocumentoOrigenINT { get; set; }
 
         public Int32 RutContribuyente { get; set; }
         public Int32 EmpId { get; set; }
         public string descripcionTipoFactura;
-        public string Sucursal { get; set; }
+        
 
         public string Establecimiento;
         public string Cajero { get; set; }
@@ -57,7 +57,7 @@ namespace Backline.Entidades
         public Int32 Exento { get; set; }
         public Double Neto { get; set; }
         public Double Iva { get; set; }
-        public Int32 Total { get; set; }
+        
         public Int32 TotalRedondeado { get; set; }
 
         public Int32 Saldo { get; set; }
@@ -79,7 +79,7 @@ namespace Backline.Entidades
         public Boolean Autorizada { get; set; }
         public Boolean ZyncSoftland { get; set; }
         public Int32 VouIdCentralizacion { get; set; }
-        public String Rut { get; set; }
+        
         public String RazonSocial { get; set; }
         public String CondicionPago { get; set; }
         public String PlazoEntrega { get; set; }
@@ -166,9 +166,23 @@ namespace Backline.Entidades
         public Boolean EsCenabast { get; set; }
 
         public decimal PorcentajeCENABAST { get; set; }
-        public string Glosa { get; set; }
+        
         public int Usr_Id { get; set; }
+        
+        
+        public string FechaMostrar
+        {
+            get
+            {
+                return Fecha.ToShortDateString();
+            }
+        }
+        public Int64 NumeroSII { get; set; }
+        public String Rut { get; set; }
         public string Contribuyente { get; set; }
+        public string Glosa { get; set; }
+        public Int32 Total { get; set; }
         public string Usuario { get; set; }
+        public string Sucursal { get; set; }
     }
 }

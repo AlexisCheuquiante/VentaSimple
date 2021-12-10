@@ -12,7 +12,12 @@ namespace VentaSimpleWeb.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            return View();
+
+            VentaSimpleWeb.Models.LoginModel modelo = new Models.LoginModel();
+            modelo.ListaImagenes = Backline.DAL.ImagenDAL.ObtenerImagenes();
+
+            return View(modelo);
+
         }
         public JsonResult ValidarLogin(Backline.Entidades.Usuario entity)
         {

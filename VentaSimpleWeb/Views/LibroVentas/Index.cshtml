@@ -7,6 +7,7 @@
 
 <html>
 <head>
+    <meta name="viewport" content="width=device-width" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" />
     <title>Libro de ventas</title>
@@ -47,13 +48,100 @@
             $('.ui.menu .ui.dropdown').dropdown({
                 on: 'hover'
             });
+
+             ExportarExcel = function () {
+                location.href = '@Url.Action("ExportToExcel", "LibroVentas")';
+             };
         });
 
     </script>
 </head>
 <body>
     <br />
-    <div>
+    @if (Request.Browser.IsMobileDevice)
+    {
+
+        <div class="ui bottom attached segment" style="margin-left:auto; margin-right:auto; width:95%; opacity:0.9">
+            <h3 class="ui center aligned header">
+                <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
+                Libro de ventas
+            </h3>
+            <div class="modal-body">
+                <div class="image content">
+                    <div class="ui info message">
+                        <div class="header">
+                            Filtro
+                        </div>
+                        Para lograr una búsqueda efectiva debe seleccionar al menos un filtro.
+                        <div class="ui divider"></div>
+                        <div class="ui form">
+                            <form>
+                                <div class="two fields">
+                                    <div id="divFiltroDesde" style="width:40%" class="field">
+                                        <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha desde</font></font></label>
+                                        <input id="txtFiltroDesde" type="date" placeholder="Fecha desde" value=@Session["FiltroInformeDesde"]>
+                                    </div>
+                                    <div id="divFiltroHasta" style="width:40%" class="field">
+                                        <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha Hasta</font></font></label>
+                                        <input id="txtFiltroHasta" type="date" placeholder="Fecha hasta" value=@Session["FiltroInformeHasta"]>
+                                    </div>
+                                </div>
+                                @if (SessionH.Usuario.Administrador == true)
+                                {
+                                    <div class="two fields">
+                                        <div id="divcmbFiltroEstablecimiento" class="field">
+                                            <label>Establecimiento</label>
+                                            <select id="cmbFiltroEstablecimiento" name="cmbFiltroEstablecimiento" class="ui search selection dropdown">
+                                            </select>
+                                        </div>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <button id="btnBuscarFiltro" class="ui fluid labeled blue icon button" onclick="BusquedaFiltro();">
+                    <i class="search icon"></i>
+                    Buscar
+                </button>
+            </div>
+            <div class="fields">
+
+                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                <div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">Exportar a Excel<i class="table download icon"></i></div>
+
+             
+
+            </div>
+            <table id="tabla" class="ui celled striped table">
+                <tbody>
+                    @foreach (var listaBoletas in Model.listaBoletas)
+                    {
+                        <tr>
+                            <td>N°SII: @listaBoletas.NumeroSII</td>
+                            <td>Fecha: @listaBoletas.Fecha.ToShortDateString()</td>
+                            <td>Rut: @listaBoletas.Rut</td>
+                            <td>Razón social: @listaBoletas.Contribuyente</td>
+                            <td>Glosa: @listaBoletas.Glosa</td>
+                            <td>Total: $@listaBoletas.Total</td>
+                            <td>Usuario: @listaBoletas.Usuario</td>
+                            <td>Establecimiento: @listaBoletas.Sucursal</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="15">
+                            <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    }
+    else
+    {
         <div class="ui bottom attached segment" style="margin-left:auto; margin-right:auto; width:95%; opacity:0.9">
             <div class="ui bottom attached segment" style="margin-left:auto; margin-right:auto; width:60%">
                 <div class="ui icon warning message">
@@ -103,7 +191,7 @@
             <div class="fields">
 
                 <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
-
+                <div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">Exportar a Excel<i class="table download icon"></i></div>
             </div>
             <table id="tabla" class="ui celled striped table">
                 <thead>
@@ -143,6 +231,6 @@
                 </tfoot>
             </table>
         </div>
-    </div>
+    }
 </body>
 </html>

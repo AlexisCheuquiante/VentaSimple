@@ -26,6 +26,7 @@ namespace VentaSimpleWeb.Controllers
                 Session["FiltroInformeDesde"] = Utiles.ReversaFecha(DateTime.Now);
                 Session["FiltroInformeHasta"] = Utiles.ReversaFecha(DateTime.Now);
                 modelo.listaBoletas = Backline.DAL.BoletaDAL.ObtenerFactura(filtro);
+                Session["registrosEncontrados"] = modelo.listaBoletas;
             }
             if (Session["registrosEncontrados"] == null && SessionH.Usuario.Administrador == false)
             {
@@ -34,6 +35,7 @@ namespace VentaSimpleWeb.Controllers
                 Session["FiltroInformeDesde"] = Utiles.ReversaFecha(DateTime.Now);
                 Session["FiltroInformeHasta"] = Utiles.ReversaFecha(DateTime.Now);
                 modelo.listaBoletas = Backline.DAL.BoletaDAL.ObtenerFactura(filtro);
+                Session["registrosEncontrados"] = modelo.listaBoletas;
             }
             if (Session["registrosEncontrados"] != null)
             {
@@ -78,6 +80,15 @@ namespace VentaSimpleWeb.Controllers
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
             return new JsonResult() { ContentEncoding = Encoding.Default, Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        [HttpGet]
+        public FileContentResult ExportToExcel()
+        {
+            var timestamp = Utiles.ObtenerTimeStamp();
+            List<Backline.Entidades.Factura> lista = Session["registrosEncontrados"] as List<Backline.Entidades.Factura>;
+            string[] columns = { "FechaMostrar", "NumeroSII",  "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal" };
+            byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
+            return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
         }
     }
 }
