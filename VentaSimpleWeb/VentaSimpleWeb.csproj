@@ -163,7 +163,7 @@
     <Content Include="Recursos\Imagenes\Login.png" />
     <Content Include="Recursos\Imagenes\LogoBackline.png" />
     <Content Include="ScriptsVistas\LogicaCambiarContraseña.js" />
-    <Content Include="ScriptsVistas\LogicaGeneraVenta.js" />
+    <Content Include="ScriptsVistas\LogicaGeneraVenta20211217_1841.js" />
     <Content Include="ScriptsVistas\LogicaLibroVentas.js" />
     <Content Include="ScriptsVistas\LogicaLogin.js" />
     <Content Include="ScriptsVistas\LogicaMantenedorUsuarios.js" />

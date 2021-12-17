@@ -61,6 +61,7 @@
     <Compile Include="EstablecimientoDAL.cs" />
     <Compile Include="ImagenDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TipoPagoDAL.cs" />
     <Compile Include="UsuariosDAL.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -86,7 +86,7 @@ namespace VentaSimpleWeb.Controllers
         {
             var timestamp = Utiles.ObtenerTimeStamp();
             List<Backline.Entidades.Factura> lista = Session["registrosEncontrados"] as List<Backline.Entidades.Factura>;
-            string[] columns = { "FechaMostrar", "NumeroSII",  "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal" };
+            string[] columns = { "FechaMostrar", "NumeroSII",  "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago" };
             byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
             return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
         }

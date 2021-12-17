@@ -184,5 +184,7 @@ namespace Backline.Entidades
         public Int32 Total { get; set; }
         public string Usuario { get; set; }
         public string Sucursal { get; set; }
+        public int Tipa_Id { get; set; }
+        public string TipoPago { get; set; }
     }
 }

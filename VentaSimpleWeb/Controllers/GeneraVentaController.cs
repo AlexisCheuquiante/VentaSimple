@@ -30,26 +30,28 @@ namespace VentaSimpleWeb.Controllers
             {
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = contribuyente[0], JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
-
             return new JsonResult() { ContentEncoding = Encoding.Default, Data = "noEncontrado", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
         public JsonResult InsertarFactura(Backline.Entidades.Factura entity, Backline.Entidades.Contribuyente contribuyente)
         {
             try
             {
-                var idContribuyente = 0;
-                var rutFormateado = "";
-                if (entity.ContId == 0)
-                {
-                    var rutDevuelto = VentaSimpleWeb.Utiles.ObtieneRut_INT(entity.Rut);
-                    Session["RutCode"] = rutDevuelto;
-                    rutFormateado = VentaSimpleWeb.Utiles.FormateaRut(entity.Rut);
-                    contribuyente.Rut = rutFormateado;
-                    contribuyente.Razon_Social = entity.Contribuyente;
-                    contribuyente.Rut_Code = rutDevuelto;
-                    Backline.DAL.ContribuyenteDAL.InsertarContribuyente(contribuyente);
-                    idContribuyente = contribuyente.Id;
-                }
+                
+                    var idContribuyente = 0;
+                    var rutFormateado = "";
+                    if (entity.ContId == 0 && SessionH.Usuario.Emp_Id != 14)
+                    {
+                        var rutDevuelto = VentaSimpleWeb.Utiles.ObtieneRut_INT(entity.Rut);
+                        Session["RutCode"] = rutDevuelto;
+                        rutFormateado = VentaSimpleWeb.Utiles.FormateaRut(entity.Rut);
+                        contribuyente.Rut = rutFormateado;
+                        contribuyente.Razon_Social = entity.Contribuyente;
+                        contribuyente.Rut_Code = rutDevuelto;
+                        Backline.DAL.ContribuyenteDAL.InsertarContribuyente(contribuyente);
+                        idContribuyente = contribuyente.Id;
+                    }
+                
+                
 
 
                 List<Backline.Entidades.DetalleFactura> detalleArticulos = new List<Backline.Entidades.DetalleFactura>();
@@ -64,10 +66,13 @@ namespace VentaSimpleWeb.Controllers
                 int folioSII = 0;
                 string rutaPDF = string.Empty;
                 bool validadaSII = false;
-                if (rutFormateado != "")
+                if (SessionH.Usuario.Emp_Id != 14 && rutFormateado != "")
                 {
+
                     entity.Rut = rutFormateado;
+
                 }
+
                 if (SessionH.Usuario.Emp_Id == 14)
                 {
                     validadaSII = Utiles.GenerarBoletaElectronica(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.BoletaElectronica, out folioSII, out rutaPDF, out apiResult);
@@ -109,6 +114,16 @@ namespace VentaSimpleWeb.Controllers
             }
 
 
+        }
+        public JsonResult ObtenerTiposPago()
+        {
+           
+            var lista = Backline.DAL.TipoPagoDAL.ObtenerTiposPago();
+
+            if (lista == null || lista.Count == 0)
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+            return new JsonResult() { ContentEncoding = Encoding.Default, Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
     }
 }

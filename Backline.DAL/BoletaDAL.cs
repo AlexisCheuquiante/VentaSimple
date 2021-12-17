@@ -24,7 +24,7 @@ namespace Backline.DAL
             db.AddInParameter(dbCommand, "TOTAL", DbType.Int32, factura.Total != 0 ? factura.Total : (object)null);
             db.AddInParameter(dbCommand, "USR_ID", DbType.Int32, factura.Usr_Id != 0 ? factura.Usr_Id : (object)null);
             db.AddInParameter(dbCommand, "EST_ID", DbType.Int32, factura.EstId != 0 ? factura.EstId : (object)null);
-
+            db.AddInParameter(dbCommand, "TIPA_ID", DbType.Int32, factura.Tipa_Id != 0 ? factura.Tipa_Id : (object)null);
             db.ExecuteNonQuery(dbCommand);
 
 
@@ -59,6 +59,7 @@ namespace Backline.DAL
                 int USUARIO = reader.GetOrdinal("USUARIO");
                 int RUT = reader.GetOrdinal("RUT");
                 int ESTABLECIMIENTO = reader.GetOrdinal("ESTABLECIMIENTO");
+                int TIPO_PAGO = reader.GetOrdinal("TIPO_PAGO");
 
                 while (reader.Read())
                 {
@@ -76,7 +77,7 @@ namespace Backline.DAL
                     OBJ.Contribuyente = (String)(!reader.IsDBNull(CONTRIBUYENTE) ? reader.GetValue(CONTRIBUYENTE) : string.Empty);
                     OBJ.Usuario = (String)(!reader.IsDBNull(USUARIO) ? reader.GetValue(USUARIO) : string.Empty);
                     OBJ.Sucursal = (String)(!reader.IsDBNull(ESTABLECIMIENTO) ? reader.GetValue(ESTABLECIMIENTO) : string.Empty);
-
+                    OBJ.TipoPago = (String)(!reader.IsDBNull(TIPO_PAGO) ? reader.GetValue(TIPO_PAGO) : string.Empty);
                     //EndFields
 
                     listaFacturas.Add(OBJ);

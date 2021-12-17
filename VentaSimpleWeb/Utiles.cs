@@ -20,26 +20,56 @@ namespace VentaSimpleWeb
             Backline.DTE.Encabezado encabezado;
             Backline.DTE.Referencia referencia;
             Backline.DTE.SuperFactura superFactura;
-            encabezado = new Encabezado()
+
+            if (SessionH.Usuario.Emp_Id == 14)
             {
-                IdDoc = new Documento()
+                encabezado = new Encabezado()
                 {
-                    TipoDTE = (Int32)TipoDte,
-                    IndServicio = 3
-                },
-                Emisor = new Emisor()
+                    IdDoc = new Documento()
+                    {
+                        TipoDTE = (Int32)TipoDte,
+                        IndServicio = 3
+                    },
+                    Emisor = new Emisor()
+                    {
+                        //RUTEmisor = "70859400-8"
+                        RUTEmisor = SessionH.Usuario.RutEmpresa
+                        //GiroEmis= "ACTIVIDADES DE OTRAS ASOCIACIONES N.C.P"
+                    }
+                    //,
+                    //Receptor = new Receptor()
+                    //{
+
+                    //    RUTRecep = " ",
+                    //    RznSocRecep = " ",
+                    //    Contacto = "..."
+                    //}
+                };
+            }
+           else
+            {
+                encabezado = new Encabezado()
                 {
-                    //RUTEmisor = "70859400-8"
-                    RUTEmisor = SessionH.Usuario.RutEmpresa
-                    //GiroEmis= "ACTIVIDADES DE OTRAS ASOCIACIONES N.C.P"
-                },
-                Receptor = new Receptor()
-                {
-                    RUTRecep = Factura.Rut,
-                    RznSocRecep = Factura.Contribuyente,
-                    Contacto = "..."
-                }
-            };
+                    IdDoc = new Documento()
+                    {
+                        TipoDTE = (Int32)TipoDte,
+                        IndServicio = 3
+                    },
+                    Emisor = new Emisor()
+                    {
+                        //RUTEmisor = "70859400-8"
+                        RUTEmisor = SessionH.Usuario.RutEmpresa
+                        //GiroEmis= "ACTIVIDADES DE OTRAS ASOCIACIONES N.C.P"
+                    },
+                    Receptor = new Receptor()
+                    {
+
+                        RUTRecep = Factura.Rut,
+                        RznSocRecep = Factura.Contribuyente,
+                        Contacto = "..."
+                    }
+                };
+            }
 
             //referencia = new Referencia() { CodVndor = "codV", CodCaja = "ooo" };
 
@@ -135,7 +165,6 @@ namespace VentaSimpleWeb
 
             return new DateTime(year, mes, day, 0, 0, 0);
         }
-
         public static DateTime FechaObtenerMaximo(DateTime fecha)
         {
             int year = fecha.Year;
@@ -144,7 +173,6 @@ namespace VentaSimpleWeb
 
             return new DateTime(year, mes, day, 23, 59, 59);
         }
-
         public static int ObtenerRutCode(string code)
         {
             code = code.Replace("K", "");
@@ -163,7 +191,6 @@ namespace VentaSimpleWeb
 
 
         }
-
         public static string ObtenerTimeStamp()
         {
             string yy = DateTime.Now.Year.ToString("0000");

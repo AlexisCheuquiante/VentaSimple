@@ -1,5 +1,10 @@
 ﻿var _idContribuyente = [];
 
+$(document).ready(function () {
+
+    ObtenerTiposPago();
+ 
+});
 function ObtenerContribuyente() {
     var rut = $('#txtRut').val();
 
@@ -45,6 +50,7 @@ function GuardarFactura() {
         Cantidad: $('#txtCantidad').val(),
         Glosa: $('#txtDetalle').val(),
         Total: $('#txtValor').val(),
+        Tipa_Id: $('#cmbTipoPago').val(),
     };
 
     $.ajax({
@@ -55,7 +61,7 @@ function GuardarFactura() {
             if (data != 'error') {
                 $('#DivMessajeErrorGeneral').addClass("hidden");
                 $('#divExito').removeClass("hidden");
-                setTimeout(() => { window.location.href = data; }, 2000);
+                setTimeout(() => { window.open(data, "_blank"); }, 2000);
                 document.getElementById("txtDetalle").value = "";
             }
             if (data === 'error') {
@@ -63,7 +69,9 @@ function GuardarFactura() {
                 $('#btnGuardarBoleta').removeClass('loading');
                 $('#btnGuardarBoleta').removeClass('disabled');
             }
+
         },
+        
         //error: function (ex) {
         //    alert('Error al guardar el producto');
         //}
@@ -75,6 +83,7 @@ function LimpiaEstilos() {
     $('#divtxtRut').removeClass("error");
     $('#divtxtContribuyente').removeClass("error");
     $('#divtxtDetalle').removeClass("error");
+    $('#divcmbTipoPago').removeClass("error");
     $('#divtxtCantidad').removeClass("error");
     $('#divtxtValor').removeClass("error");
 }
@@ -97,6 +106,11 @@ function ValidaGuardar() {
     if ($('#txtDetalle').val() === '') {
         $('#divtxtDetalle').addClass("error");
         errores.push('Debe indicar un detalle');
+    }
+
+    if ($('#cmbTipoPago').val() < 1) {
+        $('#divcmbTipoPago').addClass("error");
+        errores.push('Debe seleccionar al menos un tipo de pago');
     }
 
     if ($('#txtCantidad').val() === '') {
@@ -129,5 +143,30 @@ function ValidaGuardar() {
         return true;
     }
 
+
+}
+
+function ObtenerTiposPago() {
+
+    $.ajax({
+        url: window.urlObtenerTiposPago,
+        type: 'POST',
+        success: function (data) {
+            $('#cmbTipoPago').dropdown('clear');
+            $('#cmbTipoPago').empty();
+            $('#cmbTipoPago').append('<option value="-1">[Seleccione tipo de pago]</option>');
+            $.each(data,
+                function (value, item) {
+                    var texto = '<option value="' + item.Id + '">' + item.Tipo_Pago + '</option>';
+                    $('#cmbTipoPago').append(texto);
+                    
+                }
+            );
+
+        },
+        error: function () {
+            alert('Error al cargar los tipos de pago');
+        }
+    });
 
 }

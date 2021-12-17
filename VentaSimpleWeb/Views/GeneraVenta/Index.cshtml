@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
     <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
 
-    <script src="~/ScriptsVistas/LogicaGeneraVenta.js"></script>
+    <script src="~/ScriptsVistas/LogicaGeneraVenta20211217_1841.js"></script>
 
     <style>
         body {
@@ -38,6 +38,7 @@
 
         var urlObtenerContribuyente = '@Url.Action("ObtenerContribuyente", "GeneraVenta")';
         var urlInsertarFactura = '@Url.Action("InsertarFactura", "GeneraVenta")';
+        var urlObtenerTiposPago = '@Url.Action("ObtenerTiposPago", "GeneraVenta")';
 
         $(document).ready(function () {
 
@@ -70,32 +71,68 @@
                             <div class="ui divider"></div>
                             <div class="ui form">
                                 <form>
-                                    <div class="two fields">
-                                        <div id="divtxtRut" style="width:40%" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rut</font></font></label>
-                                            <input id="txtRut" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;" onblur="ObtenerContribuyente();">
+                                    @if (SessionH.Usuario.Emp_Id == 14)
+                                    {
+                                        <div class="two fields">
+                                            <div id="divtxtDetalle" style="width:100%" class="field">
+                                                <label>Detalle de la venta</label>
+                                                <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                            </div>
                                         </div>
-                                        <div id="divtxtContribuyente" style="width:100%" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contribuyente</font></font></label>
-                                            <input id="txtContribuyente" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                        <div class="two fields">
+                                            <div id="divcmbTipoPago" class="field" style="width:100%">
+                                                <label>Tipo de pago</label>
+                                                <select id="cmbTipoPago" name="cmbTipoPago" class="ui search selection dropdown">
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="two fields">
-                                        <div id="divtxtDetalle" style="width:100%" class="field">
-                                            <label>Detalle de la venta</label>
-                                            <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                        <div class="two fields">
+                                            <div id="divtxtCantidad" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></label>
+                                                <input id="txtCantidad" type="number" value="1" placeholder="" autocomplete="off" style="text-transform:uppercase;" readonly>
+                                            </div>
+                                            <div id="divtxtValor" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
+                                                <input id="txtValor" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="two fields">
-                                        <div id="divtxtCantidad" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></label>
-                                            <input id="txtCantidad" type="number" value="1" placeholder="" autocomplete="off" style="text-transform:uppercase;" readonly>
+                                    }
+                                    else
+                                    {
+                                        <div class="two fields">
+                                            <div id="divtxtRut" style="width:40%" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rut</font></font></label>
+                                                <input id="txtRut" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;" onblur="ObtenerContribuyente();">
+                                            </div>
+                                            <div id="divtxtContribuyente" style="width:100%" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contribuyente</font></font></label>
+                                                <input id="txtContribuyente" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                            </div>
                                         </div>
-                                        <div id="divtxtValor" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
-                                            <input id="txtValor" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                        <div class="two fields">
+                                            <div id="divtxtDetalle" style="width:100%" class="field">
+                                                <label>Detalle de la venta</label>
+                                                <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div class="two fields">
+                                            <div id="divcmbTipoPago" class="field" style="width:100%">
+                                                <label>Tipo de pago</label>
+                                                <select id="cmbTipoPago" name="cmbTipoPago" class="ui search selection dropdown">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="two fields">
+                                            <div id="divtxtCantidad" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></label>
+                                                <input id="txtCantidad" type="number" value="1" placeholder="" autocomplete="off" style="text-transform:uppercase;" readonly>
+                                            </div>
+                                            <div id="divtxtValor" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
+                                                <input id="txtValor" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                            </div>
+                                        </div>
+                                    }
                                 </form>
                             </div>
                         </div>
