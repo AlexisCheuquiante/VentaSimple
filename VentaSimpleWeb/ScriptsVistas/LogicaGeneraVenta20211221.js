@@ -61,15 +61,14 @@ function GuardarFactura() {
             if (data != 'error') {
                 $('#DivMessajeErrorGeneral').addClass("hidden");
                 $('#divExito').removeClass("hidden");
+                LimpiarCampos();
                 setTimeout(() => { window.open(data, "_blank"); }, 2000);
-                document.getElementById("txtDetalle").value = "";
             }
             if (data === 'error') {
                 $('#divError').removeClass("hidden");
                 $('#btnGuardarBoleta').removeClass('loading');
                 $('#btnGuardarBoleta').removeClass('disabled');
             }
-
         },
         
         //error: function (ex) {
@@ -78,6 +77,16 @@ function GuardarFactura() {
     });
 
 }
+
+function LimpiarCampos() {
+    document.getElementById("txtDetalle").value = "";
+    document.getElementById("txtValor").value = "";
+    $('#btnGuardarBoleta').removeClass('loading');
+    $('#btnGuardarBoleta').removeClass('disabled');
+    $('#divExito').addClass("hidden");
+    /*window.location.href("/GeneraVenta");*/
+}
+
 function LimpiaEstilos() {
     //Limpio el estilo Error antes de validar
     $('#divtxtRut').removeClass("error");
