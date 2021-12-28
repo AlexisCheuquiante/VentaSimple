@@ -103,9 +103,6 @@ namespace VentaSimpleWeb.Controllers
                 entity.EstId = SessionH.Usuario.Est_Id;
                 Backline.DAL.BoletaDAL.InsertarFactura(entity);
 
-
-
-
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex)

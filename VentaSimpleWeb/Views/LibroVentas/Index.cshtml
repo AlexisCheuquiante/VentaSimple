@@ -112,34 +112,64 @@
                 <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                 <div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">Exportar a Excel<i class="table download icon"></i></div>
 
-             
+
 
             </div>
-            <table id="tabla" class="ui celled striped table">
-                <tbody>
-                    @foreach (var listaBoletas in Model.listaBoletas)
-                    {
+            @if (SessionH.Usuario.Emp_Id == 14)
+            {
+                <table id="tabla" class="ui celled striped table">
+                    <tbody>
+                        @foreach (var listaBoletas in Model.listaBoletas)
+                        {
+                            <tr>
+                                <td>N°SII: @listaBoletas.NumeroSII</td>
+                                <td>Fecha: @listaBoletas.Fecha.ToShortDateString()</td>
+                                <td>Glosa: @listaBoletas.Glosa</td>
+                                <td>Total: $@listaBoletas.Total</td>
+                                <td>Usuario: @listaBoletas.Usuario</td>
+                                <td>Establecimiento: @listaBoletas.Sucursal</td>
+                                <td>Tipo de pago: @listaBoletas.TipoPago</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
                         <tr>
-                            <td>N°SII: @listaBoletas.NumeroSII</td>
-                            <td>Fecha: @listaBoletas.Fecha.ToShortDateString()</td>
-                            <td>Rut: @listaBoletas.Rut</td>
-                            <td>Razón social: @listaBoletas.Contribuyente</td>
-                            <td>Glosa: @listaBoletas.Glosa</td>
-                            <td>Total: $@listaBoletas.Total</td>
-                            <td>Usuario: @listaBoletas.Usuario</td>
-                            <td>Establecimiento: @listaBoletas.Sucursal</td>
-                            <td>Tipo de pago: @listaBoletas.TipoPago</td>
+                            <th colspan="15">
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                            </th>
                         </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="15">
-                            <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
-                        </th>
-                    </tr>
-                </tfoot>
-            </table>
+                    </tfoot>
+                </table>
+            }
+            else
+            {
+                <table id="tabla" class="ui celled striped table">
+                    <tbody>
+                        @foreach (var listaBoletas in Model.listaBoletas)
+                        {
+                            <tr>
+                                <td>N°SII: @listaBoletas.NumeroSII</td>
+                                <td>Fecha: @listaBoletas.Fecha.ToShortDateString()</td>
+                                <td>Rut: @listaBoletas.Rut</td>
+                                <td>Razón social: @listaBoletas.Contribuyente</td>
+                                <td>Glosa: @listaBoletas.Glosa</td>
+                                <td>Total: $@listaBoletas.Total</td>
+                                <td>Usuario: @listaBoletas.Usuario</td>
+                                <td>Establecimiento: @listaBoletas.Sucursal</td>
+                                <td>Tipo de pago: @listaBoletas.TipoPago</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="15">
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+
         </div>
     }
     else
@@ -195,50 +225,96 @@
                 <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                 <div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">Exportar a Excel<i class="table download icon"></i></div>
             </div>
-            <table id="tabla" class="ui celled striped table">
-                <thead>
-                    <tr>
-                        <th style="word-wrap: break-word; background-color: deepskyblue"></th>
-                        <th style="word-wrap: break-word; background-color: deepskyblue">N°SII</th>
-                        <th style="word-wrap: break-word; background-color: deepskyblue">Fecha</th>
-                        <th style="word-wrap: break-word; background-color: deepskyblue">Rut</th>
-                        <th style="word-wrap: break-word; background-color: deepskyblue">Razón social</th>
-                        <th style="word-wrap: break-word; background-color: deepskyblue">Glosa</th>
-                        <th style="word-wrap: break-word; background-color: deepskyblue">Total</th>
-                        <th style="word-wrap: break-word; background-color: deepskyblue">Usuario</th>
-                        <th style="word-wrap: break-word; background-color: deepskyblue">Establecimiento</th>
-                        <th style="word-wrap: break-word; background-color: deepskyblue">Tipo de pago</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var listaBoletas in Model.listaBoletas)
-                    {
+            @if (SessionH.Usuario.Emp_Id == 14)
+            {
+                <table id="tabla" class="ui celled striped table">
+                    <thead>
                         <tr>
-                            <td>
-                                <button class="ui icon green button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
-                                    <i class="eye icon"></i>
-                                </button>
-                            </td>
-                            <td>@listaBoletas.NumeroSII</td>
-                            <td>@listaBoletas.Fecha.ToShortDateString()</td>
-                            <td>@listaBoletas.Rut</td>
-                            <td>@listaBoletas.Contribuyente</td>
-                            <td>@listaBoletas.Glosa</td>
-                            <td>$@listaBoletas.Total</td>
-                            <td>@listaBoletas.Usuario</td>
-                            <td>@listaBoletas.Sucursal</td>
-                            <td>@listaBoletas.TipoPago</td>
+                            <th style="word-wrap: break-word; background-color: deepskyblue"></th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">N°SII</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Fecha</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Glosa</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Total</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Usuario</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Establecimiento</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Tipo de pago</th>
                         </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="15">
-                            <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
-                        </th>
-                    </tr>
-                </tfoot>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var listaBoletas in Model.listaBoletas)
+                        {
+                            <tr>
+                                <td>
+                                    <button class="ui icon green button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
+                                        <i class="eye icon"></i>
+                                    </button>
+                                </td>
+                                <td>@listaBoletas.NumeroSII</td>
+                                <td>@listaBoletas.Fecha.ToShortDateString()</td>
+                                <td>@listaBoletas.Glosa</td>
+                                <td>$@listaBoletas.Total</td>
+                                <td>@listaBoletas.Usuario</td>
+                                <td>@listaBoletas.Sucursal</td>
+                                <td>@listaBoletas.TipoPago</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="15">
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+            else
+            {
+                <table id="tabla" class="ui celled striped table">
+                    <thead>
+                        <tr>
+                            <th style="word-wrap: break-word; background-color: deepskyblue"></th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">N°SII</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Fecha</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Rut</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Razón social</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Glosa</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Total</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Usuario</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Establecimiento</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Tipo de pago</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var listaBoletas in Model.listaBoletas)
+                        {
+                            <tr>
+                                <td>
+                                    <button class="ui icon green button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
+                                        <i class="eye icon"></i>
+                                    </button>
+                                </td>
+                                <td>@listaBoletas.NumeroSII</td>
+                                <td>@listaBoletas.Fecha.ToShortDateString()</td>
+                                <td>@listaBoletas.Rut</td>
+                                <td>@listaBoletas.Contribuyente</td>
+                                <td>@listaBoletas.Glosa</td>
+                                <td>$@listaBoletas.Total</td>
+                                <td>@listaBoletas.Usuario</td>
+                                <td>@listaBoletas.Sucursal</td>
+                                <td>@listaBoletas.TipoPago</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="15">
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
         </div>
     }
 </body>

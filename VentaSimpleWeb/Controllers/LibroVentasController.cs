@@ -13,7 +13,7 @@ namespace VentaSimpleWeb.Controllers
     public class LibroVentasController : Controller
     {
         // GET: LibroVentas
-        public ActionResult Index()
+        public ActionResult Index(string limpiar)
         {
             VentaSimpleWeb.Models.LibroVentasModel modelo = new VentaSimpleWeb.Models.LibroVentasModel();
             Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
@@ -29,7 +29,7 @@ namespace VentaSimpleWeb.Controllers
                 modelo.listaBoletas = Backline.DAL.BoletaDAL.ObtenerFactura(filtro);
                 Session["registrosEncontrados"] = modelo.listaBoletas;
             }
-            if (Session["registrosEncontrados"] == null && SessionH.Usuario.Administrador == false)
+            if (SessionH.Usuario.Administrador == false && limpiar != null)
             {
                 filtro.EmpId = SessionH.Usuario.Emp_Id;
                 filtro.EstId = SessionH.Usuario.Est_Id;
@@ -38,11 +38,11 @@ namespace VentaSimpleWeb.Controllers
                 modelo.listaBoletas = Backline.DAL.BoletaDAL.ObtenerFactura(filtro);
                 Session["registrosEncontrados"] = modelo.listaBoletas;
             }
-            if (Session["registrosEncontrados"] != null)
+            if (Session["registrosEncontrados"] != null && limpiar == null)
             {
                 modelo.listaBoletas = Session["registrosEncontrados"] as List<Backline.Entidades.Factura>;
             }
-
+            
             return View(modelo);
         }
         public ActionResult BusquedaFiltro(Backline.Entidades.Filtro entity)
@@ -87,9 +87,20 @@ namespace VentaSimpleWeb.Controllers
         {
             var timestamp = Utiles.ObtenerTimeStamp();
             List<Backline.Entidades.Factura> lista = Session["registrosEncontrados"] as List<Backline.Entidades.Factura>;
-            string[] columns = { "FechaMostrar", "NumeroSII",  "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago" };
-            byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
-            return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
+            if (SessionH.Usuario.Emp_Id == 14)
+            {
+                string[] columns = { "FechaMostrar", "NumeroSII", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago" };
+                byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
+                return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
+            }
+            else
+            {
+                string[] columns = { "FechaMostrar", "NumeroSII", "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago" };
+                byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
+                return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
+            }
+            
+            
         }
         public ActionResult ObtenerPdf(int folioSII)
         {
