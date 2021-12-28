@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
     <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
 
-    <script src="~/ScriptsVistas/LogicaLibroVentas.js"></script>
+    <script src="~/ScriptsVistas/LogicaLibroVentas20211227.js"></script>
 
     <style>
         body {
@@ -41,6 +41,7 @@
 
         var urlObtenerEstablecimientos = '@Url.Action("ObtenerEstablecimientos", "LibroVentas")';
         var urlBusquedaFiltro = '@Url.Action("BusquedaFiltro", "LibroVentas")';
+        var urlObtenerPdf = '@Url.Action("ObtenerPdf", "LibroVentas")';
 
         $(document).ready(function () {
 
@@ -197,6 +198,7 @@
             <table id="tabla" class="ui celled striped table">
                 <thead>
                     <tr>
+                        <th style="word-wrap: break-word; background-color: deepskyblue"></th>
                         <th style="word-wrap: break-word; background-color: deepskyblue">N°SII</th>
                         <th style="word-wrap: break-word; background-color: deepskyblue">Fecha</th>
                         <th style="word-wrap: break-word; background-color: deepskyblue">Rut</th>
@@ -212,7 +214,11 @@
                     @foreach (var listaBoletas in Model.listaBoletas)
                     {
                         <tr>
-
+                            <td>
+                                <button class="ui icon green button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
+                                    <i class="eye icon"></i>
+                                </button>
+                            </td>
                             <td>@listaBoletas.NumeroSII</td>
                             <td>@listaBoletas.Fecha.ToShortDateString()</td>
                             <td>@listaBoletas.Rut</td>
@@ -237,3 +243,5 @@
     }
 </body>
 </html>
+
+<input type="hidden" id="Boleta" value="0" />

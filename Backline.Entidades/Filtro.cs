@@ -11,7 +11,7 @@ namespace Backline.Entidades
         public int RutCode { get; set; }
         public DateTime Desde { get; set; }
         public DateTime Hasta { get; set; }
-
+        public int BoletaId { get; set; }
         public int EmpId { get; set; }
         public int EstId { get; set; }
         public int ContId { get; set; }

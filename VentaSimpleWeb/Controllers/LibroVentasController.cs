@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Text;
 using System.IO;
+using System.Configuration;
 
 
 namespace VentaSimpleWeb.Controllers
@@ -89,6 +90,29 @@ namespace VentaSimpleWeb.Controllers
             string[] columns = { "FechaMostrar", "NumeroSII",  "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago" };
             byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
             return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
+        }
+        public ActionResult ObtenerPdf(int folioSII)
+        {
+            try
+            {
+                //MessageBox.Show("Número" + folioSII.ToString());
+
+                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + "Boleta_" + folioSII.ToString() + ".pdf";
+
+                if (ruta == null || ruta == "")
+                {
+                    return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                }
+
+
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+
+
         }
     }
 }

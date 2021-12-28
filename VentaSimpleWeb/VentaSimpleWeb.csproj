@@ -164,7 +164,7 @@
     <Content Include="Recursos\Imagenes\LogoBackline.png" />
     <Content Include="ScriptsVistas\LogicaCambiarContraseña.js" />
     <Content Include="ScriptsVistas\LogicaGeneraVenta20211221.js" />
-    <Content Include="ScriptsVistas\LogicaLibroVentas.js" />
+    <Content Include="ScriptsVistas\LogicaLibroVentas20211227.js" />
     <Content Include="ScriptsVistas\LogicaLogin.js" />
     <Content Include="ScriptsVistas\LogicaMantenedorUsuarios.js" />
     <Content Include="Scripts\bootstrap.js" />

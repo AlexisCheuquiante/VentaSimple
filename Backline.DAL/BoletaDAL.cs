@@ -37,7 +37,6 @@ namespace Backline.DAL
             Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
             DbCommand dbCommand = db.GetStoredProcCommand("SP_BOL_BOLETAS_LEER");
 
-
             db.AddInParameter(dbCommand, "FECHA_DESDE", DbType.DateTime, filtro.Desde != DateTime.MinValue ? filtro.Desde : (object)null);
             db.AddInParameter(dbCommand, "FECHA_HASTA", DbType.DateTime, filtro.Hasta != DateTime.MinValue ? filtro.Hasta : (object)null);
             db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, filtro.EmpId);
