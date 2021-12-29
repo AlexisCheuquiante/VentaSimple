@@ -83,9 +83,19 @@ namespace VentaSimpleWeb.Controllers
                     validadaSII = Utiles.GenerarBoletaElectronica(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.BoletaElectronicaExenta, out folioSII, out rutaPDF, out apiResult);
                     entity.NumeroSII = folioSII;
                 }
-                //MessageBox.Show("Número" + folioSII.ToString());
 
-                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + "Boleta_" + folioSII.ToString() + ".pdf";
+                var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                var a = "";
+                //MessageBox.Show("Número" + folioSII.ToString());
+                if (SessionH.Usuario.EsAfecta == true)
+                {
+                     a = "(A)";
+                }
+                else
+                {
+                    a = "(E)";
+                }
+                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "Boleta_" + folioSII.ToString() + ".pdf";
 
                 if (rutaPDF == null || rutaPDF == "")
                 {

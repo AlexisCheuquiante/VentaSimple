@@ -115,9 +115,21 @@ namespace VentaSimpleWeb
             folio = 0;
             if (dte.ok)
             {
+                var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                var a = "";
+                //MessageBox.Show("Número" + folioSII.ToString());
+                if (SessionH.Usuario.EsAfecta == true)
+                {
+                    a = "(A)";
+                }
+                else
+                {
+                    a = "(E)";
+                }
+
                 //System.Windows.Forms.MessageBox.Show("Salio ok");
                 folio = dte.folio;
-                string b = "Boleta_" + folio.ToString();
+                string b = rutEmpresa + a + "Boleta_" + folio.ToString();
                 // PortalGestion.DAL.FacturaDAO.SeteaNumero(Factura.Id, dte.folio);
                 string pdfPath = Path.Combine(dte.Path, dte.FileGuid + ".pdf");
                 string nuevoNombre = Path.Combine(dte.Path, b + ".pdf");
