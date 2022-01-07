@@ -79,8 +79,8 @@ function GuardarFactura() {
 }
 
 function LimpiarCampos() {
-    document.getElementById("txtRut").value = "";
-    document.getElementById("txtContribuyente").value = "";
+    //document.getElementById("txtRut").value = "";
+    //document.getElementById("txtContribuyente").value = "";
     document.getElementById("txtDetalle").value = "";
     document.getElementById("txtValor").value = "";
     $('#btnGuardarBoleta').removeClass('loading');

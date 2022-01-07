@@ -106,9 +106,18 @@ namespace VentaSimpleWeb.Controllers
         {
             try
             {
+                var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                var a = "";
                 //MessageBox.Show("Número" + folioSII.ToString());
-
-                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + "Boleta_" + folioSII.ToString() + ".pdf";
+                if (SessionH.Usuario.EsAfecta == true)
+                {
+                    a = "(A)";
+                }
+                else
+                {
+                    a = "(E)";
+                }
+                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "Boleta_" + folioSII.ToString() + ".pdf";
 
                 if (ruta == null || ruta == "")
                 {
