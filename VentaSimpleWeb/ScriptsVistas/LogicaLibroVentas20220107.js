@@ -83,3 +83,24 @@ function ObtenerPdf(numeroBoleta) {
         }
     });
 }
+
+function CrearNotaCredito(id) {
+
+    id = id;
+    $.ajax({
+        url: window.urlCrearNotaCredito,
+        type: 'POST',
+        data: { id: id },
+        success: function (data) {
+            if (data != 'error') {
+                setTimeout(() => { window.open(data, "_blank"); }, 2000);
+            }
+        },
+
+        error: function () {
+            alert('Error al emitir la nota de crédito');
+        }
+    });
+    /*_id = id;*/
+
+}

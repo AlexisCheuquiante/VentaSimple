@@ -36,6 +36,7 @@ namespace VentaSimpleWeb
                         RUTEmisor = SessionH.Usuario.RutEmpresa
                         //GiroEmis= "ACTIVIDADES DE OTRAS ASOCIACIONES N.C.P"
                     }
+                    
                     //,
                     //Receptor = new Receptor()
                     //{
@@ -143,6 +144,235 @@ namespace VentaSimpleWeb
             else
             {
 
+                return false;
+            }
+
+
+        }
+        public static bool GenerarNotaCredito_DEL(List<Backline.Entidades.DetalleFactura> detalle, Backline.Entidades.Factura Factura, Enums.TipoDocumento tipo, out int folio, out string rutaPDF, out Backline.DTE.APIResult apiResult)
+        {
+            apiResult = null;
+            rutaPDF = "";
+            var TipoDte = tipo;
+            Backline.DTE.ModelDte modelo = new ModelDte();
+            Backline.DTE.Encabezado encabezado;
+            Backline.DTE.Referencia referencia;
+            Backline.DTE.SuperFactura superFactura;
+
+            if (SessionH.Usuario.Emp_Id == 14)
+            {
+                encabezado = new Encabezado()
+                {
+                    IdDoc = new Documento()
+                    {
+                        TipoDTE = (Int32)TipoDte,
+                        IndServicio = 3
+                    },
+                    Emisor = new Emisor()
+                    {
+                        //RUTEmisor = "70859400-8"
+                        RUTEmisor = SessionH.Usuario.RutEmpresa,
+                        GiroEmis = "MUNICIPALIDAD DE OSORNO"
+                    }
+
+                    ,
+                    Receptor = new Receptor()
+                    {
+
+                        RUTRecep = SessionH.Usuario.RutEmpresa,
+                        RznSocRecep = SessionH.Usuario.NombreEmpresa,
+                        //Contacto = "..."
+                    }
+                };
+            }
+            else
+            {
+                encabezado = new Encabezado()
+                {
+                    IdDoc = new Documento()
+                    {
+                        TipoDTE = (Int32)TipoDte,
+                        IndServicio = 3
+                    },
+                    Emisor = new Emisor()
+                    {
+                        //RUTEmisor = "70859400-8"
+                        RUTEmisor = SessionH.Usuario.RutEmpresa
+                        //GiroEmis= "ACTIVIDADES DE OTRAS ASOCIACIONES N.C.P"
+                    },
+                    Receptor = new Receptor()
+                    {
+
+                        RUTRecep = Factura.Rut,
+                        RznSocRecep = Factura.Contribuyente,
+                        Contacto = "..."
+                    }
+                };
+            }
+
+            //referencia = new Referencia() { CodVndor = "codV", CodCaja = "ooo" };
+
+            string sucursal = SessionH.Usuario.NombreEstablecimiento;
+            superFactura = new SuperFactura();
+            // superFactura = new SuperFactura() {  HoraEmis = Factura.Fecha.ToShortTimeString() };
+
+            superFactura = new SuperFactura() { Sucursal = SessionH.Usuario.NombreEstablecimiento + "(caja:" + SessionH.Usuario.Nombre + ")", HoraEmis = Factura.Fecha.ToShortTimeString() };
+
+            modelo.Encabezado = encabezado;
+            modelo.SuperFactura = superFactura;
+
+            if (modelo.Detalles == null)
+                modelo.Detalles = new List<Detalle>();
+
+            foreach (var a in detalle)
+            {
+                Backline.DTE.Detalle detalleP = new Detalle();
+                detalleP.NmbItem = a.DescripcionProducto;
+                //detalleP.DscItem = a.DescripcionProducto;
+                detalleP.QtyItem = int.Parse(a.Cantidad.ToString());
+                detalleP.UnmdItem = "";// Utility.GetDescription(Enums.UnidadMedida.Unidades);
+                detalleP.PrcItem = int.Parse(a.Valor.ToString());
+                modelo.Detalles.Add(detalleP);
+            }
+
+            if (TipoDte == Enums.TipoDocumento.FacturaElectronica)
+            {
+                modelo.Encabezado.Receptor.DirRecep = "Eliodoro Yañez 1947";
+                modelo.Encabezado.Receptor.CmnaRecep = "Providencia";
+                modelo.Encabezado.Receptor.CiudadRecep = "Santiago";
+                modelo.Encabezado.Receptor.GiroRecep = "Asesorías Informáticas";
+            }
+
+            string ambiente = SessionH.Usuario.Ambiente;
+            Transaction trx = new Transaction();
+
+            //System.Windows.Forms.MessageBox.Show("Ambiente:" + ambiente);
+
+            var dte = trx.GenerarDTE(modelo, SessionH.Usuario.Usuario_FE, SessionH.Usuario.Clave_FE, System.IO.Directory.GetCurrentDirectory(), ambiente.ToLower());
+            apiResult = dte;
+            //System.Windows.Forms.MessageBox.Show("Salio del Generar" + dte.Message);
+            folio = 0;
+            if (dte.ok)
+            {
+                var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                var a = "";
+                //MessageBox.Show("Número" + folioSII.ToString());
+                if (SessionH.Usuario.EsAfecta == true)
+                {
+                    a = "(A)";
+                }
+                else
+                {
+                    a = "(E)";
+                }
+
+                //System.Windows.Forms.MessageBox.Show("Salio ok");
+                folio = dte.folio;
+                string b = rutEmpresa + a + "NotaCrédito_" + folio.ToString();
+                // PortalGestion.DAL.FacturaDAO.SeteaNumero(Factura.Id, dte.folio);
+                string pdfPath = Path.Combine(dte.Path, dte.FileGuid + ".pdf");
+                string nuevoNombre = Path.Combine(dte.Path, b + ".pdf");
+                System.IO.File.Move(pdfPath, nuevoNombre);
+                rutaPDF = nuevoNombre;
+
+                //Process.Start(nuevoNombre);
+                //SubirArchivo(pdfPath, Factura);
+                return true;
+            }
+            else
+            {
+
+                return false;
+            }
+
+
+        }
+
+        public static bool GenerarNotaCredito(List<Backline.Entidades.DetalleFactura> detalle, Backline.Entidades.Factura Factura, Enums.TipoDocumento tipo, out int folio, out string rutaPDF, out Backline.DTE.APIResult apiResult)
+        {
+            rutaPDF = "";
+            var TipoDte = tipo;
+            Backline.DTE.ModelDteNotaCredito modelo = new ModelDteNotaCredito();
+            Backline.DTE.EncabezadoNotaCredito encabezado;
+            Backline.DTE.ReferenciaNotaCredito referencia;
+            encabezado = new EncabezadoNotaCredito()
+            {
+                IdDoc = new DocumentoNotaCredito()
+                {
+                    TipoDTE = (Int32)TipoDte,
+                    IndServicio = 3,
+                    MntBruto = 1
+                },
+                Emisor = new EmisorNotaCredito()
+                {
+                    //RUTEmisor = "70859400-8"
+                    RUTEmisor = SessionH.Usuario.RutEmpresa
+                },
+                Receptor = new ReceptorNotaCredito()
+                {
+                    RUTRecep = "13928280-9",
+                    RznSocRecep = "Obi Wan Kenobi",
+                    Contacto = "..."
+                }
+            };
+            //encabezado.FchEmis = Factura.Fecha.Year.ToString() + "-" + Factura.Fecha.Month.ToString("00") + "-" + Factura.Fecha.Day.ToString("00");
+
+            string fechaSII = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00");
+            referencia = new Backline.DTE.ReferenciaNotaCredito()
+            {
+                CodRef = 1,
+                TpoDocRef = 39,
+                FolioRef = Factura.DocumentoOrigenINT,
+                FchRef = fechaSII,
+                RazonRef = "Nota de crédito a la boleta electrónica N°" + Factura.DocumentoOrigenINT.ToString()
+            };
+
+            modelo.Referencia = referencia;
+            modelo.Encabezado = encabezado;
+
+            if (modelo.Detalles == null)
+                modelo.Detalles = new List<DetalleNotaCredito>();
+
+            foreach (var a in detalle)
+            {
+                Backline.DTE.DetalleNotaCredito detalleP = new DetalleNotaCredito();
+                detalleP.NmbItem = a.DescripcionProducto;
+                //detalleP.DscItem = a.DescripcionProducto;
+                detalleP.QtyItem = int.Parse(a.Cantidad.ToString());
+                detalleP.UnmdItem = "";// Utility.GetDescription(Enums.UnidadMedida.Unidades);
+                detalleP.PrcItem = int.Parse(a.Valor.ToString());
+
+                modelo.Detalles.Add(detalleP);
+            }
+
+            if (TipoDte == Enums.TipoDocumento.FacturaElectronica)
+            {
+                modelo.Encabezado.Receptor.DirRecep = "Marchant Pereira 10";
+                modelo.Encabezado.Receptor.CmnaRecep = "Providencia";
+                modelo.Encabezado.Receptor.CiudadRecep = "Santiago";
+                modelo.Encabezado.Receptor.GiroRecep = "Asesorías Informáticas";
+            }
+
+            Transaction trx = new Transaction();
+            var dte = trx.GenerarDTE(modelo, SessionH.Usuario.Usuario_FE, SessionH.Usuario.Clave_FE, System.IO.Directory.GetCurrentDirectory(), "cer");
+            apiResult = dte;
+            folio = 0;
+            if (dte.ok)
+            {
+                folio = dte.folio;
+                string b = "NotaCredito_" + folio.ToString();
+                // PortalGestion.DAL.FacturaDAO.SeteaNumero(Factura.Id, dte.folio);
+                string pdfPath = Path.Combine(dte.Path, dte.FileGuid + ".pdf");
+                string nuevoNombre = Path.Combine(dte.Path, b + ".pdf");
+                System.IO.File.Move(pdfPath, nuevoNombre);
+                rutaPDF = nuevoNombre;
+
+                //Process.Start(nuevoNombre);
+                //SubirArchivo(pdfPath, Factura);
+                return true;
+            }
+            else
+            {
                 return false;
             }
 

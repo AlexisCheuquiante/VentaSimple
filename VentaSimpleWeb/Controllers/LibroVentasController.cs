@@ -109,11 +109,11 @@ namespace VentaSimpleWeb.Controllers
                 var rutEmpresa = SessionH.Usuario.RutEmpresa;
                 var a = "";
                 //MessageBox.Show("Número" + folioSII.ToString());
-                if (SessionH.Usuario.EsAfecta == true)
+                if (SessionH.Usuario.EsAfecta == true || SessionH.Usuario.Id == 191)
                 {
                     a = "(A)";
                 }
-                else
+                if (SessionH.Usuario.EsAfecta == false && SessionH.Usuario.Id != 191)
                 {
                     a = "(E)";
                 }
@@ -124,6 +124,69 @@ namespace VentaSimpleWeb.Controllers
                     return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 }
 
+
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+
+
+        }
+        public JsonResult CrearNotaCredito(Backline.Entidades.Factura entity, int id)
+        {
+            try
+            {
+                Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
+                filtro.BoletaId = id;
+                var lista = Backline.DAL.BoletaDAL.ObtenerBoleta(filtro);
+                List<Backline.Entidades.DetalleFactura> detalleArticulos = new List<Backline.Entidades.DetalleFactura>();
+                Backline.Entidades.DetalleFactura detalle = new Backline.Entidades.DetalleFactura();
+                detalle.Cantidad = 1;
+                detalle.DescripcionProducto = lista[0].Glosa;
+                detalle.Valor = lista[0].Total;
+
+                detalleArticulos.Add(detalle);
+
+                Backline.DTE.APIResult apiResult = new Backline.DTE.APIResult();
+                int folioSII = 0;
+                string rutaPDF = string.Empty;
+                bool validadaSII = false;
+
+                validadaSII = Utiles.GenerarNotaCredito(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.NotaCredito, out folioSII, out rutaPDF, out apiResult);
+                entity.NumeroSII = folioSII;
+
+
+
+                var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                var a = "";
+                //MessageBox.Show("Número" + folioSII.ToString());
+                if (SessionH.Usuario.EsAfecta == true)
+                {
+                    a = "(A)";
+                }
+                else
+                {
+                    a = "(E)";
+                }
+                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "NotaCrédito_" + folioSII.ToString() + ".pdf";
+
+                if (rutaPDF == null || rutaPDF == "")
+                {
+                    return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                }
+
+                ////if (idContribuyente != 0)
+                ////{
+                ////    entity.ContId = idContribuyente;
+                ////}
+                //entity.EmpId = SessionH.Usuario.Emp_Id;
+                //entity.NumeroSII = folioSII;
+                //entity.Fecha = DateTime.Now;
+                //entity.Usr_Id = SessionH.Usuario.Id;
+                //entity.EstId = SessionH.Usuario.Est_Id;
+                //Backline.DAL.BoletaDAL.InsertarFactura(entity);
 
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }

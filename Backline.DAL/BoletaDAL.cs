@@ -37,10 +37,72 @@ namespace Backline.DAL
             Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
             DbCommand dbCommand = db.GetStoredProcCommand("SP_BOL_BOLETAS_LEER");
 
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, filtro.BoletaId != 0 ? filtro.BoletaId : (object)null);
             db.AddInParameter(dbCommand, "FECHA_DESDE", DbType.DateTime, filtro.Desde != DateTime.MinValue ? filtro.Desde : (object)null);
             db.AddInParameter(dbCommand, "FECHA_HASTA", DbType.DateTime, filtro.Hasta != DateTime.MinValue ? filtro.Hasta : (object)null);
             db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, filtro.EmpId);
             db.AddInParameter(dbCommand, "EST_ID", DbType.Int32, filtro.EstId != 0 ? filtro.EstId : (object) null );
+
+            IDataReader reader = (IDataReader)db.ExecuteReader(dbCommand);
+
+            try
+            {
+                int ID = reader.GetOrdinal("ID");
+                int CONT_ID = reader.GetOrdinal("CONT_ID");
+                int NUMERO = reader.GetOrdinal("NUMERO");
+                int EMP_ID = reader.GetOrdinal("EMP_ID");
+                int FECHA = reader.GetOrdinal("FECHA");
+                int GLOSA = reader.GetOrdinal("GLOSA");
+                int TOTAL = reader.GetOrdinal("TOTAL");
+                int USR_ID = reader.GetOrdinal("USR_ID");
+                int CONTRIBUYENTE = reader.GetOrdinal("CONTRIBUYENTE");
+                int USUARIO = reader.GetOrdinal("USUARIO");
+                int RUT = reader.GetOrdinal("RUT");
+                int ESTABLECIMIENTO = reader.GetOrdinal("ESTABLECIMIENTO");
+                int TIPO_PAGO = reader.GetOrdinal("TIPO_PAGO");
+
+                while (reader.Read())
+                {
+                    Backline.Entidades.Factura OBJ = new Backline.Entidades.Factura();
+                    //BeginFields
+                    OBJ.Id = (int)(!reader.IsDBNull(ID) ? reader.GetValue(ID) : 0);
+                    OBJ.ContId = (int)(!reader.IsDBNull(CONT_ID) ? reader.GetValue(CONT_ID) : 0);
+                    OBJ.NumeroSII = (int)(!reader.IsDBNull(NUMERO) ? reader.GetValue(NUMERO) : 0);
+                    OBJ.EmpId = (int)(!reader.IsDBNull(EMP_ID) ? reader.GetValue(EMP_ID) : 0);
+                    OBJ.Fecha = (DateTime)(!reader.IsDBNull(FECHA) ? reader.GetValue(FECHA) : DateTime.MinValue);
+                    OBJ.Glosa = (String)(!reader.IsDBNull(GLOSA) ? reader.GetValue(GLOSA) : string.Empty);
+                    OBJ.Total = (int)(!reader.IsDBNull(TOTAL) ? reader.GetValue(TOTAL) : 0);
+                    OBJ.Usr_Id = (int)(!reader.IsDBNull(USR_ID) ? reader.GetValue(USR_ID) : 0);
+                    OBJ.Rut = (String)(!reader.IsDBNull(RUT) ? reader.GetValue(RUT) : string.Empty);
+                    OBJ.Contribuyente = (String)(!reader.IsDBNull(CONTRIBUYENTE) ? reader.GetValue(CONTRIBUYENTE) : string.Empty);
+                    OBJ.Usuario = (String)(!reader.IsDBNull(USUARIO) ? reader.GetValue(USUARIO) : string.Empty);
+                    OBJ.Sucursal = (String)(!reader.IsDBNull(ESTABLECIMIENTO) ? reader.GetValue(ESTABLECIMIENTO) : string.Empty);
+                    OBJ.TipoPago = (String)(!reader.IsDBNull(TIPO_PAGO) ? reader.GetValue(TIPO_PAGO) : string.Empty);
+                    //EndFields
+
+                    listaFacturas.Add(OBJ);
+                }
+            }
+            catch (Exception ex)
+            {
+                //GlobalesDAO.InsertErrores(ex);
+                throw ex;
+            }
+            finally
+            {
+                reader.Close();
+            }
+
+            return listaFacturas;
+
+        }
+        public static List<Backline.Entidades.Factura> ObtenerBoleta(Backline.Entidades.Filtro filtro)
+        {
+            List<Backline.Entidades.Factura> listaFacturas = new List<Backline.Entidades.Factura>();
+            Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
+            DbCommand dbCommand = db.GetStoredProcCommand("SP_BOL_BOLETAS_GET");
+
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, filtro.BoletaId != 0 ? filtro.BoletaId : (object)null);
 
             IDataReader reader = (IDataReader)db.ExecuteReader(dbCommand);
 

@@ -36,22 +36,22 @@ namespace VentaSimpleWeb.Controllers
         {
             try
             {
-                
-                    var idContribuyente = 0;
-                    var rutFormateado = "";
-                    if (entity.ContId == 0 && SessionH.Usuario.Emp_Id != 14)
-                    {
-                        var rutDevuelto = VentaSimpleWeb.Utiles.ObtieneRut_INT(entity.Rut);
-                        Session["RutCode"] = rutDevuelto;
-                        rutFormateado = VentaSimpleWeb.Utiles.FormateaRut(entity.Rut);
-                        contribuyente.Rut = rutFormateado;
-                        contribuyente.Razon_Social = entity.Contribuyente;
-                        contribuyente.Rut_Code = rutDevuelto;
-                        Backline.DAL.ContribuyenteDAL.InsertarContribuyente(contribuyente);
-                        idContribuyente = contribuyente.Id;
-                    }
-                
-                
+
+                var idContribuyente = 0;
+                var rutFormateado = "";
+                if (entity.ContId == 0 && SessionH.Usuario.Emp_Id != 14)
+                {
+                    var rutDevuelto = VentaSimpleWeb.Utiles.ObtieneRut_INT(entity.Rut);
+                    Session["RutCode"] = rutDevuelto;
+                    rutFormateado = VentaSimpleWeb.Utiles.FormateaRut(entity.Rut);
+                    contribuyente.Rut = rutFormateado;
+                    contribuyente.Razon_Social = entity.Contribuyente;
+                    contribuyente.Rut_Code = rutDevuelto;
+                    Backline.DAL.ContribuyenteDAL.InsertarContribuyente(contribuyente);
+                    idContribuyente = contribuyente.Id;
+                }
+
+
 
 
                 List<Backline.Entidades.DetalleFactura> detalleArticulos = new List<Backline.Entidades.DetalleFactura>();
@@ -89,7 +89,7 @@ namespace VentaSimpleWeb.Controllers
                 //MessageBox.Show("Número" + folioSII.ToString());
                 if (SessionH.Usuario.EsAfecta == true)
                 {
-                     a = "(A)";
+                    a = "(A)";
                 }
                 else
                 {
@@ -99,10 +99,10 @@ namespace VentaSimpleWeb.Controllers
 
                 if (rutaPDF == null || rutaPDF == "")
                 {
-                    return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };               
+                    return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 }
 
-               if (idContribuyente != 0)
+                if (idContribuyente != 0)
                 {
                     entity.ContId = idContribuyente;
                 }
@@ -124,7 +124,7 @@ namespace VentaSimpleWeb.Controllers
         }
         public JsonResult ObtenerTiposPago()
         {
-           
+
             var lista = Backline.DAL.TipoPagoDAL.ObtenerTiposPago();
 
             if (lista == null || lista.Count == 0)
@@ -132,5 +132,7 @@ namespace VentaSimpleWeb.Controllers
 
             return new JsonResult() { ContentEncoding = Encoding.Default, Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
+
+        
     }
 }

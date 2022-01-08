@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
     <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
 
-    <script src="~/ScriptsVistas/LogicaLibroVentas20211227.js"></script>
+    <script src="~/ScriptsVistas/LogicaLibroVentas20220107.js"></script>
 
     <style>
         body {
@@ -42,6 +42,7 @@
         var urlObtenerEstablecimientos = '@Url.Action("ObtenerEstablecimientos", "LibroVentas")';
         var urlBusquedaFiltro = '@Url.Action("BusquedaFiltro", "LibroVentas")';
         var urlObtenerPdf = '@Url.Action("ObtenerPdf", "LibroVentas")';
+        var urlCrearNotaCredito = '@Url.Action("CrearNotaCredito", "LibroVentas")';
 
         $(document).ready(function () {
 
@@ -246,6 +247,9 @@
                             <tr>
                                 <td>
                                     <button class="ui icon green button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
+                                        <i class="eye icon"></i>
+                                    </button>
+                                    <button class="ui icon orange button" value="@listaBoletas.Id" onclick="CrearNotaCredito(this.value, this);">
                                         <i class="eye icon"></i>
                                     </button>
                                 </td>
