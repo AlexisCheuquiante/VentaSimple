@@ -69,6 +69,18 @@
                             </div>
                             Debes completar todos los campos para emitir la boleta!
                             <div class="ui divider"></div>
+                            @if (SessionH.Usuario.Emp_Id != 14)
+                            {
+                                <div class="ui purple icon message">
+                                    <i class="eye icon"></i>
+                                    <div class="content">
+                                        <div class="header">
+                                            Atención!
+                                        </div>
+                                        <p>Al momento de digitar un RUT debes realizarlo sin puntos ni guion.</p>
+                                    </div>
+                                </div>
+                            }
                             <div class="ui form">
                                 <form>
                                     @if (SessionH.Usuario.Emp_Id == 14)
