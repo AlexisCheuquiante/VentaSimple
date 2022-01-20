@@ -154,6 +154,9 @@ namespace VentaSimpleWeb.Controllers
                 string rutaPDF = string.Empty;
                 bool validadaSII = false;
 
+                entity.DocumentoOrigenINT = lista[0].Numero;
+                entity.Rut = lista[0].Rut;
+                entity.Contribuyente = lista[0].Contribuyente;
                 validadaSII = Utiles.GenerarNotaCredito(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.NotaCredito, out folioSII, out rutaPDF, out apiResult);
                 entity.NumeroSII = folioSII;
 

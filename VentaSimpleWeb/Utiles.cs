@@ -295,26 +295,53 @@ namespace VentaSimpleWeb
             Backline.DTE.ModelDteNotaCredito modelo = new ModelDteNotaCredito();
             Backline.DTE.EncabezadoNotaCredito encabezado;
             Backline.DTE.ReferenciaNotaCredito referencia;
-            encabezado = new EncabezadoNotaCredito()
+            if (SessionH.Usuario.Emp_Id == 14)
             {
-                IdDoc = new DocumentoNotaCredito()
+                encabezado = new EncabezadoNotaCredito()
                 {
-                    TipoDTE = (Int32)TipoDte,
-                    IndServicio = 3,
-                    MntBruto = 1
-                },
-                Emisor = new EmisorNotaCredito()
+                    IdDoc = new DocumentoNotaCredito()
+                    {
+                        TipoDTE = (Int32)TipoDte,
+                        IndServicio = 3,
+                        MntBruto = 1
+                    },
+                    Emisor = new EmisorNotaCredito()
+                    {
+                        //RUTEmisor = "70859400-8"
+                        RUTEmisor = SessionH.Usuario.RutEmpresa
+                    },
+                    Receptor = new ReceptorNotaCredito()
+                    {
+                        RUTRecep = "69210100-6",
+                        RznSocRecep = "I.Municipalidad de Osorno",
+                        Contacto = "..."
+                    }
+                };
+            }
+            else
+            {
+                encabezado = new EncabezadoNotaCredito()
                 {
-                    //RUTEmisor = "70859400-8"
-                    RUTEmisor = SessionH.Usuario.RutEmpresa
-                },
-                Receptor = new ReceptorNotaCredito()
-                {
-                    RUTRecep = "13928280-9",
-                    RznSocRecep = "Obi Wan Kenobi",
-                    Contacto = "..."
-                }
-            };
+                    IdDoc = new DocumentoNotaCredito()
+                    {
+                        TipoDTE = (Int32)TipoDte,
+                        IndServicio = 3,
+                        MntBruto = 1
+                    },
+                    Emisor = new EmisorNotaCredito()
+                    {
+                        //RUTEmisor = "70859400-8"
+                        RUTEmisor = SessionH.Usuario.RutEmpresa
+                    },
+                    Receptor = new ReceptorNotaCredito()
+                    {
+                        RUTRecep = Factura.Rut,
+                        RznSocRecep = Factura.Contribuyente,
+                        Contacto = "..."
+                    }
+                };
+            }
+                
             //encabezado.FchEmis = Factura.Fecha.Year.ToString() + "-" + Factura.Fecha.Month.ToString("00") + "-" + Factura.Fecha.Day.ToString("00");
 
             string fechaSII = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00");
@@ -359,8 +386,20 @@ namespace VentaSimpleWeb
             folio = 0;
             if (dte.ok)
             {
+                var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                var a = "";
+                //MessageBox.Show("Número" + folioSII.ToString());
+                if (SessionH.Usuario.EsAfecta == true)
+                {
+                    a = "(A)";
+                }
+                else
+                {
+                    a = "(E)";
+                }
+
                 folio = dte.folio;
-                string b = "NotaCredito_" + folio.ToString();
+                string b = rutEmpresa + a + "NotaCrédito_" + folio.ToString();
                 // PortalGestion.DAL.FacturaDAO.SeteaNumero(Factura.Id, dte.folio);
                 string pdfPath = Path.Combine(dte.Path, dte.FileGuid + ".pdf");
                 string nuevoNombre = Path.Combine(dte.Path, b + ".pdf");

@@ -128,7 +128,7 @@ namespace Backline.DAL
                     //BeginFields
                     OBJ.Id = (int)(!reader.IsDBNull(ID) ? reader.GetValue(ID) : 0);
                     OBJ.ContId = (int)(!reader.IsDBNull(CONT_ID) ? reader.GetValue(CONT_ID) : 0);
-                    OBJ.NumeroSII = (int)(!reader.IsDBNull(NUMERO) ? reader.GetValue(NUMERO) : 0);
+                    OBJ.Numero = (int)(!reader.IsDBNull(NUMERO) ? reader.GetValue(NUMERO) : 0);
                     OBJ.EmpId = (int)(!reader.IsDBNull(EMP_ID) ? reader.GetValue(EMP_ID) : 0);
                     OBJ.Fecha = (DateTime)(!reader.IsDBNull(FECHA) ? reader.GetValue(FECHA) : DateTime.MinValue);
                     OBJ.Glosa = (String)(!reader.IsDBNull(GLOSA) ? reader.GetValue(GLOSA) : string.Empty);
