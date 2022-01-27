@@ -287,7 +287,6 @@ namespace VentaSimpleWeb
 
 
         }
-
         public static bool GenerarNotaCredito(List<Backline.Entidades.DetalleFactura> detalle, Backline.Entidades.Factura Factura, Enums.TipoDocumento tipo, out int folio, out string rutaPDF, out Backline.DTE.APIResult apiResult)
         {
             rutaPDF = "";
