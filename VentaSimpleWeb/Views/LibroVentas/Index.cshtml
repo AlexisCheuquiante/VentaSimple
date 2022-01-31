@@ -123,6 +123,7 @@
                         @foreach (var listaBoletas in Model.listaBoletas)
                         {
                             <tr>
+                                <td>Tipo de documento: @listaBoletas.TipoDocumentoStr</td>
                                 <td>N°SII: @listaBoletas.NumeroSII</td>
                                 <td>Fecha: @listaBoletas.Fecha.ToShortDateString()</td>
                                 <td>Glosa: @listaBoletas.Glosa</td>
@@ -149,6 +150,7 @@
                         @foreach (var listaBoletas in Model.listaBoletas)
                         {
                             <tr>
+                                <td>Tipo de documento: @listaBoletas.TipoDocumentoStr</td>
                                 <td>N°SII: @listaBoletas.NumeroSII</td>
                                 <td>Fecha: @listaBoletas.Fecha.ToShortDateString()</td>
                                 <td>Rut: @listaBoletas.Rut</td>
@@ -232,6 +234,7 @@
                     <thead>
                         <tr>
                             <th style="word-wrap: break-word; background-color: deepskyblue"></th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Tipo de documento</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">N°SII</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Fecha</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Glosa</th>
@@ -253,6 +256,7 @@
                                         <i class="eraser icon"></i>
                                     </button>
                                 </td>
+                                <td>@listaBoletas.TipoDocumentoStr</td>
                                 <td>@listaBoletas.NumeroSII</td>
                                 <td>@listaBoletas.Fecha.ToShortDateString()</td>
                                 <td>@listaBoletas.Glosa</td>
@@ -278,6 +282,7 @@
                     <thead>
                         <tr>
                             <th style="word-wrap: break-word; background-color: deepskyblue"></th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Tipo de documento</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">N°SII</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Fecha</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Rut</th>
@@ -297,10 +302,8 @@
                                     <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
                                         <i class="eye icon"></i>
                                     </button>
-                                    @*<button class="ui icon orange button" value="@listaBoletas.Id" onclick="CrearNotaCredito(this.value, this);">
-                                        <i class="eye icon"></i>
-                                    </button>*@
                                 </td>
+                                <td>@listaBoletas.TipoDocumentoStr</td>
                                 <td>@listaBoletas.NumeroSII</td>
                                 <td>@listaBoletas.Fecha.ToShortDateString()</td>
                                 <td>@listaBoletas.Rut</td>
