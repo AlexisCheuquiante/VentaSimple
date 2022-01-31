@@ -70,6 +70,7 @@ namespace VentaSimpleWeb.Controllers
                 entity.Fecha = DateTime.Now;
                 entity.Usr_Id = SessionH.Usuario.Id;
                 entity.EstId = SessionH.Usuario.Est_Id;
+                entity.Tido_Id = 1;
                 Backline.DAL.BoletaDAL.InsertarFacturaV2(entity);
                 var idBoleta = entity.Id;
 
@@ -115,7 +116,7 @@ namespace VentaSimpleWeb.Controllers
 
                 entity.Id = idBoleta;
                 entity.Numero = folioSII;
-                Backline.DAL.BoletaDAL.InsertarNumeroBoleta(entity);
+                Backline.DAL.BoletaDAL.InsertarNumeroDocumento(entity);
 
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }

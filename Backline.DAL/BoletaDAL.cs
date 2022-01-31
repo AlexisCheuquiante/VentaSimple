@@ -157,7 +157,7 @@ namespace Backline.DAL
             return listaFacturas;
 
         }
-        public static Backline.Entidades.Factura InsertarNumeroBoleta(Backline.Entidades.Factura facturaNumero)
+        public static Backline.Entidades.Factura InsertarNumeroDocumento(Backline.Entidades.Factura facturaNumero)
         {
             Microsoft.Practices.EnterpriseLibrary.Data.Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
             DbCommand dbCommand = db.GetStoredProcCommand("SP_BOL_BOLETAS_UPDATE_NSII");
@@ -177,6 +177,7 @@ namespace Backline.DAL
 
             db.AddInParameter(dbCommand, "ID", DbType.Int32, factura.Id != 0 ? factura.Id : (object)null);
             db.AddInParameter(dbCommand, "CONT_ID", DbType.Int32, factura.ContId != 0 ? factura.ContId : (object)null);
+            db.AddInParameter(dbCommand, "TIDO_ID", DbType.Int32, factura.Tido_Id != 0 ? factura.Tido_Id : (object)null);
             db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, factura.EmpId != 0 ? factura.EmpId : (object)null);
             db.AddInParameter(dbCommand, "FECHA", DbType.DateTime, factura.Fecha != DateTime.MinValue ? factura.Fecha : (object)null);
             db.AddInParameter(dbCommand, "GLOSA", DbType.String, factura.Glosa != "" ? factura.Glosa.ToUpper() : (object)null);
@@ -184,6 +185,7 @@ namespace Backline.DAL
             db.AddInParameter(dbCommand, "USR_ID", DbType.Int32, factura.Usr_Id != 0 ? factura.Usr_Id : (object)null);
             db.AddInParameter(dbCommand, "EST_ID", DbType.Int32, factura.EstId != 0 ? factura.EstId : (object)null);
             db.AddInParameter(dbCommand, "TIPA_ID", DbType.Int32, factura.Tipa_Id != 0 ? factura.Tipa_Id : (object)null);
+            db.AddInParameter(dbCommand, "ELIMINADO", DbType.Byte, factura.Eliminado == true ? 1 : 0);
 
             factura.Id = int.Parse(db.ExecuteScalar(dbCommand).ToString());
 

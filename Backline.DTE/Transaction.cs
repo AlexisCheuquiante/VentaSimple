@@ -56,10 +56,10 @@ namespace Backline.DTE
             var guid = Guid.NewGuid().ToString();
 
             
-            if (Environment.MachineName == "PC_EDURIO" || Environment.MachineName == "DESKTOP-D1K9R0A")
-            {
-                ambiente = "cer";
-            }
+            //if (Environment.MachineName == "PC_EDURIO" || Environment.MachineName == "DESKTOP-D1K9R0A")
+            //{
+            //    ambiente = "cer";
+            //}
 
             try
             {

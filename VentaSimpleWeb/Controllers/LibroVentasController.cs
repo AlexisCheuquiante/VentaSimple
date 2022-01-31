@@ -149,6 +149,18 @@ namespace VentaSimpleWeb.Controllers
 
                 detalleArticulos.Add(detalle);
 
+                entity.ContId = lista[0].ContId;
+                entity.Tido_Id = 2;
+                entity.EmpId = SessionH.Usuario.Emp_Id;
+                entity.Fecha = DateTime.Now;
+                entity.Glosa = lista[0].Glosa;
+                entity.Total = lista[0].Total;
+                entity.Usr_Id = SessionH.Usuario.Id;
+                entity.EstId = SessionH.Usuario.Est_Id;
+                entity.Tipa_Id = lista[0].Tipa_Id;
+                Backline.DAL.BoletaDAL.InsertarFacturaV2(entity);
+                var idNotaCredito = entity.Id;
+
                 Backline.DTE.APIResult apiResult = new Backline.DTE.APIResult();
                 int folioSII = 0;
                 string rutaPDF = string.Empty;
@@ -180,16 +192,9 @@ namespace VentaSimpleWeb.Controllers
                     return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 }
 
-                ////if (idContribuyente != 0)
-                ////{
-                ////    entity.ContId = idContribuyente;
-                ////}
-                //entity.EmpId = SessionH.Usuario.Emp_Id;
-                //entity.NumeroSII = folioSII;
-                //entity.Fecha = DateTime.Now;
-                //entity.Usr_Id = SessionH.Usuario.Id;
-                //entity.EstId = SessionH.Usuario.Est_Id;
-                //Backline.DAL.BoletaDAL.InsertarFactura(entity);
+                entity.Id = idNotaCredito;
+                entity.Numero = folioSII;
+                Backline.DAL.BoletaDAL.InsertarNumeroDocumento(entity);
 
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }

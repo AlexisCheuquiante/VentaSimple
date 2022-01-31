@@ -177,6 +177,8 @@ namespace Backline.Entidades
                 return Fecha.ToShortDateString();
             }
         }
+        public int Tido_Id { get; set; }
+        public string TipoDocumentoStr { get; set; }
         public Int64 NumeroSII { get; set; }
         public String Rut { get; set; }
         public string Contribuyente { get; set; }
@@ -186,5 +188,6 @@ namespace Backline.Entidades
         public string Sucursal { get; set; }
         public int Tipa_Id { get; set; }
         public string TipoPago { get; set; }
+        public bool Eliminado { get; set; }
     }
 }
