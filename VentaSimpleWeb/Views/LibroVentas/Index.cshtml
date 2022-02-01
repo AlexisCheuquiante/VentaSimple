@@ -248,14 +248,23 @@
                         @foreach (var listaBoletas in Model.listaBoletas)
                         {
                             <tr>
-                                <td>
-                                    <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
-                                        <i class="eye icon"></i>
-                                    </button>
-                                    <button class="ui icon red button" value="@listaBoletas.Id" onclick="CrearNotaCredito(this.value, this);">
-                                        <i class="eraser icon"></i>
-                                    </button>
-                                </td>
+                                @if (listaBoletas.Tido_Id == 1)
+                                {
+                                    <td>
+                                        <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
+                                            <i class="eye icon"></i>
+                                        </button>
+                                        <button class="ui icon red button" value="@listaBoletas.Id" onclick="CrearNotaCredito(this.value, this);">
+                                            <i class="eraser icon"></i>
+                                        </button>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        
+                                    </td>
+                                }
                                 <td>@listaBoletas.TipoDocumentoStr</td>
                                 <td>@listaBoletas.NumeroSII</td>
                                 <td>@listaBoletas.Fecha.ToShortDateString()</td>

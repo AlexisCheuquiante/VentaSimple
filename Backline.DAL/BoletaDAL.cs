@@ -61,6 +61,7 @@ namespace Backline.DAL
                 int ESTABLECIMIENTO = reader.GetOrdinal("ESTABLECIMIENTO");
                 int TIPO_PAGO = reader.GetOrdinal("TIPO_PAGO");
                 int TIPA_ID = reader.GetOrdinal("TIPA_ID");
+                int TIDO_ID = reader.GetOrdinal("TIDO_ID");
                 int TIPO_DOCUMENTO = reader.GetOrdinal("TIPO_DOCUMENTO");
 
                 while (reader.Read())
@@ -81,6 +82,7 @@ namespace Backline.DAL
                     OBJ.Sucursal = (String)(!reader.IsDBNull(ESTABLECIMIENTO) ? reader.GetValue(ESTABLECIMIENTO) : string.Empty);
                     OBJ.TipoPago = (String)(!reader.IsDBNull(TIPO_PAGO) ? reader.GetValue(TIPO_PAGO) : string.Empty);
                     OBJ.Tipa_Id = (int)(!reader.IsDBNull(TIPA_ID) ? reader.GetValue(TIPA_ID) : 0);
+                    OBJ.Tido_Id = (int)(!reader.IsDBNull(TIDO_ID) ? reader.GetValue(TIDO_ID) : 0);
                     OBJ.TipoDocumentoStr = (String)(!reader.IsDBNull(TIPO_DOCUMENTO) ? reader.GetValue(TIPO_DOCUMENTO) : string.Empty);
 
                     //EndFields
