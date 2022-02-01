@@ -367,7 +367,7 @@ namespace VentaSimpleWeb
                 detalleP.QtyItem = int.Parse(a.Cantidad.ToString());
                 detalleP.UnmdItem = "";// Utility.GetDescription(Enums.UnidadMedida.Unidades);
                 detalleP.PrcItem = int.Parse(a.Valor.ToString());
-
+                
                 modelo.Detalles.Add(detalleP);
             }
 
@@ -379,8 +379,9 @@ namespace VentaSimpleWeb
                 modelo.Encabezado.Receptor.GiroRecep = "Asesorías Informáticas";
             }
 
+            string ambiente = SessionH.Usuario.Ambiente;
             Transaction trx = new Transaction();
-            var dte = trx.GenerarDTE(modelo, SessionH.Usuario.Usuario_FE, SessionH.Usuario.Clave_FE, System.IO.Directory.GetCurrentDirectory(), "cer");
+            var dte = trx.GenerarDTE(modelo, SessionH.Usuario.Usuario_FE, SessionH.Usuario.Clave_FE, System.IO.Directory.GetCurrentDirectory(), ambiente.ToLower());
             apiResult = dte;
             folio = 0;
             if (dte.ok)
