@@ -29,7 +29,7 @@ namespace Backline.DTE
             try
             {
                 var json = new JavaScriptSerializer().Serialize(modelo);
-                path = @"C:\Documentos Backline\BOLETAS\";
+                path = @"C:\Documentos Backline\BoletasVentaSimple\";
                 api.SetSavePDF(path + "\\" + guid);
                 //api.SetSaveXML(path + "\\" + guid);
 
@@ -62,7 +62,7 @@ namespace Backline.DTE
             try
             {
                 var json = new JavaScriptSerializer().Serialize(modelo);
-                path = @"C:\Documentos Backline\BOLETAS\";
+                path = @"C:\Documentos Backline\BoletasVentaSimple\";
                 api.SetSavePDF(path + "\\" + guid);
                 //api.SetSaveXML(path + "\\" + guid);
 
