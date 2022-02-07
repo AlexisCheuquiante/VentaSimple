@@ -39,6 +39,7 @@ namespace VentaSimpleWeb.Controllers
 
                 var idContribuyente = 0;
                 var rutFormateado = "";
+                var rutListo = "";
                 if (entity.ContId == 0 && SessionH.Usuario.Emp_Id != 14)
                 {
                     var rutDevuelto = VentaSimpleWeb.Utiles.ObtieneRut_INT(entity.Rut);
@@ -49,6 +50,7 @@ namespace VentaSimpleWeb.Controllers
                     contribuyente.Rut_Code = rutDevuelto;
                     Backline.DAL.ContribuyenteDAL.InsertarContribuyente(contribuyente);
                     idContribuyente = contribuyente.Id;
+                    rutListo = contribuyente.Rut;
                 }
 
 
@@ -78,10 +80,10 @@ namespace VentaSimpleWeb.Controllers
                 int folioSII = 0;
                 string rutaPDF = string.Empty;
                 bool validadaSII = false;
-                if (SessionH.Usuario.Emp_Id != 14 && rutFormateado != "")
+                if (SessionH.Usuario.Emp_Id != 14 && rutListo != "")
                 {
 
-                    entity.Rut = rutFormateado;
+                    entity.Rut = rutListo;
 
                 }
 
