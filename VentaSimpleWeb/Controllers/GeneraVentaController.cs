@@ -124,8 +124,6 @@ namespace VentaSimpleWeb.Controllers
             {
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
-
-
         }
         public JsonResult ObtenerTiposPago()
         {

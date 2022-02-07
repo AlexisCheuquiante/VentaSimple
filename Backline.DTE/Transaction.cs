@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.IO;
 using System.Drawing.Imaging;
+
 //using ZXing;
 //using ZXing.QrCode.Internal;
 //using ZXing.Rendering;
@@ -54,10 +55,10 @@ namespace Backline.DTE
             var guid = Guid.NewGuid().ToString();
 
 
-            //if (Environment.MachineName == "PC_EDURIO" || Environment.MachineName == "DESKTOP-D1K9R0A")
-            //{
-            //    ambiente = "cer";
-            //}
+            if (Environment.MachineName == "PC_EDURIO" || Environment.MachineName == "DESKTOP-D1K9R0A")
+            {
+                ambiente = "cer";
+            }
 
             try
             {
@@ -77,7 +78,7 @@ namespace Backline.DTE
                 result.ok = false;
                 result.Message = ex.Message + " | " + ex.StackTrace;
             }
-
+            
             return result;
         }
     }

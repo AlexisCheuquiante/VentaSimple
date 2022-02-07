@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Contribuyente.cs" />
     <Compile Include="DetalleFactura.cs" />
+    <Compile Include="Error.cs" />
     <Compile Include="Establecimiento.cs" />
     <Compile Include="Factura.cs" />
     <Compile Include="Filtro.cs" />

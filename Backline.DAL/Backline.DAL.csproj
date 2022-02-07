@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="BoletaDAL.cs" />
     <Compile Include="ContribuyenteDAL.cs" />
+    <Compile Include="ErrorDAL.cs" />
     <Compile Include="EstablecimientoDAL.cs" />
     <Compile Include="ImagenDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
