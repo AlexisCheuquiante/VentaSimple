@@ -50,7 +50,7 @@ namespace VentaSimpleWeb.Controllers
                     contribuyente.Rut_Code = rutDevuelto;
                     Backline.DAL.ContribuyenteDAL.InsertarContribuyente(contribuyente);
                     idContribuyente = contribuyente.Id;
-                    rutListo = contribuyente.Rut;
+                    rutListo = contribuyente.Rut.ToUpper();
                 }
 
 
