@@ -59,12 +59,39 @@ function BusquedaFiltro() {
 
 function ObtenerPdf(numeroBoleta) {
 
-    $('#Boleta').val(numeroBoleta);
+    $('#Documento').val(numeroBoleta);
 
-    folioSII = $('#Boleta').val();
+    folioSII = $('#Documento').val();
 
     $.ajax({
         url: window.urlObtenerPdf,
+        type: 'POST',
+        data: { folioSII: folioSII },
+        success: function (data) {
+            if (data != 'error') {
+                setTimeout(() => { window.open(data, "_blank"); }, 2000);
+            }
+            if (data === 'error') {
+                $('#divError').removeClass("hidden");
+                $('#btnGuardarBoleta').removeClass('loading');
+                $('#btnGuardarBoleta').removeClass('disabled');
+            }
+        },
+        error: function (data) {
+            console.log(data);
+            showMessage('body', 'danger', 'Ocurrió un error al eliminar la bodega.' + data);
+        }
+    });
+}
+
+function ObtenerPdfNotaCredito(numero) {
+
+    $('#Documento').val(numero);
+
+    folioSII = $('#Documento').val();
+
+    $.ajax({
+        url: window.urlObtenerPdfNotaCredito,
         type: 'POST',
         data: { folioSII: folioSII },
         success: function (data) {

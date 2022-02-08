@@ -43,6 +43,7 @@
         var urlBusquedaFiltro = '@Url.Action("BusquedaFiltro", "LibroVentas")';
         var urlObtenerPdf = '@Url.Action("ObtenerPdf", "LibroVentas")';
         var urlCrearNotaCredito = '@Url.Action("CrearNotaCredito", "LibroVentas")';
+        var urlObtenerPdfNotaCredito = '@Url.Action("ObtenerPdfNotaCredito", "LibroVentas")';
 
         $(document).ready(function () {
 
@@ -272,7 +273,9 @@
                                 @if (listaBoletas.Tido_Id == 2)
                                 {
                                     <td>
-
+                                        <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdfNotaCredito(this.value, this);">
+                                            <i class="eye icon"></i>
+                                        </button>
                                     </td>
                                 }
                                 <td>@listaBoletas.TipoDocumentoStr</td>
@@ -350,4 +353,4 @@
 </body>
 </html>
 
-<input type="hidden" id="Boleta" value="0" />
+<input type="hidden" id="Documento" value="0" />

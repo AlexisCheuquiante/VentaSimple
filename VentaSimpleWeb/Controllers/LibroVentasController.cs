@@ -215,5 +215,37 @@ namespace VentaSimpleWeb.Controllers
 
 
         }
+        public ActionResult ObtenerPdfNotaCredito(int folioSII)
+        {
+            try
+            {
+                var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                var a = "";
+                //MessageBox.Show("Número" + folioSII.ToString());
+                if (SessionH.Usuario.EsAfecta == true || SessionH.Usuario.Id == 191)
+                {
+                    a = "(A)";
+                }
+                if (SessionH.Usuario.EsAfecta == false && SessionH.Usuario.Id != 191)
+                {
+                    a = "(E)";
+                }
+                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "NotaCrédito_" + folioSII.ToString() + ".pdf";
+
+                if (ruta == null || ruta == "")
+                {
+                    return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                }
+
+
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+
+
+        }
     }
 }
