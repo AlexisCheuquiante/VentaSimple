@@ -137,7 +137,5 @@ namespace VentaSimpleWeb.Controllers
 
             return new JsonResult() { ContentEncoding = Encoding.Default, Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
-
-        
     }
 }

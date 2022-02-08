@@ -125,6 +125,7 @@
                             <tr>
                                 <td>Tipo de documento: @listaBoletas.TipoDocumentoStr</td>
                                 <td>N°SII: @listaBoletas.NumeroSII</td>
+                                <td>Documento Referencia: @listaBoletas.DocumentoReferencia</td>
                                 <td>Fecha: @listaBoletas.Fecha.ToShortDateString()</td>
                                 <td>Glosa: @listaBoletas.Glosa</td>
                                 <td>Total: $@listaBoletas.Total</td>
@@ -236,6 +237,7 @@
                             <th style="word-wrap: break-word; background-color: deepskyblue"></th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Tipo de documento</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">N°SII</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Documento Referencia</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Fecha</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Glosa</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Total</th>
@@ -248,7 +250,7 @@
                         @foreach (var listaBoletas in Model.listaBoletas)
                         {
                             <tr>
-                                @if (listaBoletas.Tido_Id == 1)
+                                @if (listaBoletas.Tido_Id == 1 && listaBoletas.DocumentoReferencia == 0)
                                 {
                                     <td>
                                         <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
@@ -259,14 +261,23 @@
                                         </button>
                                     </td>
                                 }
-                                else
+                                @if (listaBoletas.Tido_Id == 1 && listaBoletas.DocumentoReferencia != 0)
                                 {
                                     <td>
-                                        
+                                        <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
+                                            <i class="eye icon"></i>
+                                        </button>
+                                    </td>
+                                }
+                                @if (listaBoletas.Tido_Id == 2)
+                                {
+                                    <td>
+
                                     </td>
                                 }
                                 <td>@listaBoletas.TipoDocumentoStr</td>
                                 <td>@listaBoletas.NumeroSII</td>
+                                <td>@listaBoletas.DocumentoReferencia</td>
                                 <td>@listaBoletas.Fecha.ToShortDateString()</td>
                                 <td>@listaBoletas.Glosa</td>
                                 <td>$@listaBoletas.Total</td>

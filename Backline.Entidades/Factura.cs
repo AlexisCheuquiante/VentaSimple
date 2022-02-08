@@ -168,8 +168,8 @@ namespace Backline.Entidades
         public decimal PorcentajeCENABAST { get; set; }
         
         public int Usr_Id { get; set; }
-        
-        
+
+        public string TipoDocumentoStr { get; set; }
         public string FechaMostrar
         {
             get
@@ -178,8 +178,9 @@ namespace Backline.Entidades
             }
         }
         public int Tido_Id { get; set; }
-        public string TipoDocumentoStr { get; set; }
+        
         public Int64 NumeroSII { get; set; }
+        public int DocumentoReferencia { get; set; }
         public String Rut { get; set; }
         public string Contribuyente { get; set; }
         public string Glosa { get; set; }
@@ -189,5 +190,6 @@ namespace Backline.Entidades
         public int Tipa_Id { get; set; }
         public string TipoPago { get; set; }
         public bool Eliminado { get; set; }
+        
     }
 }

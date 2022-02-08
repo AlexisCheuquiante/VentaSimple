@@ -63,6 +63,8 @@ namespace Backline.DAL
                 int TIPA_ID = reader.GetOrdinal("TIPA_ID");
                 int TIDO_ID = reader.GetOrdinal("TIDO_ID");
                 int TIPO_DOCUMENTO = reader.GetOrdinal("TIPO_DOCUMENTO");
+                int DOCUMENTO_REFERENCIA = reader.GetOrdinal("DOCUMENTO_REFERENCIA");
+                
 
                 while (reader.Read())
                 {
@@ -84,6 +86,7 @@ namespace Backline.DAL
                     OBJ.Tipa_Id = (int)(!reader.IsDBNull(TIPA_ID) ? reader.GetValue(TIPA_ID) : 0);
                     OBJ.Tido_Id = (int)(!reader.IsDBNull(TIDO_ID) ? reader.GetValue(TIDO_ID) : 0);
                     OBJ.TipoDocumentoStr = (String)(!reader.IsDBNull(TIPO_DOCUMENTO) ? reader.GetValue(TIPO_DOCUMENTO) : string.Empty);
+                    OBJ.DocumentoReferencia = (int)(!reader.IsDBNull(DOCUMENTO_REFERENCIA) ? reader.GetValue(DOCUMENTO_REFERENCIA) : 0);
 
                     //EndFields
 
@@ -201,6 +204,19 @@ namespace Backline.DAL
             factura.Id = int.Parse(db.ExecuteScalar(dbCommand).ToString());
 
             return factura;
+
+        }
+        public static Backline.Entidades.Factura InsertarDocumentoReferencia(Backline.Entidades.Factura facturaNumero)
+        {
+            Microsoft.Practices.EnterpriseLibrary.Data.Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
+            DbCommand dbCommand = db.GetStoredProcCommand("SP_BOL_BOLETAS_UPDATE_DOCUMENTO_REFERENCIA");
+
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, facturaNumero.Id != 0 ? facturaNumero.Id : (object)null);
+            db.AddInParameter(dbCommand, "DOCUMENTO_REFERENCIA", DbType.Int32, facturaNumero.DocumentoReferencia != 0 ? facturaNumero.DocumentoReferencia : (object)null);
+
+            db.ExecuteNonQuery(dbCommand);
+
+            return facturaNumero;
 
         }
     }

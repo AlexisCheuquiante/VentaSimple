@@ -89,7 +89,7 @@ namespace VentaSimpleWeb.Controllers
             List<Backline.Entidades.Factura> lista = Session["registrosEncontrados"] as List<Backline.Entidades.Factura>;
             if (SessionH.Usuario.Emp_Id == 14)
             {
-                string[] columns = { "FechaMostrar", "NumeroSII", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago" };
+                string[] columns = { "TipoDocumentoStr", "FechaMostrar", "NumeroSII", "DocumentoReferencia", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago" };
                 byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
                 return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
             }
@@ -141,6 +141,8 @@ namespace VentaSimpleWeb.Controllers
                 Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
                 filtro.BoletaId = id;
                 var lista = Backline.DAL.BoletaDAL.ObtenerBoleta(filtro);
+                var idBoleta = lista[0].Id;
+
                 List<Backline.Entidades.DetalleFactura> detalleArticulos = new List<Backline.Entidades.DetalleFactura>();
                 Backline.Entidades.DetalleFactura detalle = new Backline.Entidades.DetalleFactura();
                 detalle.Cantidad = 1;
@@ -172,8 +174,6 @@ namespace VentaSimpleWeb.Controllers
                 validadaSII = Utiles.GenerarNotaCredito(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.NotaCredito, out folioSII, out rutaPDF, out apiResult);
                 entity.NumeroSII = folioSII;
 
-
-
                 var rutEmpresa = SessionH.Usuario.RutEmpresa;
                 var a = "";
                 //MessageBox.Show("Número" + folioSII.ToString());
@@ -191,10 +191,20 @@ namespace VentaSimpleWeb.Controllers
                 {
                     return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 }
-
+                //Inserto Numero del SII
                 entity.Id = idNotaCredito;
                 entity.Numero = folioSII;
                 Backline.DAL.BoletaDAL.InsertarNumeroDocumento(entity);
+
+                //Inserto Documento de referencia a Boleta
+                entity.Id = idBoleta;
+                entity.DocumentoReferencia = folioSII;
+                Backline.DAL.BoletaDAL.InsertarDocumentoReferencia(entity);
+
+                //Inserto Documento de referencia a nota de crèdito
+                entity.Id = idNotaCredito;
+                entity.DocumentoReferencia = lista[0].Numero;
+                Backline.DAL.BoletaDAL.InsertarDocumentoReferencia(entity);
 
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
