@@ -17,5 +17,22 @@ namespace VentaSimpleWeb
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError();
+            if (ex != null)
+            {
+                //var a = ex;
+                //Response.Redirect("/Error");
+                Backline.Entidades.Error error = new Backline.Entidades.Error();
+                error.UsrId = SessionH.Usuario.Id;
+                error.EmpId = SessionH.Usuario.Emp_Id;
+                error.EstId = SessionH.Usuario.Est_Id;
+                error.Fecha = DateTime.Now;
+                error.DetalleError = ex.ToString();
+                Backline.DAL.ErrorDAL.InsertarError(error);
+            }
+        }
     }
 }
