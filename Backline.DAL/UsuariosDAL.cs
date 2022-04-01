@@ -60,6 +60,9 @@ namespace Backline.DAL
                 int RUT_EMPRESA = reader.GetOrdinal("RUT_EMPRESA");
                 int ADMINISTRADOR = reader.GetOrdinal("ADMINISTRADOR");
                 int EST_ID = reader.GetOrdinal("EST_ID");
+                int ALIAS = reader.GetOrdinal("ALIAS");
+                int OCUPA_RUT = reader.GetOrdinal("OCUPA_RUT");
+                
 
                 while (reader.Read())
                 {
@@ -80,6 +83,8 @@ namespace Backline.DAL
                     OBJ.RutEmpresa = (String)(!reader.IsDBNull(RUT_EMPRESA) ? reader.GetValue(RUT_EMPRESA) : string.Empty);
                     OBJ.Administrador = (bool)(!reader.IsDBNull(ADMINISTRADOR) ? reader.GetValue(ADMINISTRADOR) : false);
                     OBJ.Est_Id = (int)(!reader.IsDBNull(EST_ID) ? reader.GetValue(EST_ID) : 0);
+                    OBJ.AliasEmpresa = (String)(!reader.IsDBNull(ALIAS) ? reader.GetValue(ALIAS) : string.Empty);
+                    OBJ.OcupaRut = (bool)(!reader.IsDBNull(OCUPA_RUT) ? reader.GetValue(OCUPA_RUT) : false);
                     OBJ.RutEmpresa = OBJ.RutEmpresa.Trim();
                     //EndFields
 

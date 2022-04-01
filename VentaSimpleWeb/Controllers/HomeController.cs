@@ -12,6 +12,7 @@ namespace VentaSimpleWeb.Controllers
         {
             VentaSimpleWeb.Models.HomeModel model = new Models.HomeModel();
             model.NombreUsuario = SessionH.Usuario.Nombre;
+            model.NombreEmpresa = SessionH.Usuario.AliasEmpresa;
             return View(model);
         }
         

@@ -23,8 +23,9 @@ namespace Backline.Entidades
         public string Ambiente { get; set; }
         public string Usuario_FE { get; set; }
         public string Clave_FE { get; set; }
-
+        public string AliasEmpresa { get; set; }
         public bool Administrador { get; set; }
         public bool Eliminado { get; set; }
+        public bool OcupaRut { get; set; }
     }
 }

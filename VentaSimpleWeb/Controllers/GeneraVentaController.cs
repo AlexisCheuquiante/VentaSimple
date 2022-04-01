@@ -40,7 +40,7 @@ namespace VentaSimpleWeb.Controllers
                 var idContribuyente = 0;
                 var rutFormateado = "";
                 var rutListo = "";
-                if (entity.ContId == 0 && SessionH.Usuario.Emp_Id != 14)
+                if (entity.ContId == 0 && SessionH.Usuario.OcupaRut == true)
                 {
                     var rutDevuelto = VentaSimpleWeb.Utiles.ObtieneRut_INT(entity.Rut);
                     Session["RutCode"] = rutDevuelto;
@@ -80,14 +80,14 @@ namespace VentaSimpleWeb.Controllers
                 int folioSII = 0;
                 string rutaPDF = string.Empty;
                 bool validadaSII = false;
-                if (SessionH.Usuario.Emp_Id != 14 && rutListo != "")
+                if (SessionH.Usuario.OcupaRut == true && rutListo != "")
                 {
 
                     entity.Rut = rutListo;
 
                 }
 
-                if (SessionH.Usuario.Emp_Id == 14)
+                if (SessionH.Usuario.EsAfecta == true)
                 {
                     validadaSII = Utiles.GenerarBoletaElectronica(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.BoletaElectronica, out folioSII, out rutaPDF, out apiResult);
                     entity.NumeroSII = folioSII;

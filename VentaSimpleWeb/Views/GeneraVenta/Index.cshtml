@@ -65,7 +65,7 @@
                             </div>
                             Debes completar todos los campos para emitir la boleta!
                             <div class="ui divider"></div>
-                            @if (SessionH.Usuario.Emp_Id != 14)
+                            @if (SessionH.Usuario.OcupaRut == true)
                             {
                                 <div class="ui purple icon message">
                                     <i class="eye icon"></i>
@@ -79,7 +79,7 @@
                             }
                             <div class="ui form">
                                 <form>
-                                    @if (SessionH.Usuario.Emp_Id == 14)
+                                    @if (SessionH.Usuario.OcupaRut == false)
                                     {
                                         <div class="two fields">
                                             <div id="divtxtDetalle" style="width:100%" class="field">

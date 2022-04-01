@@ -21,7 +21,7 @@ namespace VentaSimpleWeb
             Backline.DTE.Referencia referencia;
             Backline.DTE.SuperFactura superFactura;
 
-            if (SessionH.Usuario.Emp_Id == 14)
+            if (SessionH.Usuario.OcupaRut == false)
             {
                 encabezado = new Encabezado()
                 {
