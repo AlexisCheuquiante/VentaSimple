@@ -12,7 +12,8 @@ function ObtenerEstablecimientos() {
         success: function (data) {
             $('#cmbFiltroEstablecimiento').dropdown('clear');
             $('#cmbFiltroEstablecimiento').empty();
-            $('#cmbFiltroEstablecimiento').append('<option value="-1">[Seleccione establecimiento]</option>');
+            $('#cmbFiltroEstablecimiento').append('<option value="-2">[Seleccione establecimiento]</option>');
+            $('#cmbFiltroEstablecimiento').append('<option value="-1">Todas</option>');
             $.each(data,
                 function (value, item) {
 

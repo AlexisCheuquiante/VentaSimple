@@ -17,9 +17,9 @@ namespace Backline.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("SP_USR_USUARIO_INS");
 
             db.AddInParameter(dbCommand, "ID", DbType.Int32, usuario.Id != 0 ? usuario.Id : (object)null);
-            db.AddInParameter(dbCommand, "NOMBRE", DbType.String, usuario.Nombre != "" ? usuario.Nombre.ToUpper() : (object)null);
-            db.AddInParameter(dbCommand, "USUARIO", DbType.String, usuario.NombreUsuario != "" ? usuario.NombreUsuario.ToUpper() : (object)null);
-            db.AddInParameter(dbCommand, "PASSWORD", DbType.String, usuario.Password != "" ? usuario.Password.ToUpper() : (object)null);
+            db.AddInParameter(dbCommand, "NOMBRE", DbType.String, usuario.Nombre != "" ? usuario.Nombre : (object)null);
+            db.AddInParameter(dbCommand, "USUARIO", DbType.String, usuario.NombreUsuario != "" ? usuario.NombreUsuario : (object)null);
+            db.AddInParameter(dbCommand, "PASSWORD", DbType.String, usuario.Password != "" ? usuario.Password : (object)null);
             db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, usuario.Emp_Id != 0 ? usuario.Emp_Id : (object)null);
             db.AddInParameter(dbCommand, "EST_ID", DbType.Int32, usuario.Est_Id != 0 ? usuario.Est_Id : (object)null);
             db.AddInParameter(dbCommand, "ADMINISTRADOR", DbType.Byte, usuario.Administrador == true ? 1 : 0);

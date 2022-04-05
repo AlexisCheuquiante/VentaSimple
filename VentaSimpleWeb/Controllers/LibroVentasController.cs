@@ -21,6 +21,14 @@ namespace VentaSimpleWeb.Controllers
             filtro.Desde = Utiles.FechaObtenerMinimo(DateTime.Now);
             filtro.Hasta = Utiles.FechaObtenerMaximo(DateTime.Now);
 
+            if (Session["registrosEncontrados"] != null && limpiar != null)
+            {
+                filtro.EmpId = SessionH.Usuario.Emp_Id;
+                Session["FiltroInformeDesde"] = Utiles.ReversaFecha(DateTime.Now);
+                Session["FiltroInformeHasta"] = Utiles.ReversaFecha(DateTime.Now);
+                modelo.listaBoletas = Backline.DAL.BoletaDAL.ObtenerFactura(filtro);
+                Session["registrosEncontrados"] = modelo.listaBoletas;
+            }
             if (Session["registrosEncontrados"] == null && SessionH.Usuario.Administrador == true)
             {
                 filtro.EmpId = SessionH.Usuario.Emp_Id;
@@ -43,6 +51,7 @@ namespace VentaSimpleWeb.Controllers
                 modelo.listaBoletas = Session["registrosEncontrados"] as List<Backline.Entidades.Factura>;
             }
             
+            
             return View(modelo);
         }
         public ActionResult BusquedaFiltro(Backline.Entidades.Filtro entity)
@@ -52,6 +61,10 @@ namespace VentaSimpleWeb.Controllers
                 entity.Desde = Utiles.FechaObtenerMinimo(entity.Desde);
                 entity.Hasta = Utiles.FechaObtenerMaximo(entity.Hasta);
                 entity.EmpId = SessionH.Usuario.Emp_Id;
+                if (entity.EstId == -1)
+                {
+                    entity.EstId = 0;
+                }
                 List<Backline.Entidades.Factura> historicosEncontrados = Backline.DAL.BoletaDAL.ObtenerFactura(entity);
                 Session["FiltroInformeDesde"] = Utiles.ReversaFecha(entity.Desde);
                 Session["FiltroInformeHasta"] = Utiles.ReversaFecha(entity.Hasta);
