@@ -154,12 +154,22 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="RecursosExternos\bootstrap.min.css" />
+    <Content Include="RecursosExternos\bootstrap.min.js" />
+    <Content Include="RecursosExternos\calendar.min.css" />
+    <Content Include="RecursosExternos\calendar.min.js" />
+    <Content Include="RecursosExternos\jquery.min.js" />
+    <Content Include="RecursosExternos\semantic.css" />
+    <Content Include="RecursosExternos\semantic.min.css" />
+    <Content Include="RecursosExternos\semantic.min.js" />
     <Content Include="Recursos\Imagenes\botonGeneraVenta.png" />
     <Content Include="Recursos\Imagenes\botonGeneraVenta2.png" />
+    <Content Include="Recursos\Imagenes\BotonLibroVentas.png" />
     <Content Include="Recursos\Imagenes\botonMantenedorUsuarios.png" />
     <Content Include="Recursos\Imagenes\botonRevisaSolicitudes.jpg" />
     <Content Include="Recursos\Imagenes\Fondo.jpg" />
     <Content Include="Recursos\Imagenes\Fondo2.jpg" />
+    <Content Include="Recursos\Imagenes\FondoNuevo.png" />
     <Content Include="Recursos\Imagenes\Login.png" />
     <Content Include="Recursos\Imagenes\LogoBackline.png" />
     <Content Include="ScriptsVistas\LogicaCambiarContraseña.js" />
@@ -200,7 +210,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\GeneraVenta\Index.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\Indexe.cshtml" />
     <Content Include="Views\LibroVentas\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutMenu.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
@@ -209,6 +219,7 @@
     <Content Include="Views\MantenedorUsuarios\MantenedorUsuarios.cshtml" />
     <Content Include="Views\GeneraVenta\GeneraVenta.cshtml" />
     <Content Include="Views\LibroVentas\LibroVentas.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

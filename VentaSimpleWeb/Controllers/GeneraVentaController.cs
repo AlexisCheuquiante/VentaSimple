@@ -53,9 +53,6 @@ namespace VentaSimpleWeb.Controllers
                     rutListo = contribuyente.Rut.ToUpper();
                 }
 
-
-
-
                 List<Backline.Entidades.DetalleFactura> detalleArticulos = new List<Backline.Entidades.DetalleFactura>();
                 Backline.Entidades.DetalleFactura detalle = new Backline.Entidades.DetalleFactura();
                 detalle.Cantidad = entity.Cantidad;
