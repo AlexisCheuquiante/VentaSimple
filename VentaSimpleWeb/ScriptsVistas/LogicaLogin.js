@@ -1,4 +1,24 @@
-﻿function ValidarUsuario() {
+﻿$(document).ready(function () {
+
+    var input1 = document.getElementById("txtUsuario");
+    var input2 = document.getElementById("txtPassword");
+
+    input1.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            $("#txtPassword").focus();
+
+        }
+    });
+
+    input2.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("btnLogin").click();
+        }
+    });
+});
+
+function ValidarUsuario() {
 
     if ($('#txtUsuario').val() == '' || $('#txtPassword').val() == '') {
         $('#divErroLogin').removeClass("hidden");
