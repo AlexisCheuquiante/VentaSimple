@@ -41,7 +41,7 @@ function ValidarUsuario() {
         success: function (data) {
             if (data === 'exito') {
                 $('#divErroLogin').addClass("hidden");
-                window.location.href = "/home/index";
+                window.location.href = "/Bienvenida/index";
             }
             if (data === 'error') {
                 $('#divErroLogin').removeClass("hidden");

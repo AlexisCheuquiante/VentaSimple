@@ -29,6 +29,7 @@
             height: 100%;
             font-family: 'Numans', sans-serif;
         }
+
         .card-img-top {
             width: 200px;
         }
@@ -57,20 +58,10 @@
     <div class="ui link cards">
         <div class="container">
             <div style="height:5px"></div>
-            @if (Request.Browser.IsMobileDevice)
-            {
-                <h2 style="color:white" class="ui center aligned header">
-                    @*<img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">*@
-                    Bienvenido al sistema de venta simple @Model.NombreUsuario de @Model.NombreEmpresa
-                </h2>
-            }
-            else
-            {
-                <h2 style="color:white" class="ui center aligned header">
-                    <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
-                    Bienvenido al sistema de venta simple @Model.NombreUsuario de @Model.NombreEmpresa
-                </h2>
-            }
+            <h2 style="color:white" class="ui center aligned header">
+                <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
+                Sistema de venta simple de @Model.NombreEmpresa
+            </h2>
             <div class="row">
                 @if (SessionH.Usuario.Administrador == false)
                 {

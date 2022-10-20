@@ -31,7 +31,7 @@
     <MinimumRequiredVersion>1.0.0.1</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.htm</WebPage>
-    <ApplicationRevision>26</ApplicationRevision>
+    <ApplicationRevision>28</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -73,18 +73,18 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.Desktop.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Data.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Pdf.v20.2.Core, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Pdf.v20.2.Drawing, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Printing.v20.2.Core, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Sparkline.v20.2.Core, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraBars.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraEditors.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraGrid.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPdfViewer.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraTreeList.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.Desktop.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Pdf.v20.2.Drawing, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraEditors.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPdfViewer.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeList.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -110,7 +110,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmConsultaBoleta.cs" />
+    <Compile Include="frmCambioClave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCambioClave.Designer.cs">
+      <DependentUpon>frmCambioClave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConsultaBoleta.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmConsultaBoleta.Designer.cs">
       <DependentUpon>frmConsultaBoleta.cs</DependentUpon>
     </Compile>
@@ -163,6 +171,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmCambioClave.resx">
+      <DependentUpon>frmCambioClave.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmConsultaBoleta.resx">
       <DependentUpon>frmConsultaBoleta.cs</DependentUpon>
     </EmbeddedResource>
@@ -213,17 +224,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\DTE Superfactura\Backline.DTE\Backline.DTE.csproj">
-      <Project>{dfe5fe23-f5d4-4970-9b18-39b297f2bfb4}</Project>
-      <Name>Backline.DTE</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Facele Utils\FacEleUtils.csproj">
-      <Project>{e91efbbf-c2f3-436e-9297-3bc503858053}</Project>
-      <Name>FacEleUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Backline.DAL\Backline.DAL.csproj">
       <Project>{c4c6b8ce-e6a8-4192-a3a4-d4c9b7a95cf5}</Project>
       <Name>Backline.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Backline.DTE\Backline.DTE.csproj">
+      <Project>{dfe5fe23-f5d4-4970-9b18-39b297f2bfb4}</Project>
+      <Name>Backline.DTE</Name>
     </ProjectReference>
     <ProjectReference Include="..\Backline.Entidades\Backline.Entidades.csproj">
       <Project>{4f80a6ed-58df-480f-9001-39c9aee19208}</Project>
@@ -232,6 +239,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NuevoIcono.ico" />
+    <None Include="Resources\delete1.svg" />
+    <None Include="Resources\bo_validation3.svg" />
+    <None Include="Resources\bo_invoice.svg" />
+    <None Include="Resources\grandtotals.svg" />
+    <None Include="Resources\del2.svg" />
+    <None Include="Resources\bo_user.svg" />
+    <None Include="Resources\delete.svg" />
+    <None Include="Resources\bo_validation2.svg" />
+    <None Include="Resources\del1.svg" />
+    <None Include="Resources\bo_validation1.svg" />
     <None Include="Resources\del.svg" />
     <None Include="Resources\bo_validation.svg" />
     <None Include="Resources\apply_32x32.png" />

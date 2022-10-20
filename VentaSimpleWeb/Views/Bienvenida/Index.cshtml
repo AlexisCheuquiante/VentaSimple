@@ -1,0 +1,83 @@
+﻿@model VentaSimpleWeb.Models.BienvenidaModel
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" />
+    <title>Bienvenida</title>
+    <!-- Estilos y funciones básicas de funcionamiento -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/CSS/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="~/Scripts/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Semantic UI CSS -->
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.css">
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
+    <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
+
+    <style>
+        html, body {
+            background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)), url('../../Recursos/Imagenes/FondoNuevo.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100%;
+            font-family: 'Numans', sans-serif;
+        }
+
+        .card-img-top {
+            width: 200px;
+        }
+
+        .contenedor-imagen {
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            $('.ui.selection.dropdown').dropdown();
+            $('.ui.menu .ui.dropdown').dropdown({
+                on: 'hover'
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <br />
+    <br />
+    <div class="ui card" style="width: 100%; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; justify-content: center; align-items: center;" data-html="<div class='header'>User Rating</div><div class='content'><div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i></div></div>">
+        <div class="modal-header">
+            <h3 class="ui center aligned header">
+                <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
+                Bienvenido(a) al sistema de venta simple
+            </h3>
+        </div>
+        <div class="content">
+            <div class="ui icon black message">
+                <i class="bell icon"></i>
+                <div class="content">
+                    <div class="header">
+                        Usted esta ingresando con el perfil de @Model.NombreUsuario a la sucursal @Model.NombreSucursal.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui two bottom attached buttons" onclick="window.location.replace('/Home')">
+            <div class="ui black button">
+                <i class="play icon"></i><font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">
+                        Ir al Home
+                    </font>
+                </font>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

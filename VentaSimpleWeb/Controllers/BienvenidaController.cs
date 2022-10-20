@@ -6,15 +6,15 @@ using System.Web.Mvc;
 
 namespace VentaSimpleWeb.Controllers
 {
-    public class HomeController : Controller
+    public class BienvenidaController : Controller
     {
+        // GET: Bienvenida
         public ActionResult Index()
         {
-            VentaSimpleWeb.Models.HomeModel model = new Models.HomeModel();
+            VentaSimpleWeb.Models.BienvenidaModel model = new Models.BienvenidaModel();
             model.NombreUsuario = SessionH.Usuario.Nombre;
-            model.NombreEmpresa = SessionH.Usuario.NombreEstablecimiento;
+            model.NombreSucursal = SessionH.Usuario.NombreEstablecimiento;
             return View(model);
         }
-        
     }
 }

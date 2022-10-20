@@ -62,7 +62,8 @@ function GuardarFactura() {
                 $('#DivMessajeErrorGeneral').addClass("hidden");
                 $('#divExito').removeClass("hidden");
                 LimpiarCampos();
-                setTimeout(() => { window.open(data, "_blank"); }, 2000);
+                window.open(data, "_blank");
+                setTimeout(() => { window.location.href = '/GeneraVenta' }, 2000);
             }
             if (data === 'error') {
                 $('#divError').removeClass("hidden");
