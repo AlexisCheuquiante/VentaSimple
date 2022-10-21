@@ -11,15 +11,15 @@
     <link rel="shortcut icon" />
     <title>Mantenedor de usuarios</title>
     <!-- Estilos y funciones básicas de funcionamiento -->
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="~/Scripts/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="~/CSS/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="~/Scripts/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <!-- Semantic UI CSS -->
-    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.css">
-    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
-    <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
 
     <script src="~/ScriptsVistas/LogicaMantenedorUsuarios.js"></script>
 
@@ -38,6 +38,7 @@
         var urlObtenerEstablecimientos = '@Url.Action("ObtenerEstablecimientos", "MantenedorUsuarios")';
         var urlInsertarUsuario = '@Url.Action("InsertarUsuario", "MantenedorUsuarios")';
         var urlEliminarUsuario = '@Url.Action("EliminarUsuario", "MantenedorUsuarios")';
+        var urlObtenerUsuario = '@Url.Action("ObtenerUsuario", "MantenedorUsuarios")';
 
         $(document).ready(function () {
 
@@ -111,7 +112,7 @@
         {
             <div style="margin-left:auto; margin-right:auto;width:80%;opacity:0.9">
                 <div class="fields">
-                    <div id="btnAgregarMantenedorNegocio" data-toggle="modal" data-target="#modalMantenedorUsuarios" class="ui green labeled icon button">
+                    <div id="btnAgregarMantenedorNegocio" data-toggle="modal" data-target="#modalMantenedorUsuarios" class="ui black labeled icon button">
                         Agregar usuario
                         <i class="checkmark icon"></i>
                     </div>
@@ -120,15 +121,15 @@
                             <i class="table download icon"></i>Exportar a Excel
                         </div>*@
                 </div>
-                <table id="tabla" class="ui celled striped table">
+                <table id="tabla" class="ui celled striped inverted table">
                     <thead>
                         <tr>
-                            <th style="width: 130px; word-wrap: break-word; background-color: deepskyblue"></th>
-                            <th style="word-wrap: break-word; background-color: deepskyblue">Nombre</th>
-                            <th style="word-wrap: break-word; background-color: deepskyblue">Usuario de ingreso</th>
-                            <th style="word-wrap: break-word; background-color: deepskyblue">Administrador</th>
-                            <th style="word-wrap: break-word; background-color: deepskyblue">Empresa</th>
-                            <th style="word-wrap: break-word; background-color: deepskyblue">Establecimiento</th>
+                            <th></th>
+                            <th>Nombre</th>
+                            <th>Usuario de ingreso</th>
+                            <th>Administrador</th>
+                            <th>Empresa</th>
+                            <th>Establecimiento</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -140,9 +141,9 @@
                                     <button class="ui icon red button" data-toggle="modal" data-target="#modalEliminarUsuario" value="@listaUsuarios.Id" onclick="PreparaEliminarUsuario(this.value, this);">
                                         <i class="trash icon"></i>
                                     </button>
-                                    @*<button class="ui icon green button" data-toggle="modal" data-target="#modalMantenedorUsuarios" value="@listaUsuarios.Id" onclick="ObtenerUsuario(this.value, this);">
-                                        <i class="pencil icon"></i>
-                                    </button>*@
+                                    <button class="ui icon blue button" data-toggle="modal" data-target="#modalMantenedorUsuarios" value="@listaUsuarios.Id" onclick="ObtenerUsuario(this.value, this);">
+                                        <i class="pencil alternate icon"></i>
+                                    </button>
                                 </td>
                                 <td>@listaUsuarios.Nombre</td>
                                 <td>@listaUsuarios.NombreUsuario</td>
@@ -162,7 +163,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="13">
-                                <div id="btnAgregarMantenedorNegocio" data-toggle="modal" data-target="#modalMantenedorUsuarios" class="ui green labeled icon button">
+                                <div id="btnAgregarMantenedorNegocio" data-toggle="modal" data-target="#modalMantenedorUsuarios" class="ui black labeled icon button">
                                     Agregar usuario
                                     <i class="checkmark icon"></i>
                                 </div>
@@ -184,87 +185,97 @@
                     </h3>
                 </div>
                 @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
-                <div class="modal-body">
-                    <div class="image content">
-                        <div class="ui info message">
-                            <div class="header">
-                                Atención al completar los campos!
-                            </div>
-                            Debes completar todos los campos para guardar!
-                            <div class="ui divider"></div>
-                            <div class="ui form">
-                                <form>
-                                    <div class="two fields">
-                                        <div id="divtxtNombreCompleto" class="field" style="width:100%">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre completo</font></font></label>
-                                            <input id="txtNombreCompleto" type="text" placeholder="" autocomplete="off">
-                                        </div>
+            <div class="modal-body">
+                <div class="image content">
+                    <div class="ui info message">
+                        <div class="header">
+                            Atención al completar los campos!
+                        </div>
+                        Debes completar todos los campos para guardar!
+                        <div class="ui divider"></div>
+                        <div class="ui form">
+                            <form>
+                                <div class="two fields">
+                                    <div id="divtxtNombreCompleto" class="field" style="width:100%">
+                                        <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre completo</font></font></label>
+                                        <input id="txtNombreCompleto" type="text" placeholder="" autocomplete="off">
                                     </div>
-                                    <div class="two fields">
-                                        <div id="divcmbEsAdministrador" class="field" style="width:100%">
-                                            <label>Es administrador</label>
-                                            <div id="cmbEsAdministrador" class="ui search selection dropdown" onchange="fnAdministrador(this.value, this);">
-                                                <input type="hidden" id="idEsAdministrador" name="idEsAdministrador">
-                                                <i class="dropdown icon"></i>
-                                                <div class="default text">Seleccione</div>
-                                                <div id="cmbEsAdministradorMenu" class="menu">
-                                                    <div class="item" data-value="True">Si</div>
-                                                    <div class="item" data-value="False">No</div>
-                                                </div>
+                                </div>
+                                <div class="two fields">
+                                    <div id="divtxtAdmnistrador" class="field" style="width: 100%; display: none">
+                                        <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Admnistrador</font></font></label>
+                                        <input id="txtAdmnistrador" type="text" placeholder="" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div id="divcmbEsAdministrador" class="field" style="width:100%">
+                                        <label>Es administrador</label>
+                                        <div id="cmbEsAdministrador" class="ui search selection dropdown" onchange="fnAdministrador(this.value, this);">
+                                            <input type="hidden" id="idEsAdministrador" name="idEsAdministrador">
+                                            <i class="dropdown icon"></i>
+                                            <div class="default text">Seleccione</div>
+                                            <div id="cmbEsAdministradorMenu" class="menu">
+                                                <div class="item" data-value="True">Si</div>
+                                                <div class="item" data-value="False">No</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="two fields">
-                                        <div id="divcmbEstablecimiento" class="field" style="width: 100%; display:none">
-                                            <label>Establecimiento</label>
-                                            <select  id="cmbEstablecimiento" name="cmbEstablecimiento" class="ui search selection dropdown">
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="two fields">
+                                    <div id="divcmbEstablecimiento" class="field" style="width: 100%; display:none">
+                                        <label>Establecimiento</label>
+                                        <select id="cmbEstablecimiento" name="cmbEstablecimiento" class="ui search selection dropdown">
+                                        </select>
                                     </div>
-                                    <div class="two fields">
-                                        <div id="divtxtUsuario" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usuario</font></font></label>
-                                            <input id="txtUsuario" type="text" placeholder="" autocomplete="off">
-                                        </div>
-                                        <div id="divtxtContraseña" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contraseña</font></font></label>
-                                            <input id="txtContraseña" type="text" placeholder="" autocomplete="off">
-                                        </div>
+                                </div>
+                                <div class="two fields">
+                                    <div id="divtxtUsuario" class="field">
+                                        <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usuario</font></font></label>
+                                        <input id="txtUsuario" type="text" placeholder="" autocomplete="off">
                                     </div>
-                                </form>
-                            </div>
+                                    <div id="divtxtContraseña" class="field">
+                                        <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contraseña</font></font></label>
+                                        <input id="txtContraseña" type="text" placeholder="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div id="divExito" class="ui icon hidden positive  message">
-                        <i class="user icon"></i>
-                        <div class="content">
-                            <div class="header">
-                                Éxito!!
-                            </div>
-                            <p>El usuario fue guardado con éxito.</p>
-                        </div>
-                    </div>
-                    <div class="actions">
-                        <div id="DivMessajeErrorGeneral" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
-                            <i class="close icon"></i>
-                            <div class="header">
-                                Se han encontrado algunos problemas, revíselos...
-                            </div>
-                            <ul id="listMessajeError" class="list"></ul>
-                        </div>
-                    </div>
-                    <button id="btnGuardarUsuario" class="ui fluid labeled green icon button" onclick="GuardarUsuario();">
-                        <i class="checkmark icon"></i>
-                        Guardar
-                    </button>
-                    <div style="height:5px">
-
-                    </div>
-                    <button class="ui fluid labeled red icon button" onclick="window.location.replace('/MantenedorUsuarios')">
-                        <i class="left chevron icon"></i>
-                        Volver
-                    </button>
                 </div>
+                <div id="divExito" class="ui icon hidden positive  message">
+                    <i class="user icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Éxito!!
+                        </div>
+                        <p>El usuario fue guardado con éxito.</p>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div id="DivMessajeErrorGeneral" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            Se han encontrado algunos problemas, revíselos...
+                        </div>
+                        <ul id="listMessajeError" class="list"></ul>
+                    </div>
+                </div>
+                <br />
+                <button id="btnGuardaFicha" class="ui right labeled blue icon button" onclick="GuardarUsuario();">
+                    <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Guardar
+                        </font>
+                    </font>
+                </button>
+                <button class="ui right labeled red icon button" onclick="window.location.replace('/MantenedorUsuarios')">
+                    <i class="left arrow icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Volver
+                        </font>
+                    </font>
+                </button>
+            </div>
             </div>
         </div>
     </div>

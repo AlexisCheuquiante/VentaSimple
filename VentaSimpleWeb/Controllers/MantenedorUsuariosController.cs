@@ -19,11 +19,27 @@ namespace VentaSimpleWeb.Controllers
             modelo.listaUsuarios = Backline.DAL.UsuariosDAL.ObtenerUsuario(usuario);
             return View(modelo);
         }
+        public JsonResult ObtenerUsuario(int id)
+        {
+            Backline.Entidades.Usuario usuario = new Backline.Entidades.Usuario();
+            usuario.Id = id;
+            var lista = Backline.DAL.UsuariosDAL.ObtenerUsuario(usuario);
+
+            if (lista.Count == 1)
+            {
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = lista[0], JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            return new JsonResult() { ContentEncoding = Encoding.Default, Data = "noEncontrado", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
         public JsonResult InsertarUsuario(Backline.Entidades.Usuario entity)
         {
             try
             {
                 entity.Emp_Id = SessionH.Usuario.Emp_Id;
+                if (entity.Administrador == true)
+                {
+                    entity.Est_Id = 0;
+                }
                 Backline.DAL.UsuariosDAL.InsertarUsuario(entity);
 
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = "exito", JsonRequestBehavior = JsonRequestBehavior.AllowGet };

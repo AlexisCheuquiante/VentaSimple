@@ -37,6 +37,7 @@ namespace Backline.DAL
             Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
             DbCommand dbCommand = db.GetStoredProcCommand("SP_USR_USUARIO_LEER");
 
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, usuarios.Id != 0 ? usuarios.Id : (object)null);
             db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, usuarios.Emp_Id != 0 ? usuarios.Emp_Id : (object)null);
             db.AddInParameter(dbCommand, "USUARIO", DbType.String, usuarios.NombreUsuario != "" ? usuarios.NombreUsuario : (object)null);
             db.AddInParameter(dbCommand, "PASSWORD", DbType.String, usuarios.Password != "" ? usuarios.Password : (object)null);

@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿var _id = 0;
+
+$(document).ready(function () {
 
     ObtenerEstablecimientos();
 
@@ -48,6 +50,7 @@ function GuardarUsuario() {
     $('#btnGuardarUsuario').addClass('disabled');
 
     var strParams = {
+        Id: _id,
         Est_Id: $('#cmbEstablecimiento').val(),
         Administrador: $('#idEsAdministrador').val(),
         Nombre: $('#txtNombreCompleto').val(),
@@ -157,4 +160,35 @@ function EliminaUsuario() {
             showMessage('body', 'danger', 'Ocurrió un error al eliminar el usuario seleccionado.' + data);
         }
     });
+}
+function ObtenerUsuario(id) {
+    $('#idUsuarioSeleccionado').val(id);
+
+    id = $('#idUsuarioSeleccionado').val();
+    $.ajax({
+        url: window.urlObtenerUsuario,
+        type: 'POST',
+        data: { id: id },
+        success: function (data) {
+            
+            $('#txtNombreCompleto').val(data.Nombre);
+
+            if (data.Administrador == true) {
+                $('#divtxtAdmnistrador').show();
+                $('#txtAdmnistrador').val("Si");
+            }
+            if (data.Administrador == false) {
+                $('#divtxtAdmnistrador').show();
+                $('#txtAdmnistrador').val("No");
+            }
+            $("#cmbEstablecimiento").dropdown('set selected', data.Est_Id);
+            $('#txtUsuario').val(data.NombreUsuario)
+            $('#txtContraseña').val(data.Password);
+        },
+
+        error: function () {
+            alert('Error al cargar el usuario seleccionado');
+        }
+    });
+    _id = id;
 }
