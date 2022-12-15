@@ -33,6 +33,11 @@
             font-family: 'Numans', sans-serif;
         }
     </style>
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
 
     <script>
 
@@ -108,7 +113,7 @@
             </div>
             <div class="fields">
 
-                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                 <div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">Exportar a Excel<i class="table download icon"></i></div>
 
 
@@ -136,7 +141,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="15">
-                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>
@@ -165,7 +170,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="15">
-                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>
@@ -224,7 +229,7 @@
             </div>
             <div class="fields">
 
-                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                 <div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">Exportar a Excel<i class="table download icon"></i></div>
             </div>
             @if (SessionH.Usuario.Emp_Id == 14)
@@ -290,7 +295,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="15">
-                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>
@@ -339,7 +344,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="15">
-                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>

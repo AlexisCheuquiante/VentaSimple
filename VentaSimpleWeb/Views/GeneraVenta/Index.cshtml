@@ -32,6 +32,11 @@
     </style>
 
     <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
+    <script>
 
         var urlObtenerContribuyente = '@Url.Action("ObtenerContribuyente", "GeneraVenta")';
         var urlInsertarFactura = '@Url.Action("InsertarFactura", "GeneraVenta")';
@@ -181,7 +186,7 @@
                         </font>
                     </font>
                 </button>
-                <button class="ui right labeled red icon button" onclick="window.location.replace('/Home')">
+                <button class="ui right labeled red icon button" onclick="goBack()">
                     <i class="left arrow icon"></i><font style="vertical-align: inherit;">
                         <font style="vertical-align: inherit;">
                             Volver

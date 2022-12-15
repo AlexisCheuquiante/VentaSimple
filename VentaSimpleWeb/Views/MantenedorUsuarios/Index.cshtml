@@ -32,6 +32,11 @@
             font-family: 'Numans', sans-serif;
         }
     </style>
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
 
     <script>
 
@@ -60,7 +65,7 @@
                     Agregar usuario
                     <i class="checkmark icon"></i>
                 </div>
-                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                 @*<div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">
                         <i class="table download icon"></i>Exportar a Excel
                     </div>*@
@@ -102,7 +107,7 @@
                                 Agregar usuario
                                 <i class="checkmark icon"></i>
                             </div>
-                            <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                            <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                         </th>
                     </tr>
                 </tfoot>
@@ -116,7 +121,7 @@
                         Agregar usuario
                         <i class="checkmark icon"></i>
                     </div>
-                    <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                    <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                     @*<div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">
                             <i class="table download icon"></i>Exportar a Excel
                         </div>*@
@@ -167,7 +172,7 @@
                                     Agregar usuario
                                     <i class="checkmark icon"></i>
                                 </div>
-                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>
@@ -268,7 +273,7 @@
                         </font>
                     </font>
                 </button>
-                <button class="ui right labeled red icon button" onclick="window.location.replace('/MantenedorUsuarios')">
+                <button class="ui right labeled red icon button" onclick="goBack()">
                     <i class="left arrow icon"></i><font style="vertical-align: inherit;">
                         <font style="vertical-align: inherit;">
                             Volver

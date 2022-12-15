@@ -25,6 +25,11 @@
             font-family: 'Numans', sans-serif;
         }
     </style>
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
 
     <script>
 
@@ -102,7 +107,7 @@
                         Cambiar
                     </button>
                     <div style="height:5px"></div>
-                    <button class="ui fluid labeled red icon button" onclick="window.location.replace('/Home')">
+                    <button class="ui fluid labeled red icon button" onclick="goBack()">
                         <i class="left chevron icon"></i>
                         Volver
                     </button>
