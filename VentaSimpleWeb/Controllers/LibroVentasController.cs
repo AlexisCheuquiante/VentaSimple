@@ -147,12 +147,30 @@ namespace VentaSimpleWeb.Controllers
 
 
         }
-        public JsonResult CrearNotaCredito(Backline.Entidades.Factura entity, int id)
+        public JsonResult ObtenerUsuariosAutorizadores()
+        {
+            Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
+            filtro.EmpId = SessionH.Usuario.Emp_Id;
+            filtro.EsAdministrador = true;
+            var lista = Backline.DAL.UsuariosDAL.ValidarClaveAutorizacion(filtro);
+
+            if (lista == null || lista.Count == 0)
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+            return new JsonResult() { ContentEncoding = Encoding.Default, Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        public JsonResult CrearNotaCredito(Backline.Entidades.Factura entity, Backline.Entidades.Filtro filtro)
         {
             try
             {
-                Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
-                filtro.BoletaId = id;
+                filtro.EsAdministrador = true;
+                var puedeEmitirNota = Backline.DAL.UsuariosDAL.ValidarClaveAutorizacion(filtro);
+
+                if (puedeEmitirNota == null || puedeEmitirNota.Count == 0)
+                {
+                    return new JsonResult() { ContentEncoding = Encoding.Default, Data = "NoAutorizado", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                }
+
                 var lista = Backline.DAL.BoletaDAL.ObtenerBoleta(filtro);
                 var idBoleta = lista[0].Id;
 

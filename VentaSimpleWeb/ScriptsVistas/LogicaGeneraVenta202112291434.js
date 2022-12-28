@@ -79,6 +79,43 @@ function GuardarFactura() {
     });
 
 }
+function GuardarFacturaRapida() {
+
+
+    $('#btnGuardarBoletaRapido').addClass('loading');
+    $('#btnGuardarBoletaRapido').addClass('disabled');
+
+    var strParams = {
+        Cantidad: $('#txtCantidad').val(),
+        
+    };
+
+    $.ajax({
+        url: window.urlInsertarFactura,
+        type: 'POST',
+        data: { entity: strParams },
+        success: function (data) {
+            if (data != 'error') {
+                $('#DivMessajeErrorGeneral').addClass("hidden");
+                $('#divExito').removeClass("hidden");
+                LimpiarCampos();
+                window.open(data, "_blank");
+                setTimeout(() => { window.location.href = '/GeneraVenta' }, 2000);
+            }
+            if (data === 'error') {
+                $('#divError').removeClass("hidden");
+                $('#btnGuardarBoleta').removeClass('loading');
+                $('#btnGuardarBoleta').removeClass('disabled');
+
+            }
+        },
+
+        //error: function (ex) {
+        //    alert('Error al guardar el producto');
+        //}
+    });
+
+}
 
 function LimpiarCampos() {
     //document.getElementById("txtRut").value = "";

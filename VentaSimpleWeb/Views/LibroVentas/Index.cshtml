@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
     <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
 
-    <script src="~/ScriptsVistas/LogicaLibroVentas20220107.js"></script>
+    <script src="~/ScriptsVistas/LogicaLibroVentas19122022.js"></script>
 
     <style>
         html, body {
@@ -33,11 +33,6 @@
             font-family: 'Numans', sans-serif;
         }
     </style>
-    <script>
-        function goBack() {
-            window.history.back()
-        }
-    </script>
 
     <script>
 
@@ -46,6 +41,7 @@
         var urlObtenerPdf = '@Url.Action("ObtenerPdf", "LibroVentas")';
         var urlCrearNotaCredito = '@Url.Action("CrearNotaCredito", "LibroVentas")';
         var urlObtenerPdfNotaCredito = '@Url.Action("ObtenerPdfNotaCredito", "LibroVentas")';
+        var urlObtenerUsuariosAutorizadores = '@Url.Action("ObtenerUsuariosAutorizadores", "LibroVentas")';
 
         $(document).ready(function () {
 
@@ -113,7 +109,7 @@
             </div>
             <div class="fields">
 
-                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                 <div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">Exportar a Excel<i class="table download icon"></i></div>
 
 
@@ -141,7 +137,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="15">
-                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>
@@ -170,7 +166,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="15">
-                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>
@@ -229,7 +225,7 @@
             </div>
             <div class="fields">
 
-                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                 <div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">Exportar a Excel<i class="table download icon"></i></div>
             </div>
             @if (SessionH.Usuario.Emp_Id == 14)
@@ -259,7 +255,7 @@
                                         <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
                                             <i class="eye icon"></i>
                                         </button>
-                                        <button class="ui icon red button" value="@listaBoletas.Id" onclick="CrearNotaCredito(this.value, this);">
+                                        <button class="ui icon red button" data-toggle="modal" data-target="#modalEmitirNota" value="@listaBoletas.Id" onclick="PreparaNotaCredito(this.value, this);">
                                             <i class="eraser icon"></i>
                                         </button>
                                     </td>
@@ -295,7 +291,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="15">
-                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>
@@ -330,7 +326,7 @@
                                 </td>
                                 <td>@listaBoletas.TipoDocumentoStr</td>
                                 <td>@listaBoletas.NumeroSII</td>
-                                <td>@listaBoletas.Fecha.ToShortDateString()</td>
+                                <td>@listaBoletas.Fecha.ToString()</td>
                                 <td>@listaBoletas.Rut</td>
                                 <td>@listaBoletas.Contribuyente</td>
                                 <td>@listaBoletas.Glosa</td>
@@ -344,7 +340,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="15">
-                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>
@@ -352,6 +348,84 @@
             }
         </div>
     }
+    <div class="modal fade" id="modalEmitirNota" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="opacity:0.9">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="ui center aligned header">
+                        <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
+                        Emitir nota de crédito
+                    </h3>
+                </div>
+                @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
+            <div class="modal-body">
+                <div class="image content">
+                    <div class="ui info message">
+                        <div class="ui divider"></div>
+                        <div id="divConsultaEmitir" class="ui icon warning message">
+                            <i class="trash icon"></i>
+                            <div class="content">
+                                <div class="header">
+                                    ¿Desea emitir una nota de crédito para la boleta seleccionada?
+                                </div>
+                                <p>Para emitir la nota de crédito debe indicar la clave de autorización del administrador del recinto.</p>
+                            </div>
+                        </div>
+                        <div class="ui form">
+                            <form>
+
+                                <div class="two fields">
+                                    <div id="divcmbResponsable" class="field" style="width:100%">
+                                        <label>Responsable autorizador</label>
+                                        <select id="cmbResponsable" name="cmbResponsable" class="ui search selection dropdown">
+                                        </select>
+                                    </div>
+                                    <div id="divtxtClaveAutorizacion" class="field" style="width:100%">
+                                        <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Clave de autorización</font></font></label>
+                                        <input id="txtClaveAutorizacion" type="text" placeholder="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="divNoAutorizado" class="ui icon hidden negative  message">
+                    <i class="exclamation triangle icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            !Atención¡
+                        </div>
+                        <p>Este usuario no puede autorizar nota de crédito, por favor verifique los datos de autorización.</p>
+                    </div>
+                </div>
+                <div id="divExitoElimina" class="ui icon hidden positive  message">
+                    <i class="trash icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Éxito!!
+                        </div>
+                        <p>La nota de crédito a sido emitida con éxito.</p>
+                    </div>
+                </div>
+                <br />
+                <button id="btnEmitirNota" class="ui right labeled blue icon button" onclick="CrearNotaCredito();">
+                    <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Emitir nota de crédito
+                        </font>
+                    </font>
+                </button>
+                <button id="btnCancelar" class="ui right labeled red icon button" data-dismiss="modal">
+                    <i class="cancel icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Volver
+                        </font>
+                    </font>
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 

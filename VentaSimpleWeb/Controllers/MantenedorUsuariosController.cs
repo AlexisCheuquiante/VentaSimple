@@ -40,6 +40,10 @@ namespace VentaSimpleWeb.Controllers
                 {
                     entity.Est_Id = 0;
                 }
+                if (SessionH.Usuario.Emp_Id != 14)
+                {
+                    entity.Clave_Autorizacion = null;
+                }
                 Backline.DAL.UsuariosDAL.InsertarUsuario(entity);
 
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = "exito", JsonRequestBehavior = JsonRequestBehavior.AllowGet };

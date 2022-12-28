@@ -32,11 +32,6 @@
     </style>
 
     <script>
-        function goBack() {
-            window.history.back()
-        }
-    </script>
-    <script>
 
         var urlObtenerContribuyente = '@Url.Action("ObtenerContribuyente", "GeneraVenta")';
         var urlInsertarFactura = '@Url.Action("InsertarFactura", "GeneraVenta")';
@@ -179,14 +174,28 @@
                     </div>
                 </div>
                 <br />
-                <button id="btnGuardarBoleta" class="ui right labeled blue icon button" onclick="GuardarFactura();">
-                    <i class="check circle icon"></i><font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">
-                            Emitir boleta
+                @if (SessionH.Usuario.Emp_Id == 7)
+                {
+                    <button id="btnGuardarBoletaRapido" class="ui right labeled blue icon button" onclick="GuardarFacturaRapida();">
+                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                Emitir boleta rapida
+                            </font>
                         </font>
-                    </font>
-                </button>
-                <button class="ui right labeled red icon button" onclick="goBack()">
+                    </button>
+                }
+                else
+                {
+                    <button id="btnGuardarBoleta" class="ui right labeled blue icon button" onclick="GuardarFactura();">
+                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                Emitir boleta
+                            </font>
+                        </font>
+                    </button>
+                }
+
+                <button class="ui right labeled red icon button" onclick="window.location.replace('/Home')">
                     <i class="left arrow icon"></i><font style="vertical-align: inherit;">
                         <font style="vertical-align: inherit;">
                             Volver

@@ -27,5 +27,6 @@ namespace Backline.Entidades
         public bool Administrador { get; set; }
         public bool Eliminado { get; set; }
         public bool OcupaRut { get; set; }
+        public string Clave_Autorizacion { get; set; }
     }
 }

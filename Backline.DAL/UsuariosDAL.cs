@@ -24,6 +24,7 @@ namespace Backline.DAL
             db.AddInParameter(dbCommand, "EST_ID", DbType.Int32, usuario.Est_Id != 0 ? usuario.Est_Id : (object)null);
             db.AddInParameter(dbCommand, "ADMINISTRADOR", DbType.Byte, usuario.Administrador == true ? 1 : 0);
             db.AddInParameter(dbCommand, "ELIMINADO", DbType.Byte, usuario.Eliminado == true ? 1 : 0);
+            db.AddInParameter(dbCommand, "CLAVE_AUTORIZACION", DbType.String, usuario.Clave_Autorizacion != "" ? usuario.Clave_Autorizacion : (object)null);
 
             usuario.Id = int.Parse(db.ExecuteScalar(dbCommand).ToString());
 
@@ -63,8 +64,8 @@ namespace Backline.DAL
                 int EST_ID = reader.GetOrdinal("EST_ID");
                 int ALIAS = reader.GetOrdinal("ALIAS");
                 int OCUPA_RUT = reader.GetOrdinal("OCUPA_RUT");
+                int CLAVE_AUTORIZACION = reader.GetOrdinal("CLAVE_AUTORIZACION");
                 
-
                 while (reader.Read())
                 {
                     Backline.Entidades.Usuario OBJ = new Backline.Entidades.Usuario();
@@ -87,6 +88,7 @@ namespace Backline.DAL
                     OBJ.AliasEmpresa = (String)(!reader.IsDBNull(ALIAS) ? reader.GetValue(ALIAS) : string.Empty);
                     OBJ.OcupaRut = (bool)(!reader.IsDBNull(OCUPA_RUT) ? reader.GetValue(OCUPA_RUT) : false);
                     OBJ.RutEmpresa = OBJ.RutEmpresa.Trim();
+                    OBJ.Clave_Autorizacion = (String)(!reader.IsDBNull(CLAVE_AUTORIZACION) ? reader.GetValue(CLAVE_AUTORIZACION) : string.Empty);
                     //EndFields
 
                     listaUsuarios.Add(OBJ);
@@ -125,6 +127,48 @@ namespace Backline.DAL
             db.AddInParameter(dbCommand, "CLAVE", DbType.String, usuario.Password);
 
             db.ExecuteNonQuery(dbCommand);
+        }
+        public static List<Backline.Entidades.Usuario> ValidarClaveAutorizacion(Backline.Entidades.Filtro filtro)
+        {
+            List<Backline.Entidades.Usuario> listaUsuarios = new List<Backline.Entidades.Usuario>();
+            Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
+            DbCommand dbCommand = db.GetStoredProcCommand("SP_VALIDA_CLAVE_AUTORIZACION");
+
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, filtro.UsrId != 0 ? filtro.UsrId : (object)null);
+            db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, filtro.EmpId != 0 ? filtro.EmpId : (object)null);
+            db.AddInParameter(dbCommand, "ADMINISTRADOR", DbType.Byte, filtro.EsAdministrador == true ? 1 : 0);
+            db.AddInParameter(dbCommand, "CLAVE_AUTORIZACION", DbType.String, filtro.Clave_Autorizacion != "" ? filtro.Clave_Autorizacion : (object)null);
+
+            IDataReader reader = (IDataReader)db.ExecuteReader(dbCommand);
+
+            try
+            {
+                int ID = reader.GetOrdinal("ID");
+                int NOMBRE = reader.GetOrdinal("NOMBRE");
+
+                while (reader.Read())
+                {
+                    Backline.Entidades.Usuario OBJ = new Backline.Entidades.Usuario();
+                    //BeginFields
+                    OBJ.Id = (int)(!reader.IsDBNull(ID) ? reader.GetValue(ID) : 0);
+                    OBJ.Nombre = (String)(!reader.IsDBNull(NOMBRE) ? reader.GetValue(NOMBRE) : string.Empty);
+                    //EndFields
+
+                    listaUsuarios.Add(OBJ);
+                }
+            }
+            catch (Exception ex)
+            {
+                //GlobalesDAO.InsertErrores(ex);
+                throw ex;
+            }
+            finally
+            {
+                reader.Close();
+            }
+
+            return listaUsuarios;
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
 
     ObtenerEstablecimientos();
+    ObtenerUsuariosAutorizadores();
     
 });
 
@@ -111,18 +112,45 @@ function ObtenerPdfNotaCredito(numero) {
         }
     });
 }
+function PreparaNotaCredito(id) {
+    $('#Documento').val(id);
 
-function CrearNotaCredito(id) {
+}
+
+function CrearNotaCredito() {
+    $('#btnEmitirNota').addClass('loading');
+    $('#btnEmitirNota').addClass('disabled');
+    $('#btnCancelar').addClass('loading');
+    $('#btnCancelar').addClass('disabled');
+
+    id = $('#Documento').val();
+
+    var filtro = {
+        BoletaId: id,
+        UsrId: $('#cmbResponsable').val(),
+        Clave_Autorizacion: $('#txtClaveAutorizacion').val(),
+    }
 
     id = id;
     $.ajax({
         url: window.urlCrearNotaCredito,
         type: 'POST',
-        data: { id: id },
+        data: { filtro: filtro },
         success: function (data) {
-            if (data != 'error') {
-                setTimeout(() => { window.open(data, "_blank"); }, 2000);
+            if (data == 'NoAutorizado') {
+
+                $('#divNoAutorizado').removeClass("hidden");
+                $('#btnEmitirNota').removeClass('loading');
+                $('#btnEmitirNota').removeClass('disabled');
+                $('#btnCancelar').removeClass('loading');
+                $('#btnCancelar').removeClass('disabled');
             }
+            if (data != 'error' && data != 'NoAutorizado') {
+                window.open(data, "_blank");
+                setTimeout(() => { window.location.href = '/LibroVentas?limpiar=1' }, 1000);
+            }
+
+            
         },
 
         error: function () {
@@ -130,5 +158,30 @@ function CrearNotaCredito(id) {
         }
     });
     /*_id = id;*/
+
+}
+function ObtenerUsuariosAutorizadores() {
+
+    $.ajax({
+        url: window.urlObtenerUsuariosAutorizadores,
+        type: 'POST',
+        success: function (data) {
+            $('#cmbResponsable').dropdown('clear');
+            $('#cmbResponsable').empty();
+            $('#cmbResponsable').append('<option value="0">[Seleccione usuario]</option>');
+            $.each(data,
+                function (value, item) {
+
+                    var texto = '<option value="' + item.Id + '">' + item.Nombre + '</option>';
+                    $('#cmbResponsable').append(texto);
+
+                }
+            );
+
+        },
+        error: function () {
+            alert('Error al cargar los usuarios');
+        }
+    });
 
 }

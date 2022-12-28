@@ -15,5 +15,8 @@ namespace Backline.Entidades
         public int EmpId { get; set; }
         public int EstId { get; set; }
         public int ContId { get; set; }
+        public int UsrId { get; set; }
+        public bool EsAdministrador { get; set; }
+        public string Clave_Autorizacion { get; set; }
     }
 }

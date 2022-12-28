@@ -55,9 +55,22 @@ namespace VentaSimpleWeb.Controllers
 
                 List<Backline.Entidades.DetalleFactura> detalleArticulos = new List<Backline.Entidades.DetalleFactura>();
                 Backline.Entidades.DetalleFactura detalle = new Backline.Entidades.DetalleFactura();
-                detalle.Cantidad = entity.Cantidad;
-                detalle.DescripcionProducto = entity.Glosa;
-                detalle.Valor = entity.Total;
+                if (SessionH.Usuario.Emp_Id == 7)
+                {
+                    detalle.Cantidad = entity.Cantidad;
+                    detalle.DescripcionProducto = "Peaje cementerio";
+                    detalle.Valor = 800;
+                    entity.Tipa_Id = 0;
+                    entity.Glosa = "Peaje cementerio";
+                    entity.Total = 800;
+                }
+                else
+                {
+                    detalle.Cantidad = entity.Cantidad;
+                    detalle.DescripcionProducto = entity.Glosa;
+                    detalle.Valor = entity.Total;
+                }
+                
 
                 detalleArticulos.Add(detalle);
 

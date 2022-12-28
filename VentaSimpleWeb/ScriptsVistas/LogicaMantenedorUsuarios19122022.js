@@ -34,7 +34,6 @@ function ObtenerEstablecimientos() {
 function fnAdministrador(id) {
     var id = $('#idEsAdministrador').val();
 
-
     if (id === 'False') {
         $('#divcmbEstablecimiento').show();
     }
@@ -53,6 +52,7 @@ function GuardarUsuario() {
         Id: _id,
         Est_Id: $('#cmbEstablecimiento').val(),
         Administrador: $('#idEsAdministrador').val(),
+        Clave_Autorizacion: $('#txtClaveAutorizacion').val(),
         Nombre: $('#txtNombreCompleto').val(),
         NombreUsuario: $('#txtUsuario').val(),
         Password: $('#txtContraseña').val(),
@@ -184,6 +184,7 @@ function ObtenerUsuario(id) {
             $("#cmbEstablecimiento").dropdown('set selected', data.Est_Id);
             $('#txtUsuario').val(data.NombreUsuario)
             $('#txtContraseña').val(data.Password);
+            $('#txtClaveAutorizacion').val(data.Clave_Autorizacion);
         },
 
         error: function () {

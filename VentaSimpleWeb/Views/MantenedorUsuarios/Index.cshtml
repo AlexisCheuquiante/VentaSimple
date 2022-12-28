@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
     <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
 
-    <script src="~/ScriptsVistas/LogicaMantenedorUsuarios.js"></script>
+    <script src="~/ScriptsVistas/LogicaMantenedorUsuarios19122022.js"></script>
 
     <style>
         html, body {
@@ -32,11 +32,6 @@
             font-family: 'Numans', sans-serif;
         }
     </style>
-    <script>
-        function goBack() {
-            window.history.back()
-        }
-    </script>
 
     <script>
 
@@ -65,7 +60,7 @@
                     Agregar usuario
                     <i class="checkmark icon"></i>
                 </div>
-                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                 @*<div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">
                         <i class="table download icon"></i>Exportar a Excel
                     </div>*@
@@ -107,7 +102,7 @@
                                 Agregar usuario
                                 <i class="checkmark icon"></i>
                             </div>
-                            <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                            <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                         </th>
                     </tr>
                 </tfoot>
@@ -121,7 +116,7 @@
                         Agregar usuario
                         <i class="checkmark icon"></i>
                     </div>
-                    <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                    <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                     @*<div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">
                             <i class="table download icon"></i>Exportar a Excel
                         </div>*@
@@ -172,7 +167,7 @@
                                     Agregar usuario
                                     <i class="checkmark icon"></i>
                                 </div>
-                                <div class="ui icon red button" onclick="goBack()">Volver<i class="left chevron icon"></i></div>
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
                             </th>
                         </tr>
                     </tfoot>
@@ -213,7 +208,7 @@
                                     </div>
                                 </div>
                                 <div class="two fields">
-                                    <div id="divcmbEsAdministrador" class="field" style="width:100%">
+                                    <div id="divcmbEsAdministrador" class="field">
                                         <label>Es administrador</label>
                                         <div id="cmbEsAdministrador" class="ui search selection dropdown" onchange="fnAdministrador(this.value, this);">
                                             <input type="hidden" id="idEsAdministrador" name="idEsAdministrador">
@@ -225,6 +220,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if (SessionH.Usuario.Emp_Id == 14)
+                                    {
+                                        <div id="divtxtClaveAutorizacion" class="field">
+                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Clave de autorización</font></font></label>
+                                            <input id="txtClaveAutorizacion" type="text" placeholder="" autocomplete="off">
+                                        </div>
+                                    }
+
                                 </div>
                                 <div class="two fields">
                                     <div id="divcmbEstablecimiento" class="field" style="width: 100%; display:none">
@@ -273,7 +276,7 @@
                         </font>
                     </font>
                 </button>
-                <button class="ui right labeled red icon button" onclick="goBack()">
+                <button class="ui right labeled red icon button" onclick="window.location.replace('/MantenedorUsuarios')">
                     <i class="left arrow icon"></i><font style="vertical-align: inherit;">
                         <font style="vertical-align: inherit;">
                             Volver
