@@ -18,5 +18,6 @@ namespace Backline.Entidades
         public int UsrId { get; set; }
         public bool EsAdministrador { get; set; }
         public string Clave_Autorizacion { get; set; }
+        public int FolioSii { get; set; }
     }
 }

@@ -122,14 +122,33 @@ namespace VentaSimpleWeb.Controllers
                 var rutEmpresa = SessionH.Usuario.RutEmpresa;
                 var a = "";
                 //MessageBox.Show("Número" + folioSII.ToString());
-                if (SessionH.Usuario.EsAfecta == true || SessionH.Usuario.Id == 191)
+                if (SessionH.Usuario.Administrador == false)
                 {
-                    a = "(A)";
+                    if (SessionH.Usuario.EsAfecta == true)
+                    {
+                        a = "(A)";
+                    }
+                    if (SessionH.Usuario.EsAfecta == false)
+                    {
+                        a = "(E)";
+                    }
                 }
-                if (SessionH.Usuario.EsAfecta == false && SessionH.Usuario.Id != 191)
+                else
                 {
-                    a = "(E)";
+                    Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
+                    filtro.FolioSii = folioSII;
+                    filtro.EmpId = SessionH.Usuario.Emp_Id;
+                    var boleta = Backline.DAL.BoletaDAL.ObtenerBoleta(filtro);
+                    if (boleta[0].Es_Afecta == true)
+                    {
+                        a = "(A)";
+                    }
+                    else
+                    {
+                        a = "(E)";
+                    }
                 }
+                
                 string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "Boleta_" + folioSII.ToString() + ".pdf";
 
                 if (ruta == null || ruta == "")

@@ -190,6 +190,7 @@ namespace Backline.Entidades
         public int Tipa_Id { get; set; }
         public string TipoPago { get; set; }
         public bool Eliminado { get; set; }
+        public bool Es_Afecta { get; set; }
         
     }
 }

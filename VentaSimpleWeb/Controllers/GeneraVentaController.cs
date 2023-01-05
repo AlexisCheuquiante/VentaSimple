@@ -83,6 +83,7 @@ namespace VentaSimpleWeb.Controllers
                 entity.Usr_Id = SessionH.Usuario.Id;
                 entity.EstId = SessionH.Usuario.Est_Id;
                 entity.Tido_Id = 1;
+                entity.Es_Afecta = SessionH.Usuario.EsAfecta;
                 Backline.DAL.BoletaDAL.InsertarFacturaV2(entity);
                 var idBoleta = entity.Id;
 
