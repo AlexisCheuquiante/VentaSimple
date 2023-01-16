@@ -254,6 +254,10 @@
       <Project>{4f80a6ed-58df-480f-9001-39c9aee19208}</Project>
       <Name>Backline.Entidades</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Facele Utils\FacEleUtils.csproj">
+      <Project>{e91efbbf-c2f3-436e-9297-3bc503858053}</Project>
+      <Name>FacEleUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

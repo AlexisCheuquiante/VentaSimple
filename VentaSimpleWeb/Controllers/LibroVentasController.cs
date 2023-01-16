@@ -121,6 +121,7 @@ namespace VentaSimpleWeb.Controllers
             {
                 var rutEmpresa = SessionH.Usuario.RutEmpresa;
                 var a = "";
+                var ruta = "";
                 //MessageBox.Show("Número" + folioSII.ToString());
                 if (SessionH.Usuario.Administrador == false)
                 {
@@ -148,8 +149,14 @@ namespace VentaSimpleWeb.Controllers
                         a = "(E)";
                     }
                 }
-                
-                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "Boleta_" + folioSII.ToString() + ".pdf";
+                if (SessionH.Usuario.Facturador == "superfactura")
+                {
+                    ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "Boleta_" + folioSII.ToString() + ".pdf";
+                }
+                if (SessionH.Usuario.Facturador == "facele")
+                {
+                    ruta = ConfigurationManager.AppSettings["UrlBoletasFacele"] + rutEmpresa + a + "Boleta_" + folioSII.ToString() + ".pdf";
+                }
 
                 if (ruta == null || ruta == "")
                 {

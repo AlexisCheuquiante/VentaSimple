@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backline.DTE", "Backline.DT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VentaSimpleWeb", "VentaSimpleWeb\VentaSimpleWeb.csproj", "{87B0C728-27F0-43DA-BBDA-9C1B3F2EF548}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacEleUtils", "Facele Utils\FacEleUtils.csproj", "{E91EFBBF-C2F3-436E-9297-3BC503858053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{87B0C728-27F0-43DA-BBDA-9C1B3F2EF548}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87B0C728-27F0-43DA-BBDA-9C1B3F2EF548}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87B0C728-27F0-43DA-BBDA-9C1B3F2EF548}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E91EFBBF-C2F3-436E-9297-3BC503858053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E91EFBBF-C2F3-436E-9297-3BC503858053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E91EFBBF-C2F3-436E-9297-3BC503858053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E91EFBBF-C2F3-436E-9297-3BC503858053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

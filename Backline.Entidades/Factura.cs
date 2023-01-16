@@ -191,6 +191,10 @@ namespace Backline.Entidades
         public string TipoPago { get; set; }
         public bool Eliminado { get; set; }
         public bool Es_Afecta { get; set; }
-        
+        public string RutEmpresa { get; set; }
+        public string RutCliente { get; set; }
+        public string NombreCliente { get; set; }
+        public decimal NetoFacele { get; set; }
+        public decimal IvaFacele { get; set; }
     }
 }

@@ -109,10 +109,6 @@
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Backline SGA - Farmacia\PortalGestion.Entidades\PortalGestion.Entidades.csproj">
-      <Project>{d791d585-f2a0-4461-8b2b-c917542c61e1}</Project>
-      <Name>PortalGestion.Entidades</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Backline.DAL\Backline.DAL.csproj">
       <Project>{c4c6b8ce-e6a8-4192-a3a4-d4c9b7a95cf5}</Project>
       <Name>Backline.DAL</Name>
