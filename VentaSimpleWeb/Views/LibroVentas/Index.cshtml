@@ -320,9 +320,12 @@
                         {
                             <tr>
                                 <td>
-                                    <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
-                                        <i class="eye icon"></i>
-                                    </button>
+                                    @if (SessionH.Usuario.Emp_Id != 1022)
+                                    {
+                                        <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
+                                            <i class="eye icon"></i>
+                                        </button>
+                                    }
                                 </td>
                                 @if (SessionH.Usuario.EsAfecta == false && listaBoletas.Tido_Id == 1)
                                 {
