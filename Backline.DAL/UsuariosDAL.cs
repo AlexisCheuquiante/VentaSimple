@@ -65,7 +65,8 @@ namespace Backline.DAL
                 int ALIAS = reader.GetOrdinal("ALIAS");
                 int OCUPA_RUT = reader.GetOrdinal("OCUPA_RUT");
                 int CLAVE_AUTORIZACION = reader.GetOrdinal("CLAVE_AUTORIZACION");
-                
+                int BASIC_AUTH = reader.GetOrdinal("BASIC_AUTH");
+
                 while (reader.Read())
                 {
                     Backline.Entidades.Usuario OBJ = new Backline.Entidades.Usuario();
@@ -89,6 +90,7 @@ namespace Backline.DAL
                     OBJ.OcupaRut = (bool)(!reader.IsDBNull(OCUPA_RUT) ? reader.GetValue(OCUPA_RUT) : false);
                     OBJ.RutEmpresa = OBJ.RutEmpresa.Trim();
                     OBJ.Clave_Autorizacion = (String)(!reader.IsDBNull(CLAVE_AUTORIZACION) ? reader.GetValue(CLAVE_AUTORIZACION) : string.Empty);
+                    OBJ.Basic_Auth = (String)(!reader.IsDBNull(BASIC_AUTH) ? reader.GetValue(BASIC_AUTH) : string.Empty);
                     //EndFields
 
                     listaUsuarios.Add(OBJ);
