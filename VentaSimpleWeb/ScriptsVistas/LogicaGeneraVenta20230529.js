@@ -1,8 +1,23 @@
 ﻿var _idContribuyente = [];
+var _arrayPrestaciones = [];
 
 $(document).ready(function () {
 
     ObtenerTiposPago();
+    ObtenerPrestaciones();
+    $('#cmbPrestaciones').change(function () {
+        var idPrestacion = $('#cmbPrestaciones').val();
+
+        $.each(_arrayPrestaciones, function (value, item) {
+
+            if (item.Id == idPrestacion) {
+
+                $('#txtValor').val(item.Valor);
+                
+            }
+        });
+
+    });
  
 });
 function ObtenerContribuyente() {
@@ -79,6 +94,54 @@ function GuardarFactura() {
     });
 
 }
+function GuardarFactura_V2() {
+
+    if (ValidaGuardar() === false) {
+        //alert('no valido');
+        return;
+    }
+
+    $('#btnGuardarBoleta').addClass('loading');
+    $('#btnGuardarBoleta').addClass('disabled');
+
+    var strParams = {
+        Contribuyente: $('#txtContribuyente').val(),
+        Rut: $('#txtRut').val(),
+        ContId: _idContribuyente,
+        Cantidad: $('#txtCantidad').val(),
+        Pres_Id: $('#cmbPrestaciones').val(),
+        PrestacionStr: $('#cmbPrestaciones').dropdown('get text'),
+        Glosa: $('#txtDetalle').val(),
+        Total: $('#txtValor').val(),
+        Tipa_Id: $('#cmbTipoPago').val(),
+    };
+
+    $.ajax({
+        url: window.urlInsertarFactura,
+        type: 'POST',
+        data: { entity: strParams },
+        success: function (data) {
+            if (data != 'error') {
+                $('#DivMessajeErrorGeneral').addClass("hidden");
+                $('#divExito').removeClass("hidden");
+                LimpiarCampos();
+                window.open(data, "_blank");
+                setTimeout(() => { window.location.href = '/GeneraVenta' }, 2000);
+            }
+            if (data === 'error') {
+                $('#divError').removeClass("hidden");
+                $('#btnGuardarBoleta').removeClass('loading');
+                $('#btnGuardarBoleta').removeClass('disabled');
+
+            }
+        },
+
+        //error: function (ex) {
+        //    alert('Error al guardar el producto');
+        //}
+    });
+
+}
 function GuardarFacturaRapida() {
 
 
@@ -120,8 +183,8 @@ function GuardarFacturaRapida() {
 function LimpiarCampos() {
     //document.getElementById("txtRut").value = "";
     //document.getElementById("txtContribuyente").value = "";
-    document.getElementById("txtDetalle").value = "";
-    document.getElementById("txtValor").value = "";
+    //document.getElementById("txtDetalle").value = "";
+    //document.getElementById("txtValor").value = "";
     $('#btnGuardarBoleta').removeClass('loading');
     $('#btnGuardarBoleta').removeClass('disabled');
     $('#divExito').addClass("hidden");
@@ -216,6 +279,31 @@ function ObtenerTiposPago() {
         },
         error: function () {
             alert('Error al cargar los tipos de pago');
+        }
+    });
+
+}
+function ObtenerPrestaciones() {
+
+    $.ajax({
+        url: window.urlObtenerPrestaciones,
+        type: 'POST',
+        success: function (data) {
+            $('#cmbPrestaciones').dropdown('clear');
+            $('#cmbPrestaciones').empty();
+            $('#cmbPrestaciones').append('<option value="0">[Seleccione establecimiento]</option>');
+            $.each(data,
+                function (value, item) {
+
+                    var texto = '<option value="' + item.Id + '">' + item.Descripcion + '</option>';
+                    $('#cmbPrestaciones').append(texto);
+                    _arrayPrestaciones.push(item);
+                }
+            );
+
+        },
+        error: function () {
+            alert('Error al cargar los establecimientos');
         }
     });
 

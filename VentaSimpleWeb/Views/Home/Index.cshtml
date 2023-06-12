@@ -104,20 +104,39 @@
                         </div>
                     </div>
                 </div>
+                @*Libro de ventas*@
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" style="opacity:0.9">
+                        <div class="contenedor-imagen">
+                            <img class="card-img-top" src="~/Recursos/Imagenes/botonCierreCaja.png" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Aquí podrás realizar los cierres de caja.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <div id="btnMarketPlace" onclick="window.location.href = '/CierreCaja?limpiar=1'" class="ui right labeled icon black button">
+                                        Cierre de caja
+                                        <i class="hand point left icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @if (SessionH.Usuario.Administrador == true)
                 {
                     @*Mantenedor de usuarios*@
                     <div class="col-md-4">
                         <div class="card mb-4 shadow-sm" style="opacity:0.9">
                             <div class="contenedor-imagen">
-                                <img class="card-img-top" src="~/Recursos/Imagenes/botonMantenedorUsuarios.png" alt="Card image cap">
+                                <img class="card-img-top" src="~/Recursos/Imagenes/botonMantenedores.jpg" alt="Card image cap">
                             </div>
                             <div class="card-body">
                                 <p class="card-text">Aquí podrás revisar los usuarios existentes.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <div id="btnMarketPlace" onclick="window.location.href = '/MantenedorUsuarios'" class="ui right labeled icon black button">
-                                            Mantenedor de usuarios
+                                        <div id="btnMarketPlace" onclick="window.location.href = '/Mantenedores'" class="ui right labeled icon black button">
+                                            Mantenedores
                                             <i class="hand point left icon"></i>
                                         </div>
                                     </div>

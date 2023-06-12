@@ -157,6 +157,10 @@ namespace VentaSimpleWeb.Controllers
                 {
                     ruta = ConfigurationManager.AppSettings["UrlBoletasFacele"] + rutEmpresa + a + "Boleta_" + folioSII.ToString() + ".pdf";
                 }
+                if (SessionH.Usuario.Facturador == "SimpleFactura")
+                {
+                    ruta = ConfigurationManager.AppSettings["UrlBoletasSimpleFactura"] + "Boleta_N°" + folioSII.ToString() + "_" + "(" + SessionH.Usuario.RutEmpresa + ")" + ".pdf";
+                }
 
                 if (ruta == null || ruta == "")
                 {
@@ -189,13 +193,17 @@ namespace VentaSimpleWeb.Controllers
         {
             try
             {
-                filtro.EsAdministrador = true;
-                var puedeEmitirNota = Backline.DAL.UsuariosDAL.ValidarClaveAutorizacion(filtro);
-
-                if (puedeEmitirNota == null || puedeEmitirNota.Count == 0)
+                if (SessionH.Usuario.Ocupa_Clave_Autorizacion == true)
                 {
-                    return new JsonResult() { ContentEncoding = Encoding.Default, Data = "NoAutorizado", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                    filtro.EsAdministrador = true;
+                    var puedeEmitirNota = Backline.DAL.UsuariosDAL.ValidarClaveAutorizacion(filtro);
+                    if (puedeEmitirNota == null || puedeEmitirNota.Count == 0)
+                    {
+                        return new JsonResult() { ContentEncoding = Encoding.Default, Data = "NoAutorizado", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                    }
                 }
+
+                var numeroSII = 0;
 
                 var lista = Backline.DAL.BoletaDAL.ObtenerBoleta(filtro);
                 var idBoleta = lista[0].Id;
@@ -220,42 +228,60 @@ namespace VentaSimpleWeb.Controllers
                 Backline.DAL.BoletaDAL.InsertarFacturaV2(entity);
                 var idNotaCredito = entity.Id;
 
-                Backline.DTE.APIResult apiResult = new Backline.DTE.APIResult();
-                int folioSII = 0;
-                string rutaPDF = string.Empty;
-                bool validadaSII = false;
+                string ruta = "";
 
-                entity.DocumentoOrigenINT = lista[0].Numero;
-                entity.Rut = lista[0].Rut;
-                entity.Contribuyente = lista[0].Contribuyente;
-                validadaSII = Utiles.GenerarNotaCredito(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.NotaCredito, out folioSII, out rutaPDF, out apiResult);
-                entity.NumeroSII = folioSII;
+                if (SessionH.Usuario.Facturador == "superfactura")
+                {
+                    Backline.DTE.APIResult apiResult = new Backline.DTE.APIResult();
+                    int folioSII = 0;
+                    string rutaPDF = string.Empty;
+                    bool validadaSII = false;
 
-                var rutEmpresa = SessionH.Usuario.RutEmpresa;
-                var a = "";
-                //MessageBox.Show("Número" + folioSII.ToString());
-                if (SessionH.Usuario.EsAfecta == true)
-                {
-                    a = "(A)";
-                }
-                else
-                {
-                    a = "(E)";
-                }
-                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "NotaCrédito_" + folioSII.ToString() + ".pdf";
+                    entity.DocumentoOrigenINT = lista[0].Numero;
+                    entity.Rut = lista[0].Rut;
+                    entity.Contribuyente = lista[0].Contribuyente;
+                    validadaSII = Utiles.GenerarNotaCredito(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.NotaCredito, out folioSII, out rutaPDF, out apiResult);
+                    entity.NumeroSII = folioSII;
+                    numeroSII = folioSII;
+                    var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                    var a = "";
+                    //MessageBox.Show("Número" + folioSII.ToString());
+                    if (SessionH.Usuario.EsAfecta == true)
+                    {
+                        a = "(A)";
+                    }
+                    else
+                    {
+                        a = "(E)";
+                    }
 
-                if (rutaPDF == null || rutaPDF == "")
-                {
-                    return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                    ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "NotaCrédito_" + numeroSII.ToString() + ".pdf";
+
+                    if (rutaPDF == null || rutaPDF == "")
+                    {
+                        return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                    }
                 }
+                if (SessionH.Usuario.Facturador == "SimpleFactura")
+                {
+                    SimpleFacturaUtils.Utiles utl = new SimpleFacturaUtils.Utiles();
+                    int tipoDocumento = 41;
+                    var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                    entity.DocumentoOrigenINT = lista[0].Numero;
+                    entity.RutCliente = lista[0].Rut;
+                    var respuestaAsyntec =  utl.GenerarNotaCredito(entity, tipoDocumento, rutEmpresa);
+                    
+                }
+
+
                 //Inserto Numero del SII
                 entity.Id = idNotaCredito;
-                entity.Numero = folioSII;
+                entity.Numero = numeroSII;
                 Backline.DAL.BoletaDAL.InsertarNumeroDocumento(entity);
 
                 //Inserto Documento de referencia a Boleta
                 entity.Id = idBoleta;
-                entity.DocumentoReferencia = folioSII;
+                entity.DocumentoReferencia = numeroSII;
                 Backline.DAL.BoletaDAL.InsertarDocumentoReferencia(entity);
 
                 //Inserto Documento de referencia a nota de crèdito

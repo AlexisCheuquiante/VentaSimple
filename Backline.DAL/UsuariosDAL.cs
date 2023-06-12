@@ -40,6 +40,7 @@ namespace Backline.DAL
 
             db.AddInParameter(dbCommand, "ID", DbType.Int32, usuarios.Id != 0 ? usuarios.Id : (object)null);
             db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, usuarios.Emp_Id != 0 ? usuarios.Emp_Id : (object)null);
+            db.AddInParameter(dbCommand, "EST_ID", DbType.Int32, usuarios.Est_Id != 0 ? usuarios.Est_Id : (object)null);
             db.AddInParameter(dbCommand, "USUARIO", DbType.String, usuarios.NombreUsuario != "" ? usuarios.NombreUsuario : (object)null);
             db.AddInParameter(dbCommand, "PASSWORD", DbType.String, usuarios.Password != "" ? usuarios.Password : (object)null);
 
@@ -66,6 +67,9 @@ namespace Backline.DAL
                 int OCUPA_RUT = reader.GetOrdinal("OCUPA_RUT");
                 int CLAVE_AUTORIZACION = reader.GetOrdinal("CLAVE_AUTORIZACION");
                 int BASIC_AUTH = reader.GetOrdinal("BASIC_AUTH");
+                int OCUPA_PRESTACIONES = reader.GetOrdinal("OCUPA_PRESTACIONES");
+                int OCUPA_CLAVE_AUTORIZACION = reader.GetOrdinal("OCUPA_CLAVE_AUTORIZACION");
+                int PUEDE_EMITIR_NOTA_CREDITO = reader.GetOrdinal("PUEDE_EMITIR_NOTA_CREDITO");
 
                 while (reader.Read())
                 {
@@ -91,6 +95,9 @@ namespace Backline.DAL
                     OBJ.RutEmpresa = OBJ.RutEmpresa.Trim();
                     OBJ.Clave_Autorizacion = (String)(!reader.IsDBNull(CLAVE_AUTORIZACION) ? reader.GetValue(CLAVE_AUTORIZACION) : string.Empty);
                     OBJ.Basic_Auth = (String)(!reader.IsDBNull(BASIC_AUTH) ? reader.GetValue(BASIC_AUTH) : string.Empty);
+                    OBJ.Ocupa_Prestaciones = (bool)(!reader.IsDBNull(OCUPA_PRESTACIONES) ? reader.GetValue(OCUPA_PRESTACIONES) : false);
+                    OBJ.Ocupa_Clave_Autorizacion = (bool)(!reader.IsDBNull(OCUPA_CLAVE_AUTORIZACION) ? reader.GetValue(OCUPA_CLAVE_AUTORIZACION) : false);
+                    OBJ.Puede_Emitir_Nota = (bool)(!reader.IsDBNull(PUEDE_EMITIR_NOTA_CREDITO) ? reader.GetValue(PUEDE_EMITIR_NOTA_CREDITO) : false);
                     //EndFields
 
                     listaUsuarios.Add(OBJ);

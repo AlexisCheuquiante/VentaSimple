@@ -1,0 +1,299 @@
+﻿@model VentaSimpleWeb.Models.MantenedorPrestacionesModel
+
+@{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/MantenedorPrestaciones/MantenedorPrestaciones.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" />
+    <title>Mantenedor de prestaciones</title>
+    <!-- Estilos y funciones básicas de funcionamiento -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/CSS/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="~/Scripts/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Semantic UI CSS -->
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.css">
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
+    <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
+
+    <script src="~/ScriptsVistas/LogicaMantenedorPrestaciones.js"></script>
+
+    <style>
+        html, body {
+            background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)), url('../../Recursos/Imagenes/FondoNuevo.png');
+            background-size: cover;
+            background-repeat: repeat;
+            height: 100%;
+            font-family: 'Numans', sans-serif;
+        }
+    </style>
+
+    <script>
+
+        var urlInsertarPrestacion = '@Url.Action("InsertarPrestacion", "MantenedorPrestaciones")';
+        var urlObtenerEstablecimientos = '@Url.Action("ObtenerEstablecimientos", "MantenedorPrestaciones")';
+        var urlObtenerPrestacion = '@Url.Action("ObtenerPrestacion", "MantenedorPrestaciones")';
+        var urlEliminarPrestacion = '@Url.Action("EliminarPrestacion", "MantenedorPrestaciones")';
+
+        $(document).ready(function () {
+
+            $('.ui.selection.dropdown').dropdown();
+            $('.ui.menu .ui.dropdown').dropdown({
+                on: 'hover'
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <br />
+    <div>
+        @if (Request.Browser.IsMobileDevice)
+        {
+            <div class="fields">
+                <div id="btnAgregarMantenedorNegocio" data-toggle="modal" data-target="#modalPrestaciones" class="ui blue labeled icon button">
+                    Agregar prestación
+                    <i class="checkmark icon"></i>
+                </div>
+                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                @*<div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">
+                        <i class="table download icon"></i>Exportar a Excel
+                    </div>*@
+            </div>
+            <table class="ui celled striped table">
+                <tbody>
+                    @foreach (var lista in Model.listaPrestaciones)
+                    {
+                        <tr>
+
+
+                            <td style="width: 10%">
+                                <button class="ui icon red button" data-toggle="modal" data-target="#modalEliminarPrestacion" value="@lista.Id" onclick="PreparaEliminarPrestacion(this.value, this);">
+                                    <i class="trash icon"></i>
+                                </button>
+                                @*<button class="ui icon green button" data-toggle="modal" data-target="#modalMantenedorUsuarios" value="@listaUsuarios.Id" onclick="ObtenerUsuario(this.value, this);">
+                                        <i class="pencil icon"></i>
+                                    </button>*@
+                            </td>
+                            <td>Código: @lista.Codigo</td>
+                            <td>Descripción: @lista.Descripcion</td>
+                            <td>Valor: @lista.Valor</td>
+                            <td>Establecimiento: @lista.Nombre_Establecimiento</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="10">
+                            <div id="btnAgregarMantenedorNegocio" data-toggle="modal" data-target="#modalPrestaciones" class="ui blue labeled icon button">
+                                Agregar prestación
+                                <i class="checkmark icon"></i>
+                            </div>
+                            <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+        else
+        {
+            <div style="margin-left:auto; margin-right:auto;width:80%;opacity:0.9">
+                <div class="fields">
+                    <div id="btnAgregarMantenedorNegocio" data-toggle="modal" data-target="#modalPrestaciones" class="ui black labeled icon button">
+                        Agregar prestación
+                        <i class="checkmark icon"></i>
+                    </div>
+                    <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                    @*<div id="btnExportar" class="ui labeled purple icon button" onclick="ExportarExcel();">
+                            <i class="table download icon"></i>Exportar a Excel
+                        </div>*@
+                </div>
+                <table id="tabla" class="ui celled striped inverted table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Código</th>
+                            <th>Descripción</th>
+                            <th>Valor</th>
+                            <th>Establecimiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var lista in Model.listaPrestaciones)
+                        {
+                            <tr>
+
+                                <td>
+                                    <button class="ui icon blue button" data-toggle="modal" data-target="#modalPrestaciones" value="@lista.Id" onclick="ObtenerPrestacion(this.value, this);">
+                                        <i class="edit icon"></i>
+                                    </button>
+                                    <button class="ui icon red button" data-toggle="modal" data-target="#modalEliminarPrestacion" value="@lista.Id" onclick="PreparaEliminarPrestacion(this.value, this);">
+                                        <i class="trash icon"></i>
+                                    </button>
+                                </td>
+                                <td>@lista.Codigo</td>
+                                <td>@lista.Descripcion</td>
+                                <td>@lista.Valor</td>
+                                <td>@lista.Nombre_Establecimiento</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="13">
+                                <div id="btnAgregarMantenedorNegocio" data-toggle="modal" data-target="#modalPrestaciones" class="ui black labeled icon button">
+                                    Agregar prestación
+                                    <i class="checkmark icon"></i>
+                                </div>
+                                <div class="ui icon red button" onclick="window.location.replace('/Home')">Volver<i class="left chevron icon"></i></div>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+    </div>
+    <div class="modal fade" id="modalPrestaciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-left: auto; margin-right: auto; width: 95%; opacity:0.9; margin-top: 5% ">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div style="height:5px"></div>
+                <div>
+
+                    <h3 style="color:black" class="ui header">
+                        <img class="bordered rounded" src="~/Recursos/Imagenes/LogoBackline.png" width="50" alt="">
+                        Mantenedor de prestaciones
+                    </h3>
+                </div>
+                <div class="modal-body">
+                    <div class="image content">
+                        <div class="ui info message">
+                            <div class="header">
+                                Atención al llenar los datos!
+                            </div>
+                            Debes completar todos los campos para guardar!
+                            <div class="ui divider"></div>
+                            <div class="ui form">
+                                <form>
+                                    <div id="divcmbEstablecimiento" class="field" style="width: 100%">
+                                        <label>Establecimiento</label>
+                                        <select id="cmbEstablecimiento" name="cmbEstablecimiento" class="ui search selection dropdown">
+                                        </select>
+                                    </div>
+                                    <div id="divtxtPrestacion" class="field" style="width:100%">
+                                        <label>Descripción de la prestación</label>
+                                        <textarea id="txtPrestacion" placeholder="Ingrese la prestación" rows="2"></textarea>
+                                    </div>
+                                    <div class="two fields">
+                                        <div id="divtxtCodigo" class="field">
+                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></label>
+                                            <input id="txtCodigo" type="text" placeholder="" autocomplete="off">
+                                        </div>
+                                        <div id="divtxtValor" class="field">
+                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
+                                            <input id="txtValor" type="number" placeholder="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:5px">
+
+                    </div>
+                    <div id="divExito" class="ui icon hidden positive  message">
+                        <i class="thumbs up icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Éxito!!
+                            </div>
+                            <p>La prestación se guardó con éxito.</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div id="DivMessajeErrorGeneral" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                Se han encontrado algunos problemas, revíselos...
+                            </div>
+                            <ul id="listMessajeError" class="list"></ul>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div id="DivMessajeErrorGeneral" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                Se han encontrado algunos problemas, revíselos...
+                            </div>
+                            <ul id="listMessajeErrorAgregar" class="list"></ul>
+                        </div>
+                    </div>
+                    <br />
+                    <button id="btnGuardaPrestacion" class="ui right labeled blue icon button" onclick="GuardarPrestacion();">
+                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                Guardar procedencia
+                            </font>
+                        </font>
+                    </button>
+                    <button id="btnVolverPrestacion" class="ui right labeled red icon button" onclick="window.location.replace('/MantenedorPrestaciones')">
+                        <i class="left arrow icon"></i><font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                Volver
+                            </font>
+                        </font>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalEliminarPrestacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLongTitle">Eliminar prestación</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="divConsultaElimina" class="ui icon violet message">
+                        <i class="question icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                ¿Desea eliminar la prestación seleccionada?
+                            </div>
+                            <p>Esta prestación será eliminada de forma lógica de la base de datos.</p>
+                        </div>
+                    </div>
+                    <div id="divExitoElimina" class="ui icon hidden positive  message">
+                        <i class="thumbs up icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Éxito!!
+                            </div>
+                            <p>La prestación fue eliminada con éxito.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="btnEliminar" onclick="EliminaPrestacion();" class="ui green right labeled icon button">
+                        Eliminar prestación
+                        <i class="checkmark icon"></i>
+                    </div>
+                    <div id="btnCancelar" data-dismiss="modal" class="ui right labeled icon button">
+                        Cancelar
+                        <i class="cancel icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<input type="hidden" id="idPrestacionSeleccionada" value="0" />

@@ -10,8 +10,9 @@ using System.Threading;
 using FacEleUtils;
 using FacEleUtils.DoceleOLService;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using RestSharp;
-using System.Text.Json;
+//using System.Text.Json;
 
 namespace VentaSimpleWeb.Controllers
 {
@@ -25,6 +26,18 @@ namespace VentaSimpleWeb.Controllers
             return View();
         }
 
+        public JsonResult ObtenerPrestaciones()
+        {
+            Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
+            filtro.EmpId = SessionH.Usuario.Emp_Id;
+            filtro.EstId = SessionH.Usuario.Est_Id;
+            var lista = Backline.DAL.PrestacionesDAL.ObtenerPrestaciones(filtro);
+
+            if (lista == null || lista.Count == 0)
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+            return new JsonResult() { ContentEncoding = Encoding.Default, Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
         public JsonResult ObtenerContribuyente(string rut, Backline.Entidades.Filtro filtro)
         {
             var rutDevuelto = VentaSimpleWeb.Utiles.ObtieneRut_INT(rut);
@@ -59,6 +72,10 @@ namespace VentaSimpleWeb.Controllers
                     Backline.DAL.ContribuyenteDAL.InsertarContribuyente(contribuyente);
                     idContribuyente = contribuyente.Id;
                     rutListo = contribuyente.Rut.ToUpper();
+                }
+                if (SessionH.Usuario.Ocupa_Prestaciones == true)
+                {
+                    entity.Glosa = entity.PrestacionStr;
                 }
 
                 List<Backline.Entidades.DetalleFactura> detalleArticulos = new List<Backline.Entidades.DetalleFactura>();
@@ -167,8 +184,7 @@ namespace VentaSimpleWeb.Controllers
                         Task<string> ruta2 = RecuperarBoleta(entity);
                         rutaPDF = ConfigurationManager.AppSettings["UrlBoletasSimpleFactura"] + "Boleta_N°" + Session["ultimoFolio"].ToString() + "_" + "(" + SessionH.Usuario.RutEmpresa + ")" + ".pdf";
                         ruta = ConfigurationManager.AppSettings["UrlBoletasSimpleFactura"] + "Boleta_N°" + Session["ultimoFolio"].ToString() + "_" + "(" + SessionH.Usuario.RutEmpresa + ")" + ".pdf";
-                        //rutaPDF = Session["rutaPdfSimpleFactura"].ToString();
-                        //ruta = Session["rutaPdfSimpleFactura"].ToString();
+                        
                     }
                 }
 
@@ -192,9 +208,6 @@ namespace VentaSimpleWeb.Controllers
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
         }
-
-        
-        
         public bool GenerarBoletaElectronicaFacele(List<Backline.Entidades.DetalleFactura> detalle, Backline.Entidades.Factura Factura, out int folio, out string rutaPDF, out Backline.DTE.APIResult apiResult)
         {
             
@@ -296,18 +309,14 @@ namespace VentaSimpleWeb.Controllers
         }
         public async Task<bool> GenerarBoletaSimpleFactura(List<Backline.Entidades.DetalleFactura> detalle, Backline.Entidades.Factura Factura)
         {
-            var options = new RestClientOptions("https://api.simplefactura.cl")
-            {
-                MaxTimeout = -1,
-            };
-            var client = new RestClient(options);
-            var request = new RestRequest("/invoiceV2/" + SessionH.Usuario.NombreEstablecimiento, Method.Post);
+            var client = new RestClient(new Uri("https://api.simplefactura.cl"));
+            var request = new RestRequest("/invoiceV2/" + SessionH.Usuario.NombreEstablecimiento.Trim(), Method.POST);
             request.AddHeader("Authorization", "Basic YWxleGlzLmNoZXVxdWlhbnRlQGJhY2tsaW5lc3BhLmNvbTpCYWNrbGluZTIwMjM=");
             request.AddHeader("Content-Type", "application/json");
             var body = ObtenerDocumento(detalle, Factura);
-            request.AddStringBody(body, DataFormat.Json);
-            RestResponse response = client.Execute(request);
-            
+            request.AddJsonBody(body);
+            var response =  client.Execute(request);
+
             if (ObtieneStatus(response.Content.ToString()) == false)
             {
                 Session["MensajeError"] = ObtieneError(response.Content.ToString());
@@ -373,7 +382,7 @@ namespace VentaSimpleWeb.Controllers
             dte.Documento.Encabezado.Receptor = new SimpleFactura.Receptor();
             dte.Documento.Encabezado.Receptor.RUTRecep = Factura.Rut;
             dte.Documento.Encabezado.Receptor.RznSocRecep = Factura.Contribuyente;
-            dte.Documento.Encabezado.Receptor.DirRecep = "";
+            dte.Documento.Encabezado.Receptor.DirRecep = "Concepción";
             dte.Documento.Encabezado.Receptor.CmnaRecep = "Concepción";
             dte.Documento.Encabezado.Receptor.CiudadRecep = "Concepción";
 
@@ -396,7 +405,7 @@ namespace VentaSimpleWeb.Controllers
             dte.Documento.Detalle = new List<SimpleFactura.Detalle>();
             dte.Documento.Detalle.Add(detalleBoleta);
 
-            string jsonString = JsonSerializer.Serialize(dte);
+            string jsonString = JsonConvert.SerializeObject(dte);
             return jsonString;
         }
         int ExtraeFolio(string response)
@@ -412,20 +421,16 @@ namespace VentaSimpleWeb.Controllers
         }
         public async Task<string> RecuperarBoleta(Backline.Entidades.Factura Factura)
         {
-            var options = new RestClientOptions("https://api.simplefactura.cl")
-            {
-                MaxTimeout = -1,
-            };
-            var client = new RestClient(options);
-            var request = new RestRequest("/getPdf", Method.Post);
+            var client = new RestClient(new Uri("https://api.simplefactura.cl"));
+            var request = new RestRequest("/getPdf", Method.POST);
             request.AddHeader("Authorization", "Basic YWxleGlzLmNoZXVxdWlhbnRlQGJhY2tsaW5lc3BhLmNvbTpCYWNrbGluZTIwMjM=");
             request.AddHeader("Content-Type", "application/json");
             var body = CreaObjetoPDF(Factura);
 
             body = body.Replace("@folio", Session["ultimoFolio"].ToString());
 
-            request.AddStringBody(body, DataFormat.Json);
-            RestResponse response = client.Execute(request);
+            request.AddJsonBody(body);
+            var response = client.Execute(request);
             byte[] pdf = response.RawBytes;
 
             var rutaGuardado = @"C:\Documentos Backline\simpleFactura_boleta_\" + "Boleta_N°" + Session["ultimoFolio"].ToString() +"_" + "(" + SessionH.Usuario.RutEmpresa + ")" + ".pdf";
@@ -449,7 +454,7 @@ namespace VentaSimpleWeb.Controllers
             credenciales.dteReferenciadoExterno.codigoTipoDte = 41;
             credenciales.dteReferenciadoExterno.ambiente = 1;
 
-            string jsonString = JsonSerializer.Serialize(credenciales);
+            string jsonString = JsonConvert.SerializeObject(credenciales);
             return jsonString;
         }
     }

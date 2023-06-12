@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
     <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
 
-    <script src="~/ScriptsVistas/LogicaGeneraVenta202112291434.js"></script>
+    <script src="~/ScriptsVistas/LogicaGeneraVenta20230529.js"></script>
 
     <style>
         html, body {
@@ -36,6 +36,7 @@
         var urlObtenerContribuyente = '@Url.Action("ObtenerContribuyente", "GeneraVenta")';
         var urlInsertarFactura = '@Url.Action("InsertarFactura", "GeneraVenta")';
         var urlObtenerTiposPago = '@Url.Action("ObtenerTiposPago", "GeneraVenta")';
+        var urlObtenerPrestaciones = '@Url.Action("ObtenerPrestaciones", "GeneraVenta")';
 
         $(document).ready(function () {
 
@@ -52,20 +53,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="ui center aligned header">
+                    <h5 class="ui center aligned header">
                         <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
                         Generar venta
-                    </h3>
+                    </h5>
                 </div>
                 @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
             <div class="modal-body">
                 <div class="image content">
                     <div class="ui info message">
-                        <div class="header">
-                            Atención al completar los campos!
-                        </div>
-                        Debes completar todos los campos para emitir la boleta!
-                        <div class="ui divider"></div>
                         @if (SessionH.Usuario.OcupaRut == true)
                         {
                             <div class="ui purple icon message">
@@ -82,12 +78,26 @@
                             <form>
                                 @if (SessionH.Usuario.OcupaRut == false)
                                 {
-                                    <div class="two fields">
-                                        <div id="divtxtDetalle" style="width:100%" class="field">
-                                            <label>Detalle de la venta</label>
-                                            <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                    if (SessionH.Usuario.Ocupa_Prestaciones == true)
+                                    {
+                                        <div class="two fields">
+                                            <div id="divcmbPrestaciones" class="field" style="width:100%">
+                                                <label>Prestaciones</label>
+                                                <select id="cmbPrestaciones" name="cmbPrestaciones" class="ui search selection dropdown">
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="two fields">
+                                            <div id="divtxtDetalle" style="width:100%" class="field">
+                                                <label>Detalle de la venta</label>
+                                                <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                            </div>
+                                        </div>
+                                    }
+
                                     <div class="two fields">
                                         <div id="divcmbTipoPago" class="field" style="width:100%">
                                             <label>Tipo de pago</label>
@@ -118,12 +128,25 @@
                                             <input id="txtContribuyente" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;">
                                         </div>
                                     </div>
-                                    <div class="two fields">
-                                        <div id="divtxtDetalle" style="width:100%" class="field">
-                                            <label>Detalle de la venta</label>
-                                            <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                    if (SessionH.Usuario.Ocupa_Prestaciones == true)
+                                    {
+                                        <div class="two fields">
+                                            <div id="divcmbPrestaciones" class="field" style="width:100%">
+                                                <label>Prestaciones</label>
+                                                <select id="cmbPrestaciones" name="cmbPrestaciones" class="ui search selection dropdown">
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="two fields">
+                                            <div id="divtxtDetalle" style="width:100%" class="field">
+                                                <label>Detalle de la venta</label>
+                                                <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                            </div>
+                                        </div>
+                                    }
                                     <div class="two fields">
                                         <div id="divcmbTipoPago" class="field" style="width:100%">
                                             <label>Tipo de pago</label>
@@ -184,7 +207,17 @@
                         </font>
                     </button>
                 }
-                else
+                @if (SessionH.Usuario.Ocupa_Prestaciones == true)
+                {
+                    <button id="btnGuardarBoleta" class="ui right labeled blue icon button" onclick="GuardarFactura_V2();">
+                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                Emitir boleta
+                            </font>
+                        </font>
+                    </button>
+                }
+                @if (SessionH.Usuario.Emp_Id != 7 && SessionH.Usuario.Ocupa_Prestaciones == false)
                 {
                     <button id="btnGuardarBoleta" class="ui right labeled blue icon button" onclick="GuardarFactura();">
                         <i class="check circle icon"></i><font style="vertical-align: inherit;">

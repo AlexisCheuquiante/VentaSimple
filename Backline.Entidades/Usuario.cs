@@ -29,5 +29,8 @@ namespace Backline.Entidades
         public bool OcupaRut { get; set; }
         public string Clave_Autorizacion { get; set; }
         public string Basic_Auth { get; set; }
+        public bool Ocupa_Prestaciones { get; set; }
+        public bool Ocupa_Clave_Autorizacion { get; set; }
+        public bool Puede_Emitir_Nota { get; set; }
     }
 }

@@ -198,6 +198,7 @@ namespace Backline.DAL
             db.AddInParameter(dbCommand, "TIDO_ID", DbType.Int32, factura.Tido_Id != 0 ? factura.Tido_Id : (object)null);
             db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, factura.EmpId != 0 ? factura.EmpId : (object)null);
             db.AddInParameter(dbCommand, "FECHA", DbType.DateTime, factura.Fecha != DateTime.MinValue ? factura.Fecha : (object)null);
+            db.AddInParameter(dbCommand, "PRES_ID", DbType.Int32, factura.Pres_Id != 0 ? factura.Pres_Id : (object)null);
             db.AddInParameter(dbCommand, "GLOSA", DbType.String, factura.Glosa != "" ? factura.Glosa.ToUpper() : (object)null);
             db.AddInParameter(dbCommand, "TOTAL", DbType.Int32, factura.Total != 0 ? factura.Total : (object)null);
             db.AddInParameter(dbCommand, "USR_ID", DbType.Int32, factura.Usr_Id != 0 ? factura.Usr_Id : (object)null);

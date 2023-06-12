@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VentaSimpleWeb</RootNamespace>
     <AssemblyName>VentaSimpleWeb</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,14 +53,19 @@
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RestSharp, Version=110.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharp.110.0.0\lib\net471\RestSharp.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\VentaSimpleWeb.SimpleFacturaUtils\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\..\..\Farmacia\SimpleFacturaUtils\bin\Debug\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
@@ -87,12 +93,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -133,9 +136,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -157,19 +158,24 @@
     <Compile Include="Code\ExcelExportHelper.cs" />
     <Compile Include="Controllers\BienvenidaController.cs" />
     <Compile Include="Controllers\CambiarContraseñaController.cs" />
+    <Compile Include="Controllers\CierreCajaController.cs" />
     <Compile Include="Controllers\GeneraVentaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LibroVentasController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MantenedoresController.cs" />
+    <Compile Include="Controllers\MantenedorPrestacionesController.cs" />
     <Compile Include="Controllers\MantenedorUsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ModelDTE_Credenciales.cs" />
     <Compile Include="Models\BienvenidaModel.cs" />
+    <Compile Include="Models\CierreCajaModel.cs" />
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\LibroVentasModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MantenedorPrestacionesModel.cs" />
     <Compile Include="Models\MantenedorUsuariosModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionH.cs" />
@@ -197,10 +203,13 @@
     <Content Include="RecursosExternos\semantic.css" />
     <Content Include="RecursosExternos\semantic.min.css" />
     <Content Include="RecursosExternos\semantic.min.js" />
+    <Content Include="Recursos\Imagenes\botonCierreCaja.png" />
     <Content Include="Recursos\Imagenes\botonGeneraVenta.png" />
     <Content Include="Recursos\Imagenes\botonGeneraVenta2.png" />
     <Content Include="Recursos\Imagenes\BotonLibroVentas.png" />
+    <Content Include="Recursos\Imagenes\botonMantenedores.jpg" />
     <Content Include="Recursos\Imagenes\botonMantenedorUsuarios.png" />
+    <Content Include="Recursos\Imagenes\botonPrestaciones.png" />
     <Content Include="Recursos\Imagenes\botonRevisaSolicitudes.jpg" />
     <Content Include="Recursos\Imagenes\Fondo.jpg" />
     <Content Include="Recursos\Imagenes\Fondo2.jpg" />
@@ -208,9 +217,11 @@
     <Content Include="Recursos\Imagenes\Login.png" />
     <Content Include="Recursos\Imagenes\LogoBackline.png" />
     <Content Include="ScriptsVistas\LogicaCambiarContraseña.js" />
-    <Content Include="ScriptsVistas\LogicaGeneraVenta202112291434.js" />
+    <Content Include="ScriptsVistas\LogicaCierreCaja.js" />
+    <Content Include="ScriptsVistas\LogicaGeneraVenta20230529.js" />
     <Content Include="ScriptsVistas\LogicaLibroVentas19122022.js" />
     <Content Include="ScriptsVistas\LogicaLogin.js" />
+    <Content Include="ScriptsVistas\LogicaMantenedorPrestaciones.js" />
     <Content Include="ScriptsVistas\LogicaMantenedorUsuarios19122022.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -256,6 +267,12 @@
     <Content Include="Views\LibroVentas\LibroVentas.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Bienvenida\Index.cshtml" />
+    <Content Include="Views\MantenedorPrestaciones\Index.cshtml" />
+    <Content Include="Views\MantenedorPrestaciones\MantenedorPrestaciones.cshtml" />
+    <Content Include="Views\CierreCaja\Index.cshtml" />
+    <Content Include="Views\CierreCaja\CierreCaja.cshtml" />
+    <Content Include="Views\Mantenedores\Index.cshtml" />
+    <Content Include="Views\Mantenedores\Mantenedores.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -291,6 +308,13 @@
       <Project>{e91efbbf-c2f3-436e-9297-3bc503858053}</Project>
       <Name>FacEleUtils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VentaSimpleWeb.SimpleFacturaUtils\SimpleFacturaUtils.csproj">
+      <Project>{a3356769-0035-4d14-bb34-701b1acea8df}</Project>
+      <Name>SimpleFacturaUtils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

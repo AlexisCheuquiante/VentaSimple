@@ -183,6 +183,8 @@ namespace Backline.Entidades
         public int DocumentoReferencia { get; set; }
         public String Rut { get; set; }
         public string Contribuyente { get; set; }
+        public int Pres_Id { get; set; }
+        public string PrestacionStr { get; set; }
         public string Glosa { get; set; }
         public Int32 Total { get; set; }
         public string Usuario { get; set; }

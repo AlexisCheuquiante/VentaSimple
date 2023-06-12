@@ -5,12 +5,12 @@
 //// La información general de un ensamblado se controla mediante el siguiente 
 //// conjunto de atributos. Cambie estos valores de atributo para modificar la información
 //// asociada con un ensamblado.
-//[assembly: AssemblyTitle("FacEleUtils")]
+//[assembly: AssemblyTitle("VentaSimpleWeb.SimpleFacturaUtils")]
 //[assembly: AssemblyDescription("")]
 //[assembly: AssemblyConfiguration("")]
 //[assembly: AssemblyCompany("")]
-//[assembly: AssemblyProduct("FacEleUtils")]
-//[assembly: AssemblyCopyright("Copyright ©  2020")]
+//[assembly: AssemblyProduct("VentaSimpleWeb.SimpleFacturaUtils")]
+//[assembly: AssemblyCopyright("Copyright ©  2023")]
 //[assembly: AssemblyTrademark("")]
 //[assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@
 //[assembly: ComVisible(false)]
 
 //// El siguiente GUID sirve como id. de typelib si este proyecto se expone a COM.
-//[assembly: Guid("e91efbbf-c2f3-436e-9297-3bc503858053")]
+//[assembly: Guid("a3356769-0035-4d14-bb34-701b1acea8df")]
 
 //// La información de versión de un ensamblado consta de los cuatro valores siguientes:
 ////

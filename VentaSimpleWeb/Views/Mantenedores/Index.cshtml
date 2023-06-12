@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Mantenedores/Mantenedores.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" />
+    <title>Mantenedores</title>
+    <!-- Estilos y funciones básicas de funcionamiento -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/CSS/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="~/Scripts/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Semantic UI CSS -->
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.css">
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
+    <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
+
+    <style>
+        html, body {
+            background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)), url('../../Recursos/Imagenes/FondoNuevo.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100%;
+            font-family: 'Numans', sans-serif;
+        }
+
+        .card-img-top {
+            width: 200px;
+        }
+
+        .contenedor-imagen {
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.ui.selection.dropdown').dropdown();
+            $('.ui.menu .ui.dropdown').dropdown({
+                on: 'hover'
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div class="ui link cards">
+        <div class="container">
+            <div style="height:5px"></div>
+            <h2 style="color:white" class="ui center aligned header">
+                <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
+                Mantenedores del sistema
+            </h2>
+            <div class="row">
+                @*Mantenedor de usuarios*@
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" style="opacity:0.9">
+                        <div class="contenedor-imagen">
+                            <img class="card-img-top" src="~/Recursos/Imagenes/botonMantenedorUsuarios.png" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Aquí podrás revisar los usuarios existentes.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <div id="btnMarketPlace" onclick="window.location.href = '/MantenedorUsuarios'" class="ui right labeled icon black button">
+                                        Mantenedor de usuarios
+                                        <i class="hand point left icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (SessionH.Usuario.Ocupa_Prestaciones == true)
+                {
+                    @*Mantenedor de prestaciones*@
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm" style="opacity:0.9">
+                            <div class="contenedor-imagen">
+                                <img class="card-img-top" src="~/Recursos/Imagenes/botonPrestaciones.png" alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Aquí podrás revisar las prestaciones existentes.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <div id="btnMarketPlace" onclick="window.location.href = '/MantenedorPrestaciones'" class="ui right labeled icon black button">
+                                            Mantenedor de prestaciones
+                                            <i class="hand point left icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

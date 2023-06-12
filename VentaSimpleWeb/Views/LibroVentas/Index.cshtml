@@ -255,6 +255,7 @@
                                         <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
                                             <i class="eye icon"></i>
                                         </button>
+
                                         <button class="ui icon red button" data-toggle="modal" data-target="#modalEmitirNota" value="@listaBoletas.Id" onclick="PreparaNotaCredito(this.value, this);">
                                             <i class="eraser icon"></i>
                                         </button>
@@ -320,10 +321,14 @@
                         {
                             <tr>
                                 <td>
-                                    @if (SessionH.Usuario.Emp_Id != 1022)
+
+                                    <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
+                                        <i class="eye icon"></i>
+                                    </button>
+                                    @if (SessionH.Usuario.Puede_Emitir_Nota == true)
                                     {
-                                        <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
-                                            <i class="eye icon"></i>
+                                        <button class="ui icon red button" data-toggle="modal" data-target="#modalEmitirNota_v2" value="@listaBoletas.Id" onclick="PreparaNotaCredito(this.value, this);">
+                                            <i class="eraser icon"></i>
                                         </button>
                                     }
                                 </td>
@@ -406,6 +411,58 @@
                                 !Atención¡
                             </div>
                             <p>Este usuario no puede autorizar nota de crédito, por favor verifique los datos de autorización.</p>
+                        </div>
+                    </div>
+                    <div id="divExitoElimina" class="ui icon hidden positive  message">
+                        <i class="trash icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Éxito!!
+                            </div>
+                            <p>La nota de crédito a sido emitida con éxito.</p>
+                        </div>
+                    </div>
+                    <br />
+                    <button id="btnEmitirNota" class="ui right labeled blue icon button" onclick="CrearNotaCredito();">
+                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                Emitir nota de crédito
+                            </font>
+                        </font>
+                    </button>
+                    <button id="btnCancelar" class="ui right labeled red icon button" data-dismiss="modal">
+                        <i class="cancel icon"></i><font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">
+                                Volver
+                            </font>
+                        </font>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalEmitirNota_v2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="opacity:0.9">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="ui center aligned header">
+                        <img src="~/Recursos/Imagenes/LogoBackline.png" class="ui image">
+                        Emitir nota de crédito
+                    </h3>
+                </div>
+                @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
+                <div class="modal-body">
+                    <div class="image content">
+                        <div class="ui info message">
+                            <div class="ui divider"></div>
+                            <div id="divConsultaEmitir_V2" class="ui icon warning message">
+                                <i class="trash icon"></i>
+                                <div class="content">
+                                    <div class="header">
+                                        ¿Desea emitir una nota de crédito para la boleta seleccionada?
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="divExitoElimina" class="ui icon hidden positive  message">

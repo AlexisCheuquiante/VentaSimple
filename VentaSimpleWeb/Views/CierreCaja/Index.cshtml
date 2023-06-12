@@ -1,0 +1,319 @@
+﻿@model VentaSimpleWeb.Models.CierreCajaModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/CierreCaja/CierreCaja.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" />
+    <title>Cierre de caja</title>
+    <!-- Estilos y funciones básicas de funcionamiento -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/CSS/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="~/Scripts/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Semantic UI CSS -->
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.css">
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
+    <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
+
+    <script src="~/ScriptsVistas/LogicaCierreCaja.js"></script>
+
+    <style>
+        html, body {
+            background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)), url('../../Recursos/Imagenes/FondoNuevo.png');
+            background-size: cover;
+            background-repeat: repeat;
+            height: 100%;
+            font-family: 'Numans', sans-serif;
+        }
+    </style>
+
+    <script>
+
+        var urlObtenerUsuarios = '@Url.Action("ObtenerUsuarios", "CierreCaja")';
+        var urlObtenerCuadreCaja = '@Url.Action("ObtenerCuadreCaja", "CierreCaja")';
+        var urlInsertarCierreCaja = '@Url.Action("InsertarCierreCaja", "CierreCaja")';
+        var urlBusquedaFiltro = '@Url.Action("BusquedaFiltro", "CierreCaja")';
+        var urlObtenerEstablecimientos = '@Url.Action("ObtenerEstablecimientos", "CierreCaja")';
+        
+
+        $(document).ready(function () {
+
+            $('.ui.selection.dropdown').dropdown();
+            $('.ui.menu .ui.dropdown').dropdown({
+                on: 'hover'
+            });
+            $('.ui.accordion')
+                .accordion()
+                ;
+        });
+
+    </script>
+</head>
+<body>
+    <br />
+    <div style="margin-left:auto; margin-right:auto; width:97%; opacity:0.9">
+        <div class="ui bottom attached segment" style="margin-left:auto; margin-right:auto; width:100%">
+            <div class="ui styled fluid accordion">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    Filtros
+                </div>
+                <div class="content">
+                    <div id="modalFiltro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-left: auto; margin-right: auto; width: 100%; opacity:1">
+                        <div class="modal-dialog-xl" role="document">
+                            <div class="modal-body">
+                                <div class="ui info message">
+                                    <div class="ui form">
+                                        <form>
+                                            <div class="fields" style="width:100%">
+                                                <div id="divtxtFiltroFechaDesde" class="field" style="width:15%">
+                                                    <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de desde</font></font></label>
+                                                    <input id="txtFiltroFechaDesde" type="date" placeholder="" value=@Session["FiltroInformeDesde"]>
+                                                </div>
+                                                <div id="divtxtFiltroFechaHasta" class="field" style="width:15%">
+                                                    <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de hasta</font></font></label>
+                                                    <input id="txtFiltroFechaHasta" type="date" placeholder="" value=@Session["FiltroInformeHasta"]>
+                                                </div>
+                                                @if (SessionH.Usuario.Administrador == true)
+                                                {
+                                                    <div id="divcmbFiltroEstablecimiento" class="field" style="width:20%">
+                                                        <label>Establecimiento</label>
+                                                        <select id="cmbFiltroEstablecimiento" name="cmbFiltroEstablecimiento" class="ui search selection dropdown">
+                                                        </select>
+                                                    </div>
+                                                }
+                                                <div class="field">
+                                                    <label>Buscar</label>
+                                                    <button id="btnbuscar" class="ui blue icon button" onclick="BusquedaFiltro();return false">
+                                                        <i class="search icon"></i><font style="vertical-align: inherit;">
+                                                            <font style="vertical-align: inherit;">
+
+                                                            </font>
+                                                        </font>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="divExito" class="ui icon hidden positive message">
+                                        <i class="thumbs up outline icon"></i>
+                                        <div class="content">
+                                            <div class="header">
+                                                Éxito!!
+                                            </div>
+                                            <p>La factura se a guardado con éxito.</p>
+                                        </div>
+                                    </div>
+                                    <div id="divError" class="ui icon hidden negative message">
+                                        <i class="hand paper icon"></i>
+                                        <div class="content">
+                                            <div class="header">
+                                                Error!!
+                                            </div>
+                                            <p>La factura no se a guardado con éxito.</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="btnAgregaDesarrollo" data-toggle="modal" data-target="#modalCierreCaja" class="ui blue right labeled icon button">
+            Cerrar caja
+            <i class="checkmark icon"></i>
+        </div>
+        <div id="btnSalir" class="ui right labeled icon button" onclick="javascript:location.href='/Home'" data-dismiss="modal">Volver<i class="arrow left icon"></i></div>
+        <table class="ui celled striped table">
+            <thead>
+                <tr>
+                    <th style="width: 200px"></th>
+                    <th>Fecha de cierre</th>
+                    <th>Cajero</th>
+                    <th>Total</th>
+                    <th>Observación</th>
+                    <th>Usuario que cerro caja</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var cierreCaja in Model.lista)
+                    {
+                        <tr>
+                            <td>
+
+                                <button class="ui mini vertical animated blue button" value="@cierreCaja.Id" data-toggle="modal" data-target="#modalCierreCaja" onclick="PrepararEditarDesarrollo(this.value, this); EditarDesarrollo();">
+                                    <div class="hidden content"> Editar</div>
+                                    <div class="visible content">
+                                        <i class="edit icon"></i>
+                                    </div>
+                                </button>
+                                <button class="ui mini vertical animated red button" tabindex="0" value="@cierreCaja.Id" data-toggle="modal" data-target="#modalEliminarDesarrollo" onclick="PreparaEliminarDesarrollo(this.value, this);">
+                                    <div class="hidden content">Anular</div>
+                                    <div class="visible content">
+                                        <i class="trash icon"></i>
+                                    </div>
+                                </button>
+                            </td>
+                            <td>@cierreCaja.Fecha_Cierre.ToString();</td>
+                            <td>@cierreCaja.Cajero</td>
+                            <td>$@cierreCaja.Total</td>
+                            <td>@cierreCaja.Observacion</td>
+                            <td>@cierreCaja.Usr_Cierra_Caja_Str</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <div class="modal fade" id="modalCierreCaja" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-left:auto; margin-right:auto; width:40%; opacity:1; margin-top:2%">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">
+                        <img src="~/Recursos/Imagenes/LogoBackline.png" style="width: 50px" />
+                        Cierre de caja
+                    </h4>
+                </div>
+                @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
+            <div class="modal-body">
+                <div class="image content">
+                    <div class="ui info message">
+                        <div class="header">
+                            Atención
+                        </div>
+                        Debes confirmar los montos para poder cerrar la caja.
+                        <div class="ui divider"></div>
+                        <div class="ui form">
+                            <form>
+                                <div class="two fields">
+                                    <div id="divtxtFecha" class="field" style="width:40%">
+                                        <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de cierre de caja</font></font></label>
+                                        <input id="txtFecha" type="date" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div id="divcmbUsuario" class="field" style="width:100%">
+                                        <label>Usuario de caja</label>
+                                        <select id="cmbUsuario" name="cmbUsuario" class="ui search selection dropdown">
+                                        </select>
+                                    </div>
+                                    <button id="btnAgregarProd" class="ui right labeled blue icon button" onclick="ObtenerCuadreCaja(); return false;">
+                                        <i class="search icon"></i><font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">
+                                                Buscar
+                                            </font>
+                                        </font>
+                                    </button>
+                                </div>
+                                <div id="divInfo" class="ui icon hidden info message">
+                                    <i class="bullhorn icon"></i>
+                                    <div class="content">
+                                        <div class="header">
+                                            !Atención¡
+                                        </div>
+                                        <p>El total final considera el descuento de las notas de crédito y anulaciones.</p>
+                                    </div>
+                                </div>
+                                <table id="grdDatos" class="ui celled table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo de documento</th>
+                                            <th>Tipo de pago</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="two fields">
+                                    <div id="divtxtObservacion" style="width:100%" class="field">
+                                        <label>Observación</label>
+                                        <textarea id="txtObservacion" autocomplete="off"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="divExitoCerrarCaja" class="ui icon hidden positive  message">
+                    <i class="smile icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Éxito!!
+                        </div>
+                        <p>El cierre de caja fue realizado con éxito.</p>
+                    </div>
+                </div>
+                <div id="divErrorCerrarCaja" class="ui icon hidden negative  message">
+                    <i class="frown icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Error!!
+                        </div>
+                        <p>El cierre de caja no fue procesado.</p>
+                    </div>
+                </div>
+                <div id="divExistenteCerrarCaja" class="ui icon hidden negative  message">
+                    <i class="frown icon"></i>
+                    <div class="content">
+                        <div class="header">
+                           !Atención!
+                        </div>
+                        <p>Este usuario ya cuenta con un cierre de caja para este día.</p>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div id="DivMessajeErrorCuadre" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            Se han encontrado algunos problemas para buscar los montos, revíselos...
+                        </div>
+                        <ul id="listMessajeErrorCuadre" class="list"></ul>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div id="DivMessajeErrorGeneral" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            Se han encontrado algunos problemas para cerrar la caja, revíselos...
+                        </div>
+                        <ul id="listMessajeError" class="list"></ul>
+                    </div>
+                </div>
+                <br />
+                <button id="btnCerrarCaja" class="ui right labeled blue icon button" onclick="CerrarCaja();">
+                    <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Cerrar caja
+                        </font>
+                    </font>
+                </button>
+                <button id="btnVolverCerrarCaja" class="ui right labeled red icon button" onclick="window.location.replace('/CierreCaja?limpiar=1')">
+                    <i class="home icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Volver
+                        </font>
+                    </font>
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
