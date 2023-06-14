@@ -13,6 +13,11 @@ namespace VentaSimpleWeb.Controllers
         // GET: CierreCaja
         public ActionResult Index(string limpiar)
         {
+            if (VentaSimpleWeb.SessionH.Usuario == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             var text = DateTime.Now.ToString();
             Session["FechaActual"] = text;
 
@@ -85,6 +90,20 @@ namespace VentaSimpleWeb.Controllers
                 entity.Fecha_Int = Utiles.FechaToInteger(entity.Fecha_Cierre);
                 entity.Id_Usr_Cierra_Caja = SessionH.Usuario.Id;
                 entity = Backline.DAL.CajaDAL.InsertarCierreCaja(entity);
+
+                if (entity.Id > 0)
+                {
+                    Backline.Entidades.Bitacora bitacora = new Backline.Entidades.Bitacora();
+                    bitacora.Id = 0;
+                    bitacora.Emp_Id = SessionH.Usuario.Emp_Id;
+                    bitacora.Est_Id = usuario[0].Est_Id;
+                    bitacora.Fecha = DateTime.Now;
+                    bitacora.Mod_Id = 3;
+                    bitacora.Observacion = "Se cierra la caja del usuario " + usuario[0].Nombre;
+                    bitacora.Usr_Id = SessionH.Usuario.Id;
+                    var bitacoraId = Backline.DAL.BitacoraDAL.InsertarBitacora(bitacora);
+                }
+
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = "exito", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
             }

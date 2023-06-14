@@ -13,6 +13,11 @@ namespace VentaSimpleWeb.Controllers
         // GET: MantenedorUsuarios
         public ActionResult Index()
         {
+            if (VentaSimpleWeb.SessionH.Usuario == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             VentaSimpleWeb.Models.MantenedorUsuariosModel modelo = new VentaSimpleWeb.Models.MantenedorUsuariosModel();
             Backline.Entidades.Usuario usuario = new Backline.Entidades.Usuario();
             usuario.Emp_Id = SessionH.Usuario.Emp_Id;

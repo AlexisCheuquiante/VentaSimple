@@ -13,6 +13,11 @@ namespace VentaSimpleWeb.Controllers
         // GET: MantenedorProcedencia
         public ActionResult Index(string limpiar)
         {
+            if (VentaSimpleWeb.SessionH.Usuario == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             VentaSimpleWeb.Models.MantenedorPrestacionesModel modelo = new VentaSimpleWeb.Models.MantenedorPrestacionesModel();
             Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
             filtro.EmpId = SessionH.Usuario.Emp_Id;

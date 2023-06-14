@@ -22,7 +22,12 @@ namespace VentaSimpleWeb.Controllers
         // GET: GeneraVenta
         FacEleClient client;
         public ActionResult Index()
-        {          
+        {
+            if (VentaSimpleWeb.SessionH.Usuario == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             return View();
         }
 
@@ -200,6 +205,26 @@ namespace VentaSimpleWeb.Controllers
                 entity.Id = idBoleta;
                 entity.Numero = folioSII;
                 Backline.DAL.BoletaDAL.InsertarNumeroDocumento(entity);
+
+                if (folioSII > 0)
+                {
+                    Backline.Entidades.Bitacora bitacora = new Backline.Entidades.Bitacora();
+                    bitacora.Id = 0;
+                    bitacora.Emp_Id = SessionH.Usuario.Emp_Id;
+                    if (SessionH.Usuario.Administrador == false)
+                    {
+                        bitacora.Est_Id = SessionH.Usuario.Est_Id;
+                    }
+                    else
+                    {
+                        bitacora.Est_Id = 0;
+                    }
+                    bitacora.Fecha = DateTime.Now;
+                    bitacora.Mod_Id = 1;
+                    bitacora.Observacion = "Se genera la boleta número " + folioSII.ToString();
+                    bitacora.Usr_Id = SessionH.Usuario.Id;
+                    var bitacoraId = Backline.DAL.BitacoraDAL.InsertarBitacora(bitacora);
+                }
 
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }

@@ -15,6 +15,11 @@ namespace VentaSimpleWeb.Controllers
         // GET: LibroVentas
         public ActionResult Index(string limpiar)
         {
+            if (VentaSimpleWeb.SessionH.Usuario == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             VentaSimpleWeb.Models.LibroVentasModel modelo = new VentaSimpleWeb.Models.LibroVentasModel();
             Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
             filtro.EmpId = SessionH.Usuario.Emp_Id;
@@ -167,7 +172,25 @@ namespace VentaSimpleWeb.Controllers
                     return new JsonResult() { ContentEncoding = Encoding.Default, Data = "Error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 }
 
-
+                if (ruta != null)
+                {
+                    Backline.Entidades.Bitacora bitacora = new Backline.Entidades.Bitacora();
+                    bitacora.Id = 0;
+                    bitacora.Emp_Id = SessionH.Usuario.Emp_Id;
+                    if (SessionH.Usuario.Administrador == false)
+                    {
+                        bitacora.Est_Id = SessionH.Usuario.Est_Id;
+                    }
+                    else
+                    {
+                        bitacora.Est_Id = 0;
+                    }
+                    bitacora.Fecha = DateTime.Now;
+                    bitacora.Mod_Id = 2;
+                    bitacora.Observacion = "Se recupera la boleta número " + folioSII.ToString();
+                    bitacora.Usr_Id = SessionH.Usuario.Id;
+                    var bitacoraId = Backline.DAL.BitacoraDAL.InsertarBitacora(bitacora);
+                }
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex)

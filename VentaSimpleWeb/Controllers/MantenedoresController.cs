@@ -11,6 +11,11 @@ namespace VentaSimpleWeb.Controllers
         // GET: Mantenedores
         public ActionResult Index()
         {
+            if (VentaSimpleWeb.SessionH.Usuario == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             return View();
         }
     }

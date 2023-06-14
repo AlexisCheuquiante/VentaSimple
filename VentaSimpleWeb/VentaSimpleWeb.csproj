@@ -157,6 +157,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Code\ExcelExportHelper.cs" />
     <Compile Include="Controllers\BienvenidaController.cs" />
+    <Compile Include="Controllers\BitacoraController.cs" />
     <Compile Include="Controllers\CambiarContraseñaController.cs" />
     <Compile Include="Controllers\CierreCajaController.cs" />
     <Compile Include="Controllers\GeneraVentaController.cs" />
@@ -171,6 +172,7 @@
     </Compile>
     <Compile Include="ModelDTE_Credenciales.cs" />
     <Compile Include="Models\BienvenidaModel.cs" />
+    <Compile Include="Models\BitacoraModel.cs" />
     <Compile Include="Models\CierreCajaModel.cs" />
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\LibroVentasModel.cs" />
@@ -216,6 +218,7 @@
     <Content Include="Recursos\Imagenes\FondoNuevo.png" />
     <Content Include="Recursos\Imagenes\Login.png" />
     <Content Include="Recursos\Imagenes\LogoBackline.png" />
+    <Content Include="ScriptsVistas\LogicaBitacora.js" />
     <Content Include="ScriptsVistas\LogicaCambiarContraseña.js" />
     <Content Include="ScriptsVistas\LogicaCierreCaja.js" />
     <Content Include="ScriptsVistas\LogicaGeneraVenta20230529.js" />
@@ -273,6 +276,8 @@
     <Content Include="Views\CierreCaja\CierreCaja.cshtml" />
     <Content Include="Views\Mantenedores\Index.cshtml" />
     <Content Include="Views\Mantenedores\Mantenedores.cshtml" />
+    <Content Include="Views\Bitacora\Index.cshtml" />
+    <Content Include="Views\Bitacora\Bitacora.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

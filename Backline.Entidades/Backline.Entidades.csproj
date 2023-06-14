@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bitacora.cs" />
     <Compile Include="Caja.cs" />
     <Compile Include="Contribuyente.cs" />
     <Compile Include="DetalleFactura.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Factura.cs" />
     <Compile Include="Filtro.cs" />
     <Compile Include="Imagen.cs" />
+    <Compile Include="Modulo.cs" />
     <Compile Include="Prestaciones.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

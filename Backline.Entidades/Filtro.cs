@@ -22,5 +22,6 @@ namespace Backline.Entidades
         public bool EsAdministrador { get; set; }
         public string Clave_Autorizacion { get; set; }
         public int FolioSii { get; set; }
+        public int Mod_Id { get; set; }
     }
 }

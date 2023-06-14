@@ -13,6 +13,11 @@ namespace VentaSimpleWeb.Controllers
         // GET: CambiarContraseña
         public ActionResult Index()
         {
+            if (VentaSimpleWeb.SessionH.Usuario == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             return View();
         }
         public JsonResult ObtenerContraseña()

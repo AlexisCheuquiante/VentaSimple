@@ -1,0 +1,170 @@
+﻿@model VentaSimpleWeb.Models.BitacoraModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Bitacora/Bitacora.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" />
+    <title>Bitacora</title>
+    <!-- Estilos y funciones básicas de funcionamiento -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/CSS/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="~/Scripts/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Semantic UI CSS -->
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.css">
+    <link rel="stylesheet" type="text/css" href="~/CSS/semantic.min.css">
+    <script type="text/javascript" language="javascript" src="~/Scripts/semantic.min.js"></script>
+
+    <script src="~/ScriptsVistas/LogicaBitacora.js"></script>
+
+    <style>
+        html, body {
+            background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)), url('../../Recursos/Imagenes/FondoNuevo.png');
+            background-size: cover;
+            background-repeat: repeat;
+            height: 100%;
+            font-family: 'Numans', sans-serif;
+        }
+    </style>
+
+    <script>
+
+        var urlObtenerModulos = '@Url.Action("ObtenerModulos", "Bitacora")';
+        var urlObtenerUsuario = '@Url.Action("ObtenerUsuario", "Bitacora")';
+        var urlObtenerEstablecimientos = '@Url.Action("ObtenerEstablecimientos", "Bitacora")';
+        var urlBusquedaFiltro = '@Url.Action("BusquedaFiltro", "Bitacora")';
+        
+        $(document).ready(function () {
+
+            $('.ui.selection.dropdown').dropdown();
+            $('.ui.menu .ui.dropdown').dropdown({
+                on: 'hover'
+            });
+            $('.ui.accordion')
+                .accordion()
+                ;
+
+            ExportarExcel = function () {
+                location.href = '@Url.Action("ExportToExcel", "Bitacora")';
+             };
+        });
+    </script>
+
+</head>
+<body>
+    <br />
+    <div style="margin-left:auto; margin-right:auto; width:97%; opacity:0.9">
+        <div class="ui bottom attached segment" style="margin-left:auto; margin-right:auto; width:100%">
+            <div class="ui styled fluid accordion">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    Filtros
+                </div>
+                <div class="content">
+                    <div id="modalFiltro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-left: auto; margin-right: auto; width: 100%; opacity:1">
+                        <div class="modal-dialog-xl" role="document">
+                            <div class="modal-body">
+                                <div class="ui info message">
+                                    <div class="ui form">
+                                        <form>
+                                            <div class="fields" style="width:100%">
+                                                <div id="divtxtFiltroFechaDesde" class="field" style="width:15%">
+                                                    <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de desde</font></font></label>
+                                                    <input id="txtFiltroFechaDesde" type="date" placeholder="" value=@Session["FiltroInformeDesde"]>
+                                                </div>
+                                                <div id="divtxtFiltroFechaHasta" class="field" style="width:15%">
+                                                    <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de hasta</font></font></label>
+                                                    <input id="txtFiltroFechaHasta" type="date" placeholder="" value=@Session["FiltroInformeHasta"]>
+                                                </div>
+                                                <div id="divcmbFiltroModulo" class="field" style="width:20%">
+                                                    <label>Módulo</label>
+                                                    <select id="cmbFiltroModulo" name="cmbFiltroModulo" class="ui search selection dropdown">
+                                                    </select>
+                                                </div>
+                                                <div id="divcmbFiltroUsuario" class="field" style="width:20%">
+                                                    <label>Usuario</label>
+                                                    <select id="cmbFiltroUsuario" name="cmbFiltroUsuario" class="ui search selection dropdown">
+                                                    </select>
+                                                </div>    
+                                                <div id="divcmbFiltroEstablecimiento" class="field" style="width:20%">
+                                                    <label>Establecimiento</label>
+                                                    <select id="cmbFiltroEstablecimiento" name="cmbFiltroEstablecimiento" class="ui search selection dropdown">
+                                                    </select>
+                                                </div>
+                                                <div class="field">
+                                                    <label>Buscar</label>
+                                                    <button id="btnbuscar" class="ui blue icon button" onclick="BusquedaFiltro();return false">
+                                                        <i class="search icon"></i><font style="vertical-align: inherit;">
+                                                            <font style="vertical-align: inherit;">
+
+                                                            </font>
+                                                        </font>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="divExito" class="ui icon hidden positive message">
+                                        <i class="thumbs up outline icon"></i>
+                                        <div class="content">
+                                            <div class="header">
+                                                Éxito!!
+                                            </div>
+                                            <p>La factura se a guardado con éxito.</p>
+                                        </div>
+                                    </div>
+                                    <div id="divError" class="ui icon hidden negative message">
+                                        <i class="hand paper icon"></i>
+                                        <div class="content">
+                                            <div class="header">
+                                                Error!!
+                                            </div>
+                                            <p>La factura no se a guardado con éxito.</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="btnExportar" class="ui labeled green icon button" onclick="ExportarExcel();">Exportar a Excel<i class="table download icon"></i></div>
+        <div id="btnSalir" class="ui right labeled icon button" onclick="javascript:location.href='/Home'" data-dismiss="modal">Volver<i class="arrow left icon"></i></div>
+        <table class="ui celled striped table">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Modulo</th>
+                    <th>Observación</th>
+                    <th>Usuario</th>
+                    <th>Establecimiento</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var bitacora in Model.lista)
+                    {
+                        <tr>
+                            <td>@bitacora.Fecha.ToString()</td>
+                            <td>@bitacora.Modulo</td>
+                            <td>@bitacora.Observacion</td>
+                            <td>@bitacora.Usuario</td>
+                            <td>@bitacora.Establecimiento</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+</body>
+</html>
