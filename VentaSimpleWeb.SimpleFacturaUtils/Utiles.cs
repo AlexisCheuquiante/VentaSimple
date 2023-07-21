@@ -38,7 +38,8 @@ namespace VentaSimpleWeb.SimpleFacturaUtils
                 respuestaSimpleFactura.Folio = ExtraeFolioNC(response.Content.ToString());
                 respuestaSimpleFactura.EsError = !respuesta;
                 int tipoNC = 61;
-                string ruta = await RecuperarBoleta(respuestaSimpleFactura.Folio, factura.RutCliente, tipoNC, rutEmpresa);
+                rutEmpresa = factura.RutEmpresa;
+                string ruta = await RecuperarBoleta(respuestaSimpleFactura.Folio, factura.RutCliente, tipoNC, rutEmpresa, factura.NombreEstablecimiento);
                 respuestaSimpleFactura.Ruta = ruta;
             }
             else
@@ -53,9 +54,9 @@ namespace VentaSimpleWeb.SimpleFacturaUtils
         {
             SimpleFacturaUtils.NotaCredito notaCredito = new NotaCredito();
             notaCredito.credenciales = new credenciales();
-            notaCredito.credenciales.rutEmisor = "69256900-8";
+            notaCredito.credenciales.rutEmisor = factura.RutEmpresa;
             notaCredito.credenciales.rutContribuyente = factura.RutCliente;
-            notaCredito.credenciales.nombreSucursal = "CESFAM JUAN SOTO";
+            notaCredito.credenciales.nombreSucursal = factura.NombreEstablecimiento.Trim();
 
             notaCredito.dteReferenciadoExterno = new dteReferenciadoExterno();
             notaCredito.dteReferenciadoExterno.folio = factura.DocumentoOrigenINT;
@@ -64,7 +65,7 @@ namespace VentaSimpleWeb.SimpleFacturaUtils
 
             notaCredito.tipoNota = 1;
             notaCredito.motivo = 2;
-            notaCredito.razon = "Anulación de Dispensación";
+            notaCredito.razon = "Anulación de boleta";
             notaCredito.notaDebito = false;
 
             string jsonString = JsonConvert.SerializeObject(notaCredito);
@@ -94,14 +95,14 @@ namespace VentaSimpleWeb.SimpleFacturaUtils
             return int.Parse(folio);
         }
 
-        public async Task<string> RecuperarBoleta(int folio, string rut, int tipoNC, string rutEmpresa)
+        public async Task<string> RecuperarBoleta(int folio, string rut, int tipoNC, string rutEmpresa, string Establecimiento)
         {
 
             var client = new RestClient(new Uri("https://api.simplefactura.cl"));
             var request = new RestRequest("/getPdf", Method.POST);
             request.AddHeader("Authorization", "Basic YWxleGlzLmNoZXVxdWlhbnRlQGJhY2tsaW5lc3BhLmNvbTpCYWNrbGluZTIwMjM=");
             request.AddHeader("Content-Type", "application/json");
-            var body = CreaObjetoPDF(folio, rut, tipoNC);
+            var body = CreaObjetoPDF(folio, rut, tipoNC, rutEmpresa, Establecimiento);
 
             body = body.Replace("@folio", folio.ToString());
 
@@ -112,20 +113,20 @@ namespace VentaSimpleWeb.SimpleFacturaUtils
             //var prefijo = tipoNC == 41 ? "boleta_" : "nota_";
 
 
-            var rutaGuardado = @"C:\Documentos Backline\simpleFactura_\" + "Nota_Crédito_N° " + folio.ToString() + "(" + rutEmpresa.ToString() + ")" + ".pdf";
+            var rutaGuardado = @"C:\Documentos Backline\simpleFactura_boleta_\" + "Nota_Crédito_N°_" + folio.ToString() + "(" + rutEmpresa.ToString() + ")" + ".pdf";
 
             System.IO.File.WriteAllBytes(rutaGuardado, pdf);
 
-            System.Diagnostics.Process.Start(rutaGuardado);
+            //System.Diagnostics.Process.Start(rutaGuardado);
             return rutaGuardado;
         }
-        public string CreaObjetoPDF(int folio, string rut, int tipoNC)
+        public string CreaObjetoPDF(int folio, string rut, int tipoNC, string rutEmpresa, string NombreEstablecimiento)
         {
             SimpleFacturaUtils.ModelDTE_Credenciales credenciales = new ModelDTE_Credenciales();
             credenciales.credenciales = new credenciales();
-            credenciales.credenciales.rutEmisor = "69256900-8";
+            credenciales.credenciales.rutEmisor = rutEmpresa;
             credenciales.credenciales.rutContribuyente = rut;
-            credenciales.credenciales.nombreSucursal = "CESFAM JUAN SOTO";
+            credenciales.credenciales.nombreSucursal = NombreEstablecimiento.Trim();
 
             credenciales.dteReferenciadoExterno = new dteReferenciadoExterno();
             credenciales.dteReferenciadoExterno.folio = folio;

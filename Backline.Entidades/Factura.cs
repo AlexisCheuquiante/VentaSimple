@@ -200,5 +200,6 @@ namespace Backline.Entidades
         public decimal IvaFacele { get; set; }
         public int Tipo_Boleta { get; set; }
         public string FechaFormateada { get; set; }
+        public string NombreEstablecimiento { get; set; }
     }
 }

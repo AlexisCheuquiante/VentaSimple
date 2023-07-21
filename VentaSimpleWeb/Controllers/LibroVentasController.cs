@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Text;
 using System.IO;
 using System.Configuration;
+using System.Threading.Tasks;
+
 
 
 namespace VentaSimpleWeb.Controllers
@@ -212,7 +214,7 @@ namespace VentaSimpleWeb.Controllers
 
             return new JsonResult() { ContentEncoding = Encoding.Default, Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
-        public JsonResult CrearNotaCredito(Backline.Entidades.Factura entity, Backline.Entidades.Filtro filtro)
+        public async Task<JsonResult> CrearNotaCredito(Backline.Entidades.Factura entity, Backline.Entidades.Filtro filtro)
         {
             try
             {
@@ -287,13 +289,17 @@ namespace VentaSimpleWeb.Controllers
                 }
                 if (SessionH.Usuario.Facturador == "SimpleFactura")
                 {
-                    SimpleFacturaUtils.Utiles utl = new SimpleFacturaUtils.Utiles();
-                    int tipoDocumento = 41;
-                    var rutEmpresa = SessionH.Usuario.RutEmpresa;
-                    entity.DocumentoOrigenINT = lista[0].Numero;
-                    entity.RutCliente = lista[0].Rut;
-                    var respuestaAsyntec =  utl.GenerarNotaCredito(entity, tipoDocumento, rutEmpresa);
                     
+                        SimpleFacturaUtils.Utiles utl = new SimpleFacturaUtils.Utiles();
+                        int tipoDocumento = 41;
+                        var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                        entity.DocumentoOrigenINT = lista[0].Numero;
+                        entity.RutCliente = lista[0].Rut;
+                        entity.RutEmpresa = rutEmpresa;
+                        entity.NombreEstablecimiento = SessionH.Usuario.NombreEstablecimiento;
+                        var respuestaAsyntec = await utl.GenerarNotaCredito(entity, tipoDocumento, rutEmpresa);
+                        numeroSII = respuestaAsyntec.Folio;
+                        ruta = ConfigurationManager.AppSettings["UrlBoletasSimpleFactura"] + "Nota_Crédito_N°_" + numeroSII.ToString() + "(" + rutEmpresa.ToString() + ")" + ".pdf";
                 }
 
 
@@ -327,6 +333,7 @@ namespace VentaSimpleWeb.Controllers
             {
                 var rutEmpresa = SessionH.Usuario.RutEmpresa;
                 var a = "";
+                var ruta = "";
                 //MessageBox.Show("Número" + folioSII.ToString());
                 if (SessionH.Usuario.EsAfecta == true || SessionH.Usuario.Id == 191)
                 {
@@ -336,7 +343,14 @@ namespace VentaSimpleWeb.Controllers
                 {
                     a = "(E)";
                 }
-                string ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "NotaCrédito_" + folioSII.ToString() + ".pdf";
+                if (SessionH.Usuario.Facturador == "superfactura")
+                {
+                    ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "NotaCrédito_" + folioSII.ToString() + ".pdf";
+                }
+                if (SessionH.Usuario.Facturador == "SimpleFactura")
+                {
+                    ruta = ConfigurationManager.AppSettings["UrlBoletasSimpleFactura"] + "Nota_Crédito_N°_" + folioSII.ToString() + "(" + rutEmpresa.ToString() + ")" + ".pdf";
+                }
 
                 if (ruta == null || ruta == "")
                 {

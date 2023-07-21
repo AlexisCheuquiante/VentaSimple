@@ -306,8 +306,9 @@
                             <th style="word-wrap: break-word; background-color: deepskyblue"></th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Tipo de documento</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">N°SII</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue">Documento Referencia</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Fecha</th>
-                            <th style="word-wrap: break-word; background-color: deepskyblue">Rut</th>
+                            <th style="word-wrap: break-word; background-color: deepskyblue; width:100px">Rut</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Razón social</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Glosa</th>
                             <th style="word-wrap: break-word; background-color: deepskyblue">Total</th>
@@ -321,11 +322,19 @@
                         {
                             <tr>
                                 <td>
-
-                                    <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
-                                        <i class="eye icon"></i>
-                                    </button>
-                                    @if (SessionH.Usuario.Puede_Emitir_Nota == true)
+                                    @if (listaBoletas.Tido_Id == 1)
+                                    {
+                                        <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdf(this.value, this);">
+                                            <i class="eye icon"></i>
+                                        </button>
+                                    }
+                                    @if (listaBoletas.Tido_Id == 2)
+                                    {
+                                        <button class="ui icon blue button" value="@listaBoletas.NumeroSII" onclick="ObtenerPdfNotaCredito(this.value, this);">
+                                            <i class="eye icon"></i>
+                                        </button>
+                                    }
+                                    @if (SessionH.Usuario.Puede_Emitir_Nota == true && listaBoletas.Tido_Id == 1 && listaBoletas.DocumentoReferencia == 0)
                                     {
                                         <button class="ui icon red button" data-toggle="modal" data-target="#modalEmitirNota_v2" value="@listaBoletas.Id" onclick="PreparaNotaCredito(this.value, this);">
                                             <i class="eraser icon"></i>
@@ -341,6 +350,7 @@
                                     <td>@listaBoletas.TipoDocumentoStr</td>
                                 }
                                 <td>@listaBoletas.NumeroSII</td>
+                                <td>@listaBoletas.DocumentoReferencia</td>
                                 <td>@listaBoletas.Fecha.ToString()</td>
                                 <td>@listaBoletas.Rut</td>
                                 <td>@listaBoletas.Contribuyente</td>
