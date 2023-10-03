@@ -46,6 +46,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Charts.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EPPlus">
       <HintPath>..\..\Solicitudes\ControlStock\bin\EPPlus.dll</HintPath>
     </Reference>
@@ -312,6 +317,10 @@
     <ProjectReference Include="..\Facele Utils\FacEleUtils.csproj">
       <Project>{e91efbbf-c2f3-436e-9297-3bc503858053}</Project>
       <Name>FacEleUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VentaSimpleWeb.Reportes\VentaSimpleWeb.Reportes.csproj">
+      <Project>{6a2ad9c7-e5e0-44d8-8040-d1dde0f319dd}</Project>
+      <Name>VentaSimpleWeb.Reportes</Name>
     </ProjectReference>
     <ProjectReference Include="..\VentaSimpleWeb.SimpleFacturaUtils\SimpleFacturaUtils.csproj">
       <Project>{a3356769-0035-4d14-bb34-701b1acea8df}</Project>

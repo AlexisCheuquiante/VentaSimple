@@ -399,17 +399,17 @@ namespace VentaSimpleWeb.Controllers
             dte.Documento.Encabezado.Emisor = new SimpleFactura.Emisor();
             dte.Documento.Encabezado.Emisor.RUTEmisor = SessionH.Usuario.RutEmpresa;
             dte.Documento.Encabezado.Emisor.RznSocEmisor = SessionH.Usuario.NombreEmpresa;
-            dte.Documento.Encabezado.Emisor.GiroEmisor = "ADMINISTRACIÓN PÚBLICA EN GENERAL Y VENTA AL POR MENOR DE PRODUCTOS FARMACÉUTICOS Y MEDICINALES EN COMERCIOS";
-            dte.Documento.Encabezado.Emisor.DirOrigen = "Ohiggins 1256";
-            dte.Documento.Encabezado.Emisor.CmnaOrigen = "Concepción";
-            dte.Documento.Encabezado.Emisor.CiudadOrigen = "Concepción";
+            dte.Documento.Encabezado.Emisor.GiroEmisor = SessionH.Usuario.Giro_Impreso.Trim();
+            dte.Documento.Encabezado.Emisor.DirOrigen = SessionH.Usuario.Direccion_Sucursal.Trim();
+            dte.Documento.Encabezado.Emisor.CmnaOrigen = SessionH.Usuario.Comuna.Trim();
+            dte.Documento.Encabezado.Emisor.CiudadOrigen = SessionH.Usuario.Ciudad.Trim();
 
             dte.Documento.Encabezado.Receptor = new SimpleFactura.Receptor();
             dte.Documento.Encabezado.Receptor.RUTRecep = Factura.Rut;
             dte.Documento.Encabezado.Receptor.RznSocRecep = Factura.Contribuyente;
-            dte.Documento.Encabezado.Receptor.DirRecep = "Concepción";
-            dte.Documento.Encabezado.Receptor.CmnaRecep = "Concepción";
-            dte.Documento.Encabezado.Receptor.CiudadRecep = "Concepción";
+            dte.Documento.Encabezado.Receptor.DirRecep = SessionH.Usuario.Comuna.Trim();
+            dte.Documento.Encabezado.Receptor.CmnaRecep = SessionH.Usuario.Comuna.Trim();
+            dte.Documento.Encabezado.Receptor.CiudadRecep = SessionH.Usuario.Ciudad.Trim();
 
             SimpleFactura.Detalle detalleBoleta = new SimpleFactura.Detalle();
             foreach (var a in detalle)
@@ -477,7 +477,14 @@ namespace VentaSimpleWeb.Controllers
             credenciales.dteReferenciadoExterno = new dteReferenciadoExterno();
             credenciales.dteReferenciadoExterno.folio = int.Parse(Session["ultimoFolio"].ToString());
             credenciales.dteReferenciadoExterno.codigoTipoDte = 41;
-            credenciales.dteReferenciadoExterno.ambiente = 1;
+            if (SessionH.Usuario.Ambiente == "cer")
+            {
+                credenciales.dteReferenciadoExterno.ambiente = 0;
+            }
+            else
+            {
+                credenciales.dteReferenciadoExterno.ambiente = 1;
+            }
 
             string jsonString = JsonConvert.SerializeObject(credenciales);
             return jsonString;

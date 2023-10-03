@@ -70,6 +70,10 @@ namespace Backline.DAL
                 int OCUPA_PRESTACIONES = reader.GetOrdinal("OCUPA_PRESTACIONES");
                 int OCUPA_CLAVE_AUTORIZACION = reader.GetOrdinal("OCUPA_CLAVE_AUTORIZACION");
                 int PUEDE_EMITIR_NOTA_CREDITO = reader.GetOrdinal("PUEDE_EMITIR_NOTA_CREDITO");
+                int GIRO_IMPRESO = reader.GetOrdinal("GIRO_IMPRESO");
+                int DIRECCION_SUCURSAL = reader.GetOrdinal("DIRECCION_SUCURSAL");
+                int COMUNA = reader.GetOrdinal("COMUNA");
+                int CIUDAD = reader.GetOrdinal("CIUDAD");
 
                 while (reader.Read())
                 {
@@ -98,6 +102,10 @@ namespace Backline.DAL
                     OBJ.Ocupa_Prestaciones = (bool)(!reader.IsDBNull(OCUPA_PRESTACIONES) ? reader.GetValue(OCUPA_PRESTACIONES) : false);
                     OBJ.Ocupa_Clave_Autorizacion = (bool)(!reader.IsDBNull(OCUPA_CLAVE_AUTORIZACION) ? reader.GetValue(OCUPA_CLAVE_AUTORIZACION) : false);
                     OBJ.Puede_Emitir_Nota = (bool)(!reader.IsDBNull(PUEDE_EMITIR_NOTA_CREDITO) ? reader.GetValue(PUEDE_EMITIR_NOTA_CREDITO) : false);
+                    OBJ.Giro_Impreso = (String)(!reader.IsDBNull(GIRO_IMPRESO) ? reader.GetValue(GIRO_IMPRESO) : string.Empty);
+                    OBJ.Direccion_Sucursal = (String)(!reader.IsDBNull(DIRECCION_SUCURSAL) ? reader.GetValue(DIRECCION_SUCURSAL) : string.Empty);
+                    OBJ.Comuna = (String)(!reader.IsDBNull(COMUNA) ? reader.GetValue(COMUNA) : string.Empty);
+                    OBJ.Ciudad = (String)(!reader.IsDBNull(CIUDAD) ? reader.GetValue(CIUDAD) : string.Empty);
                     //EndFields
 
                     listaUsuarios.Add(OBJ);

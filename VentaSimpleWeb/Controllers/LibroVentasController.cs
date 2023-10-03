@@ -289,17 +289,27 @@ namespace VentaSimpleWeb.Controllers
                 }
                 if (SessionH.Usuario.Facturador == "SimpleFactura")
                 {
-                    
-                        SimpleFacturaUtils.Utiles utl = new SimpleFacturaUtils.Utiles();
-                        int tipoDocumento = 41;
-                        var rutEmpresa = SessionH.Usuario.RutEmpresa;
-                        entity.DocumentoOrigenINT = lista[0].Numero;
-                        entity.RutCliente = lista[0].Rut;
-                        entity.RutEmpresa = rutEmpresa;
-                        entity.NombreEstablecimiento = SessionH.Usuario.NombreEstablecimiento;
-                        var respuestaAsyntec = await utl.GenerarNotaCredito(entity, tipoDocumento, rutEmpresa);
+
+                    SimpleFacturaUtils.Utiles utl = new SimpleFacturaUtils.Utiles();
+                    int tipoDocumento = 41;
+                    var rutEmpresa = SessionH.Usuario.RutEmpresa;
+                    entity.DocumentoOrigenINT = lista[0].Numero;
+                    entity.RutCliente = lista[0].Rut;
+                    entity.RutEmpresa = rutEmpresa;
+                    entity.NombreEstablecimiento = SessionH.Usuario.NombreEstablecimiento;
+                    entity.Total = lista[0].Total;
+                    var respuestaAsyntec = await utl.GenerarNotaCredito(entity, tipoDocumento, rutEmpresa);
+                    if (respuestaAsyntec.EsError == false)
+                    {
                         numeroSII = respuestaAsyntec.Folio;
                         ruta = ConfigurationManager.AppSettings["UrlBoletasSimpleFactura"] + "Nota_Crédito_N°_" + numeroSII.ToString() + "(" + rutEmpresa.ToString() + ")" + ".pdf";
+                    }
+                    else
+                    {
+                        entity.Id = idNotaCredito;
+                        Backline.DAL.BoletaDAL.EliminarNotaCredito(entity);
+                        return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                    }
                 }
 
 

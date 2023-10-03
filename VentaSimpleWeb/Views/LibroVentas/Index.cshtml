@@ -383,71 +383,72 @@
                     </h3>
                 </div>
                 @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
-                <div class="modal-body">
-                    <div class="image content">
-                        <div class="ui info message">
-                            <div class="ui divider"></div>
-                            <div id="divConsultaEmitir" class="ui icon warning message">
-                                <i class="trash icon"></i>
-                                <div class="content">
-                                    <div class="header">
-                                        ¿Desea emitir una nota de crédito para la boleta seleccionada?
-                                    </div>
-                                    <p>Para emitir la nota de crédito debe indicar la clave de autorización del administrador del recinto.</p>
+            <div class="modal-body">
+                <div class="image content">
+                    <div class="ui info message">
+                        <div class="ui divider"></div>
+                        <div id="divConsultaEmitir" class="ui icon warning message">
+                            <i class="trash icon"></i>
+                            <div class="content">
+                                <div class="header">
+                                    ¿Desea emitir una nota de crédito para la boleta seleccionada?
                                 </div>
+                                <p>Para emitir la nota de crédito debe indicar la clave de autorización del administrador del recinto.</p>
                             </div>
-                            <div class="ui form">
-                                <form>
+                        </div>
+                        <div class="ui form">
+                            <form>
 
-                                    <div class="two fields">
-                                        <div id="divcmbResponsable" class="field" style="width:100%">
-                                            <label>Responsable autorizador</label>
-                                            <select id="cmbResponsable" name="cmbResponsable" class="ui search selection dropdown">
-                                            </select>
-                                        </div>
-                                        <div id="divtxtClaveAutorizacion" class="field" style="width:100%">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Clave de autorización</font></font></label>
-                                            <input id="txtClaveAutorizacion" type="text" placeholder="" autocomplete="off">
-                                        </div>
+                                <div class="two fields">
+                                    <div id="divcmbResponsable" class="field" style="width:100%">
+                                        <label>Responsable autorizador</label>
+                                        <select id="cmbResponsable" name="cmbResponsable" class="ui search selection dropdown">
+                                        </select>
                                     </div>
-                                </form>
-                            </div>
+                                    <div id="divtxtClaveAutorizacion" class="field" style="width:100%">
+                                        <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Clave de autorización</font></font></label>
+                                        <input id="txtClaveAutorizacion" type="text" placeholder="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div id="divNoAutorizado" class="ui icon hidden negative  message">
-                        <i class="exclamation triangle icon"></i>
-                        <div class="content">
-                            <div class="header">
-                                !Atención¡
-                            </div>
-                            <p>Este usuario no puede autorizar nota de crédito, por favor verifique los datos de autorización.</p>
-                        </div>
-                    </div>
-                    <div id="divExitoElimina" class="ui icon hidden positive  message">
-                        <i class="trash icon"></i>
-                        <div class="content">
-                            <div class="header">
-                                Éxito!!
-                            </div>
-                            <p>La nota de crédito a sido emitida con éxito.</p>
-                        </div>
-                    </div>
-                    <br />
-                    <button id="btnEmitirNota" class="ui right labeled blue icon button" onclick="CrearNotaCredito();">
-                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">
-                                Emitir nota de crédito
-                            </font>
-                        </font>
-                    </button>
-                    <button id="btnCancelar" class="ui right labeled red icon button" data-dismiss="modal">
-                        <i class="cancel icon"></i><font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">
-                                Volver
-                            </font>
-                        </font>
-                    </button>
                 </div>
+                <div id="divNoAutorizado" class="ui icon hidden negative  message">
+                    <i class="exclamation triangle icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            !Atención¡
+                        </div>
+                        <p>Este usuario no puede autorizar nota de crédito, por favor verifique los datos de autorización.</p>
+                    </div>
+                </div>
+                <div id="divExitoElimina" class="ui icon hidden positive  message">
+                    <i class="trash icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Éxito!!
+                        </div>
+                        <p>La nota de crédito a sido emitida con éxito.</p>
+                    </div>
+                </div>
+               
+                <br />
+                <button id="btnEmitirNota" class="ui right labeled blue icon button" onclick="CrearNotaCredito();">
+                    <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Emitir nota de crédito
+                        </font>
+                    </font>
+                </button>
+                <button id="btnCancelar" class="ui right labeled red icon button" data-dismiss="modal">
+                    <i class="cancel icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Volver
+                        </font>
+                    </font>
+                </button>
+            </div>
             </div>
         </div>
     </div>
@@ -461,45 +462,55 @@
                     </h3>
                 </div>
                 @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
-                <div class="modal-body">
-                    <div class="image content">
-                        <div class="ui info message">
-                            <div class="ui divider"></div>
-                            <div id="divConsultaEmitir_V2" class="ui icon warning message">
-                                <i class="trash icon"></i>
-                                <div class="content">
-                                    <div class="header">
-                                        ¿Desea emitir una nota de crédito para la boleta seleccionada?
-                                    </div>
+            <div class="modal-body">
+                <div class="image content">
+                    <div class="ui info message">
+                        <div class="ui divider"></div>
+                        <div id="divConsultaEmitir_V2" class="ui icon warning message">
+                            <i class="trash icon"></i>
+                            <div class="content">
+                                <div class="header">
+                                    ¿Desea emitir una nota de crédito para la boleta seleccionada?
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="divExitoElimina" class="ui icon hidden positive  message">
-                        <i class="trash icon"></i>
-                        <div class="content">
-                            <div class="header">
-                                Éxito!!
+                        <div id="divErrorEmitirNuevo" class="ui icon hidden negative  message">
+                            <i class="exclamation triangle icon"></i>
+                            <div class="content">
+                                <div class="header">
+                                    !Atención¡
+                                </div>
+                                <p>La nota de crédito no logro ser procesada, es posible que aún falta que el SII acepte la boleta, por favor intente en unos minutos más.</p>
                             </div>
-                            <p>La nota de crédito a sido emitida con éxito.</p>
                         </div>
                     </div>
-                    <br />
-                    <button id="btnEmitirNota" class="ui right labeled blue icon button" onclick="CrearNotaCredito();">
-                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">
-                                Emitir nota de crédito
-                            </font>
-                        </font>
-                    </button>
-                    <button id="btnCancelar" class="ui right labeled red icon button" data-dismiss="modal">
-                        <i class="cancel icon"></i><font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">
-                                Volver
-                            </font>
-                        </font>
-                    </button>
                 </div>
+                <div id="divExitoElimina" class="ui icon hidden positive  message">
+                    <i class="trash icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Éxito!!
+                        </div>
+                        <p>La nota de crédito a sido emitida con éxito.</p>
+                    </div>
+                </div>
+                
+                <br />
+                <button id="btnEmitirNota" class="ui right labeled blue icon button" onclick="CrearNotaCredito();">
+                    <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Emitir nota de crédito
+                        </font>
+                    </font>
+                </button>
+                <button id="btnCancelar" class="ui right labeled red icon button" data-dismiss="modal">
+                    <i class="cancel icon"></i><font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            Volver
+                        </font>
+                    </font>
+                </button>
+            </div>
             </div>
         </div>
     </div>

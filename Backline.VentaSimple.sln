@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacEleUtils", "Facele Utils
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFacturaUtils", "VentaSimpleWeb.SimpleFacturaUtils\SimpleFacturaUtils.csproj", "{A3356769-0035-4D14-BB34-701B1ACEA8DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VentaSimpleWeb.Reportes", "VentaSimpleWeb.Reportes\VentaSimpleWeb.Reportes.csproj", "{6A2AD9C7-E5E0-44D8-8040-D1DDE0F319DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{A3356769-0035-4D14-BB34-701B1ACEA8DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3356769-0035-4D14-BB34-701B1ACEA8DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3356769-0035-4D14-BB34-701B1ACEA8DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A2AD9C7-E5E0-44D8-8040-D1DDE0F319DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2AD9C7-E5E0-44D8-8040-D1DDE0F319DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2AD9C7-E5E0-44D8-8040-D1DDE0F319DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2AD9C7-E5E0-44D8-8040-D1DDE0F319DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -225,5 +225,14 @@ namespace Backline.DAL
             return facturaNumero;
 
         }
+        public static void EliminarNotaCredito(Entidades.Factura factura)
+        {
+            Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
+            DbCommand dbCommand = db.GetStoredProcCommand("SP_BOL_BOLETA_ELIMINAR_NC");
+
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, factura.Id != 0 ? factura.Id : (object)null);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace VentaSimpleWeb.SimpleFacturaUtils
         public int motivo { get; set; }
         public string razon { get; set; }
         public bool notaDebito { get; set; }
-
+        public string MontoItem { get; set; }
     }
     public class ModelDTE_NC
     {
@@ -23,5 +23,18 @@ namespace VentaSimpleWeb.SimpleFacturaUtils
         public int motivo { get; set; }
         public string razon { get; set; }
         public bool notaDebito { get; set; }
+    }
+    public class Detalle
+    {
+        public string NroLinDet { get; set; }
+        public string NmbItem { get; set; }
+
+        public string QtyItem { get; set; }
+        public string UnmdItem { get; set; }
+        public string PrcItem { get; set; }
+        public string MontoItem { get; set; }
+
+        public int IndExe { get; set; }
+
     }
 }

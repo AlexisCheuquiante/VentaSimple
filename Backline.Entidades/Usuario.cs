@@ -32,5 +32,9 @@ namespace Backline.Entidades
         public bool Ocupa_Prestaciones { get; set; }
         public bool Ocupa_Clave_Autorizacion { get; set; }
         public bool Puede_Emitir_Nota { get; set; }
+        public string Giro_Impreso { get; set; }
+        public string Direccion_Sucursal { get; set; }
+        public string Comuna { get; set; }
+        public string Ciudad { get; set; }
     }
 }

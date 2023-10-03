@@ -5,6 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Text;
 using System.IO;
+using System.Configuration;
+using System.Threading;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace VentaSimpleWeb.Controllers
 {
@@ -91,6 +96,8 @@ namespace VentaSimpleWeb.Controllers
                 entity.Id_Usr_Cierra_Caja = SessionH.Usuario.Id;
                 entity = Backline.DAL.CajaDAL.InsertarCierreCaja(entity);
 
+                var rutaPdf = "";
+
                 if (entity.Id > 0)
                 {
                     Backline.Entidades.Bitacora bitacora = new Backline.Entidades.Bitacora();
@@ -102,9 +109,16 @@ namespace VentaSimpleWeb.Controllers
                     bitacora.Observacion = "Se cierra la caja del usuario " + usuario[0].Nombre;
                     bitacora.Usr_Id = SessionH.Usuario.Id;
                     var bitacoraId = Backline.DAL.BitacoraDAL.InsertarBitacora(bitacora);
+
+                    VentaSimpleWeb.Reportes.rptCierreCaja rptCierreCaja = new Reportes.rptCierreCaja();
+                    rptCierreCaja.Cargar(entity);
+                    rptCierreCaja.CreateDocument(true);
+
+                    rutaPdf = ConfigurationSettings.AppSettings.Get("RutaPDF_Fisica") + "(" + SessionH.Usuario.RutEmpresa + ")" + "Cierre_Caja_" + usuario[0].Nombre + "(" + DateTime.Now.ToString() + ")" + ".pdf";
+                    rptCierreCaja.ExportToPdf(rutaPdf, null);
                 }
 
-                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "exito", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = rutaPdf, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
             }
             catch (Exception ex)

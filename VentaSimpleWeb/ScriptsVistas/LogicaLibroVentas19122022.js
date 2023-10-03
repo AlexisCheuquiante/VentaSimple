@@ -149,7 +149,15 @@ function CrearNotaCredito() {
                 window.open(data, "_blank");
                 setTimeout(() => { window.location.href = '/LibroVentas?limpiar=1' }, 1000);
             }
-
+            if (data == 'error') {
+                $('#divConsultaEmitir_V2').addClass("hidden");
+                $('#divErrorEmitirNuevo').removeClass("hidden");
+                $('#btnEmitirNota').removeClass('loading');
+                $('#btnEmitirNota').removeClass('disabled');
+                $('#btnCancelar').removeClass('loading');
+                $('#btnCancelar').removeClass('disabled');
+                setTimeout(() => { window.location.href = '/LibroVentas?limpiar=1' }, 1000);
+            }
             
         },
 

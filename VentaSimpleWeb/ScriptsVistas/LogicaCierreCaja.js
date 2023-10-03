@@ -152,9 +152,10 @@ function CerrarCaja() {
         type: 'POST',
         data: { entity: strParams },
         success: function (data) {
-            if (data === 'exito') {
+            if (data != 'error' && data != 'existente') {
                 $('#divExitoCerrarCaja').removeClass("hidden");
-                setTimeout(() => { location.reload(); }, 2000);
+                window.open(data, "_blank");
+                setTimeout(() => { window.location.href = '/CierreCaja?limpiar=1' }, 2000);
             }
             if (data === 'error') {
                 $('#divErrorCerrarCaja').removeClass("hidden");

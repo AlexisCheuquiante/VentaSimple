@@ -65,7 +65,7 @@ namespace VentaSimpleWeb.SimpleFacturaUtils
 
             notaCredito.tipoNota = 1;
             notaCredito.motivo = 2;
-            notaCredito.razon = "Anulación de boleta";
+            notaCredito.razon = "Anulacion de boleta";
             notaCredito.notaDebito = false;
 
             string jsonString = JsonConvert.SerializeObject(notaCredito);
