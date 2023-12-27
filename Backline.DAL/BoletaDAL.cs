@@ -65,6 +65,7 @@ namespace Backline.DAL
                 int TIPO_DOCUMENTO = reader.GetOrdinal("TIPO_DOCUMENTO");
                 int DOCUMENTO_REFERENCIA = reader.GetOrdinal("DOCUMENTO_REFERENCIA");
                 int ES_AFECTA = reader.GetOrdinal("ES_AFECTA");
+                int NULA = reader.GetOrdinal("NULA");
 
                 while (reader.Read())
                 {
@@ -88,6 +89,7 @@ namespace Backline.DAL
                     OBJ.TipoDocumentoStr = (String)(!reader.IsDBNull(TIPO_DOCUMENTO) ? reader.GetValue(TIPO_DOCUMENTO) : string.Empty);
                     OBJ.DocumentoReferencia = (int)(!reader.IsDBNull(DOCUMENTO_REFERENCIA) ? reader.GetValue(DOCUMENTO_REFERENCIA) : 0);
                     OBJ.Es_Afecta = (bool)(!reader.IsDBNull(ES_AFECTA) ? reader.GetValue(ES_AFECTA) : false);
+                    OBJ.Nula_bool = (bool)(!reader.IsDBNull(NULA) ? reader.GetValue(NULA) : false);
                     //EndFields
 
                     listaFacturas.Add(OBJ);
@@ -136,6 +138,7 @@ namespace Backline.DAL
                 int TIPA_ID = reader.GetOrdinal("TIPA_ID");
                 int TIPO_DOCUMENTO = reader.GetOrdinal("TIPO_DOCUMENTO");
                 int ES_AFECTA = reader.GetOrdinal("ES_AFECTA");
+                int FACTURADOR = reader.GetOrdinal("FACTURADOR");
 
                 while (reader.Read())
                 {
@@ -157,6 +160,7 @@ namespace Backline.DAL
                     OBJ.Tipa_Id = (int)(!reader.IsDBNull(TIPA_ID) ? reader.GetValue(TIPA_ID) : 0);
                     OBJ.TipoDocumentoStr = (String)(!reader.IsDBNull(TIPO_DOCUMENTO) ? reader.GetValue(TIPO_DOCUMENTO) : string.Empty);
                     OBJ.Es_Afecta = (bool)(!reader.IsDBNull(ES_AFECTA) ? reader.GetValue(ES_AFECTA) : false);
+                    OBJ.Facturador = (String)(!reader.IsDBNull(FACTURADOR) ? reader.GetValue(FACTURADOR) : string.Empty);
                     //EndFields
 
                     listaFacturas.Add(OBJ);
@@ -182,6 +186,7 @@ namespace Backline.DAL
 
             db.AddInParameter(dbCommand, "ID", DbType.Int32, facturaNumero.Id != 0 ? facturaNumero.Id : (object)null);
             db.AddInParameter(dbCommand, "NUMERO", DbType.Int32, facturaNumero.Numero != 0 ? facturaNumero.Numero : (object)null);
+            db.AddInParameter(dbCommand, "FACTURADOR", DbType.String, facturaNumero.Facturador != "" ? facturaNumero.Facturador : (object)null);
 
             db.ExecuteNonQuery(dbCommand);
 
@@ -229,6 +234,15 @@ namespace Backline.DAL
         {
             Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
             DbCommand dbCommand = db.GetStoredProcCommand("SP_BOL_BOLETA_ELIMINAR_NC");
+
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, factura.Id != 0 ? factura.Id : (object)null);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
+        public static void AnularBoleta(Entidades.Factura factura)
+        {
+            Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
+            DbCommand dbCommand = db.GetStoredProcCommand("SP_BOL_BOLETAS_ANULAR");
 
             db.AddInParameter(dbCommand, "ID", DbType.Int32, factura.Id != 0 ? factura.Id : (object)null);
 

@@ -193,3 +193,48 @@ function ObtenerUsuariosAutorizadores() {
     });
 
 }
+function PreparaAnularBoleta(id) {
+    $('#Documento').val(id);
+
+}
+function AnularBoleta() {
+    $('#btnAnularBE').addClass('loading');
+    $('#btnAnularBE').addClass('disabled');
+    $('#btnCancelarAnular').addClass('loading');
+    $('#btnCancelarAnular').addClass('disabled');
+
+    id = $('#Documento').val();
+
+    var strParams = {
+        Id: id,
+    }
+
+    id = id;
+    $.ajax({
+        url: window.urlAnularBoleta,
+        type: 'POST',
+        data: { entity: strParams },
+        success: function (data) {
+            if (data != 'error') {
+                $('#divExitoAnular').removeClass("hidden");
+                setTimeout(() => { window.location.href = '/LibroVentas?limpiar=1' }, 1000);
+            }
+            if (data == 'error') {
+                $('#divExitoAnular').addClass("hidden");
+                $('#divErrorAnular').removeClass("hidden");
+                $('#btnAnularBE').removeClass('loading');
+                $('#btnAnularBE').removeClass('disabled');
+                $('#btnCancelarAnular').removeClass('loading');
+                $('#btnCancelarAnular').removeClass('disabled');
+                setTimeout(() => { window.location.href = '/LibroVentas?limpiar=1' }, 1000);
+            }
+
+        },
+
+        error: function () {
+            alert('Error al intentar anular la venta');
+        }
+    });
+    /*_id = id;*/
+
+}

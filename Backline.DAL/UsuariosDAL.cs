@@ -187,5 +187,44 @@ namespace Backline.DAL
             return listaUsuarios;
 
         }
+        public static List<Backline.Entidades.Usuario> ObtenerDatos(Backline.Entidades.Filtro filtro)
+        {
+            List<Backline.Entidades.Usuario> listaUsuarios = new List<Backline.Entidades.Usuario>();
+            Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
+            DbCommand dbCommand = db.GetStoredProcCommand("SP_DATOS_BOLETA_LEER");
+
+            db.AddInParameter(dbCommand, "ID", DbType.Int32, filtro.Id != 0 ? filtro.Id : (object)null);
+
+            IDataReader reader = (IDataReader)db.ExecuteReader(dbCommand);
+
+            try
+            {
+                int AFECTA_IVA = reader.GetOrdinal("AFECTA_IVA");
+                int FACTURADOR = reader.GetOrdinal("FACTURADOR");
+
+                while (reader.Read())
+                {
+                    Backline.Entidades.Usuario OBJ = new Backline.Entidades.Usuario();
+                    //BeginFields
+                    OBJ.EsAfecta = (bool)(!reader.IsDBNull(AFECTA_IVA) ? reader.GetValue(AFECTA_IVA) : false);
+                    OBJ.Facturador = (String)(!reader.IsDBNull(FACTURADOR) ? reader.GetValue(FACTURADOR) : string.Empty);
+                    //EndFields
+
+                    listaUsuarios.Add(OBJ);
+                }
+            }
+            catch (Exception ex)
+            {
+                //GlobalesDAO.InsertErrores(ex);
+                throw ex;
+            }
+            finally
+            {
+                reader.Close();
+            }
+
+            return listaUsuarios;
+
+        }
     }
 }

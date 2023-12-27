@@ -57,8 +57,8 @@ namespace VentaSimpleWeb.Controllers
             {
                 modelo.listaBoletas = Session["registrosEncontrados"] as List<Backline.Entidades.Factura>;
             }
-            
-            
+
+
             return View(modelo);
         }
         public ActionResult BusquedaFiltro(Backline.Entidades.Filtro entity)
@@ -109,62 +109,90 @@ namespace VentaSimpleWeb.Controllers
             List<Backline.Entidades.Factura> lista = Session["registrosEncontrados"] as List<Backline.Entidades.Factura>;
             if (SessionH.Usuario.Emp_Id == 14)
             {
-                string[] columns = { "TipoDocumentoStr", "FechaMostrar", "NumeroSII", "DocumentoReferencia", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago" };
+                string[] columns = { "TipoDocumentoStr", "FechaMostrar", "NumeroSII", "DocumentoReferencia", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago", "NulaStr" };
                 byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
                 return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
             }
             else
             {
-                string[] columns = { "FechaMostrar", "NumeroSII", "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago" };
+                string[] columns = { "FechaMostrar", "NumeroSII", "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago", "NulaStr" };
                 byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
                 return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
             }
-            
-            
+
+
         }
         public ActionResult ObtenerPdf(int folioSII)
         {
             try
             {
+                //MessageBox.Show("Número" + folioSII.ToString());
+                //if (SessionH.Usuario.Administrador == false)
+                //{
+                //    if (SessionH.Usuario.EsAfecta == true)
+                //    {
+                //        a = "(A)";
+                //    }
+                //    if (SessionH.Usuario.EsAfecta == false)
+                //    {
+                //        a = "(E)";
+                //    }
+                //    if (SessionH.Usuario.Facturador == "SimpleFactura")
+                //    {
+                //        facturador = "SimpleFactura";
+                //    }
+                //    if (SessionH.Usuario.Facturador == "superfactura")
+                //    {
+                //        facturador = "superfactura";
+                //    }
+                //    if (SessionH.Usuario.Facturador == "facele")
+                //    {
+                //        facturador = "facele";
+                //    }
+                //}
+
                 var rutEmpresa = SessionH.Usuario.RutEmpresa;
                 var a = "";
                 var ruta = "";
-                //MessageBox.Show("Número" + folioSII.ToString());
-                if (SessionH.Usuario.Administrador == false)
+                var facturador = "";
+
+                //Obtengo la boleta con el número del SII
+                Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
+                filtro.FolioSii = folioSII;
+                filtro.EmpId = SessionH.Usuario.Emp_Id;
+                var boleta = Backline.DAL.BoletaDAL.ObtenerBoleta(filtro);
+                if (boleta[0].Es_Afecta == true)
                 {
-                    if (SessionH.Usuario.EsAfecta == true)
-                    {
-                        a = "(A)";
-                    }
-                    if (SessionH.Usuario.EsAfecta == false)
-                    {
-                        a = "(E)";
-                    }
+                    a = "(A)";
                 }
                 else
                 {
-                    Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
-                    filtro.FolioSii = folioSII;
-                    filtro.EmpId = SessionH.Usuario.Emp_Id;
-                    var boleta = Backline.DAL.BoletaDAL.ObtenerBoleta(filtro);
-                    if (boleta[0].Es_Afecta == true)
-                    {
-                        a = "(A)";
-                    }
-                    else
-                    {
-                        a = "(E)";
-                    }
+                    a = "(E)";
                 }
-                if (SessionH.Usuario.Facturador == "superfactura")
+                //Indico el proveedor de BE que tiene el documento
+                if (boleta[0].Facturador == "SimpleFactura")
+                {
+                    facturador = "SimpleFactura";
+                }
+                if (boleta[0].Facturador == "superfactura")
+                {
+                    facturador = "superfactura";
+                }
+                if (boleta[0].Facturador == "facele")
+                {
+                    facturador = "facele";
+                }
+
+                //Indico la URL correspondiente al proveedor de boleta
+                if (facturador == "superfactura")
                 {
                     ruta = ConfigurationManager.AppSettings["UrlBoletas"] + rutEmpresa + a + "Boleta_" + folioSII.ToString() + ".pdf";
                 }
-                if (SessionH.Usuario.Facturador == "facele")
+                if (facturador == "facele")
                 {
                     ruta = ConfigurationManager.AppSettings["UrlBoletasFacele"] + rutEmpresa + a + "Boleta_" + folioSII.ToString() + ".pdf";
                 }
-                if (SessionH.Usuario.Facturador == "SimpleFactura")
+                if (facturador == "SimpleFactura")
                 {
                     ruta = ConfigurationManager.AppSettings["UrlBoletasSimpleFactura"] + "Boleta_N°" + folioSII.ToString() + "_" + "(" + SessionH.Usuario.RutEmpresa + ")" + ".pdf";
                 }
@@ -369,6 +397,20 @@ namespace VentaSimpleWeb.Controllers
 
 
                 return new JsonResult() { ContentEncoding = Encoding.Default, Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+
+
+        }
+        public JsonResult AnularBoleta(Backline.Entidades.Factura entity)
+        {
+            try
+            {
+                Backline.DAL.BoletaDAL.AnularBoleta(entity);
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "exito", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex)
             {

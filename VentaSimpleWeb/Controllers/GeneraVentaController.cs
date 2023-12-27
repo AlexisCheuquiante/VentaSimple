@@ -108,12 +108,17 @@ namespace VentaSimpleWeb.Controllers
                 {
                     entity.ContId = idContribuyente;
                 }
+
+                Backline.Entidades.Filtro filtro = new Backline.Entidades.Filtro();
+                filtro.Id = SessionH.Usuario.Id;
+                var datos = Backline.DAL.UsuariosDAL.ObtenerDatos(filtro);
+
                 entity.EmpId = SessionH.Usuario.Emp_Id;
                 entity.Fecha = DateTime.Now;
                 entity.Usr_Id = SessionH.Usuario.Id;
                 entity.EstId = SessionH.Usuario.Est_Id;
                 entity.Tido_Id = 1;
-                entity.Es_Afecta = SessionH.Usuario.EsAfecta;
+                entity.Es_Afecta = datos[0].EsAfecta;
                 Backline.DAL.BoletaDAL.InsertarFacturaV2(entity);
                 var idBoleta = entity.Id;
 
@@ -204,6 +209,7 @@ namespace VentaSimpleWeb.Controllers
                 }
                 entity.Id = idBoleta;
                 entity.Numero = folioSII;
+                entity.Facturador = datos[0].Facturador;
                 Backline.DAL.BoletaDAL.InsertarNumeroDocumento(entity);
 
                 if (folioSII > 0)
@@ -357,7 +363,6 @@ namespace VentaSimpleWeb.Controllers
             
             
         }
-
         bool ObtieneStatus(string response)
         {
             int pos1 = response.IndexOf("status") + 8;
@@ -370,7 +375,6 @@ namespace VentaSimpleWeb.Controllers
 
             return status == "200" ? true : false;
         }
-
         string ObtieneError(string response)
         {
             int pos1 = response.IndexOf("errors") + 10;

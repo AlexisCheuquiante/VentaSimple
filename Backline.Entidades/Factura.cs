@@ -72,7 +72,8 @@ namespace Backline.Entidades
         public Boolean Seleccionada { get; set; }
 
         public Boolean PreVenta { get; set; }
-        public Boolean Nula { get; set; }
+        public Boolean Nula_bool { get; set; }
+        
         public Boolean Eliminada { get; set; }
 
         public Boolean Modificada { get; set; }
@@ -201,5 +202,34 @@ namespace Backline.Entidades
         public int Tipo_Boleta { get; set; }
         public string FechaFormateada { get; set; }
         public string NombreEstablecimiento { get; set; }
+        public string Facturador { get; set; }
+        public string Nula
+        {
+            get
+            {
+                if (Nula_bool == true)
+                {
+                    return "Si";
+                }
+                else
+                {
+                    return "No";
+                }
+            }
+        }
+        public string ColorNulaStr
+        {
+            get
+            {
+                if (Nula_bool == true)
+                {
+                    return "red";
+                }
+                else
+                {
+                    return "lawngreen";
+                }
+            }
+        }
     }
 }
