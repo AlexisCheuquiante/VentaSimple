@@ -211,6 +211,7 @@ namespace Backline.DAL
             db.AddInParameter(dbCommand, "TIPA_ID", DbType.Int32, factura.Tipa_Id != 0 ? factura.Tipa_Id : (object)null);
             db.AddInParameter(dbCommand, "ELIMINADO", DbType.Byte, factura.Eliminado == true ? 1 : 0);
             db.AddInParameter(dbCommand, "ES_AFECTA", DbType.Byte, factura.Es_Afecta == true ? 1 : 0);
+            db.AddInParameter(dbCommand, "NULA", DbType.Byte, factura.Nula_bool == true ? 1 : 0);
 
             factura.Id = int.Parse(db.ExecuteScalar(dbCommand).ToString());
 

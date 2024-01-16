@@ -59,8 +59,8 @@ namespace VentaSimpleWeb
 
         public class Totales
         {
-            //public string MntNeto { get; set; }
-            //public string IVA { get; set; }
+            public string MntNeto { get; set; }
+            public string IVA { get; set; }
             public string MntExe { get; set; }
             public string MntTotal { get; set; }
         }

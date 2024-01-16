@@ -184,6 +184,10 @@ namespace VentaSimpleWeb.Controllers
                     {
                         entity.Tipo_Boleta = 41;
                     }
+                    else
+                    {
+                        entity.Tipo_Boleta = 39;
+                    }
                      
                     entity.FechaFormateada = Utiles.ReversaFecha(entity.Fecha);
 
@@ -416,23 +420,56 @@ namespace VentaSimpleWeb.Controllers
             dte.Documento.Encabezado.Receptor.CiudadRecep = SessionH.Usuario.Ciudad.Trim();
 
             SimpleFactura.Detalle detalleBoleta = new SimpleFactura.Detalle();
-            foreach (var a in detalle)
-            {
-                detalleBoleta.NroLinDet = "1";
-                detalleBoleta.NmbItem = a.DescripcionProducto;
-                detalleBoleta.QtyItem = a.Cantidad.ToString();
-                detalleBoleta.UnmdItem = "un";
-                detalleBoleta.PrcItem = a.Valor.ToString();
-                detalleBoleta.MontoItem = a.Valor.ToString();
-                detalleBoleta.IndExe = 1;
-            }
-           
-            dte.Documento.Encabezado.Totales = new SimpleFactura.Totales();
-            dte.Documento.Encabezado.Totales.MntTotal = Factura.Total.ToString();
-            dte.Documento.Encabezado.Totales.MntExe = Factura.Total.ToString();
-
+            int contador = 1;
+            decimal montoNeto = 0;
+            decimal montoIVA = 0;
+            decimal montoTotal = 0;
             dte.Documento.Detalle = new List<SimpleFactura.Detalle>();
-            dte.Documento.Detalle.Add(detalleBoleta);
+
+            if (Factura.Tipo_Boleta == 41)
+            {
+                foreach (var a in detalle)
+                {
+                    detalleBoleta.NroLinDet = "1";
+                    detalleBoleta.NmbItem = a.DescripcionProducto;
+                    detalleBoleta.QtyItem = a.Cantidad.ToString();
+                    detalleBoleta.UnmdItem = "un";
+                    detalleBoleta.PrcItem = a.Valor.ToString();
+                    detalleBoleta.MontoItem = a.Valor.ToString();
+                    detalleBoleta.IndExe = 1;
+                }
+                dte.Documento.Encabezado.Totales = new SimpleFactura.Totales();
+                dte.Documento.Encabezado.Totales.MntTotal = Factura.Total.ToString();
+                dte.Documento.Encabezado.Totales.MntExe = Factura.Total.ToString();
+
+                
+                dte.Documento.Detalle.Add(detalleBoleta);
+            }
+            if (Factura.Tipo_Boleta == 39)
+            {
+                foreach (var d in detalle)
+                {
+                    detalleBoleta.NroLinDet = contador.ToString();
+                    detalleBoleta.NmbItem = d.DescripcionProducto;
+                    detalleBoleta.QtyItem = d.Cantidad.ToString();
+                    detalleBoleta.UnmdItem = "un";
+                    detalleBoleta.PrcItem = d.Valor.ToString();
+                    detalleBoleta.MontoItem = d.Valor.ToString();
+                    detalleBoleta.IndExe = 0;
+                    dte.Documento.Detalle.Add(detalleBoleta);
+                    montoTotal = montoTotal + d.Valor;
+                    contador++;
+                }
+
+                montoNeto = montoTotal / decimal.Parse("1,19");
+                montoIVA = montoTotal - montoNeto;
+
+                dte.Documento.Encabezado.Totales = new SimpleFactura.Totales();
+                dte.Documento.Encabezado.Totales.MntNeto = Math.Round(montoNeto, 0).ToString();
+                dte.Documento.Encabezado.Totales.IVA = Math.Round(montoIVA, 0).ToString();
+                dte.Documento.Encabezado.Totales.MntTotal = Math.Round(montoTotal, 0).ToString();
+                dte.Documento.Encabezado.Totales.MntExe = "0";
+            }
 
             string jsonString = JsonConvert.SerializeObject(dte);
             return jsonString;
@@ -480,7 +517,14 @@ namespace VentaSimpleWeb.Controllers
 
             credenciales.dteReferenciadoExterno = new dteReferenciadoExterno();
             credenciales.dteReferenciadoExterno.folio = int.Parse(Session["ultimoFolio"].ToString());
-            credenciales.dteReferenciadoExterno.codigoTipoDte = 41;
+            if (SessionH.Usuario.EsAfecta == false)
+            {
+                credenciales.dteReferenciadoExterno.codigoTipoDte = 41;
+            }
+            else
+            {
+                credenciales.dteReferenciadoExterno.codigoTipoDte = 39;
+            }
             if (SessionH.Usuario.Ambiente == "cer")
             {
                 credenciales.dteReferenciadoExterno.ambiente = 0;
