@@ -348,7 +348,16 @@ namespace VentaSimpleWeb.Controllers
             var request = new RestRequest("/invoiceV2/" + SessionH.Usuario.NombreEstablecimiento.Trim(), Method.POST);
             request.AddHeader("Authorization", "Basic YWxleGlzLmNoZXVxdWlhbnRlQGJhY2tsaW5lc3BhLmNvbTpCYWNrbGluZTIwMjM=");
             request.AddHeader("Content-Type", "application/json");
-            var body = ObtenerDocumento(detalle, Factura);
+            var body = "";
+            if (Factura.Tipo_Boleta == 41)
+            {
+                body = ObtenerDocumento(detalle, Factura);
+            }
+            else
+            {
+                body = ObtenerDocumento_Afecto(detalle, Factura);
+            }
+            
             request.AddJsonBody(body);
             var response =  client.Execute(request);
 
@@ -420,33 +429,73 @@ namespace VentaSimpleWeb.Controllers
             dte.Documento.Encabezado.Receptor.CiudadRecep = SessionH.Usuario.Ciudad.Trim();
 
             SimpleFactura.Detalle detalleBoleta = new SimpleFactura.Detalle();
+
+            decimal montoNeto = 0;
+            decimal montoIVA = 0;
+            decimal montoTotal = 0;
+            dte.Documento.Detalle = new List<SimpleFactura.Detalle>();
+
+
+            foreach (var a in detalle)
+            {
+                detalleBoleta.NroLinDet = "1";
+                detalleBoleta.NmbItem = a.DescripcionProducto;
+                detalleBoleta.QtyItem = a.Cantidad.ToString();
+                detalleBoleta.UnmdItem = "un";
+                detalleBoleta.PrcItem = a.Valor.ToString();
+                detalleBoleta.MontoItem = a.Valor.ToString();
+                detalleBoleta.IndExe = 1;
+            }
+            dte.Documento.Encabezado.Totales = new SimpleFactura.Totales();
+            dte.Documento.Encabezado.Totales.MntNeto = montoNeto.ToString();
+            dte.Documento.Encabezado.Totales.IVA = montoIVA.ToString(); 
+            dte.Documento.Encabezado.Totales.MntTotal = Factura.Total.ToString();
+            dte.Documento.Encabezado.Totales.MntExe = Factura.Total.ToString();
+
+
+            dte.Documento.Detalle.Add(detalleBoleta);
+
+
+
+            string jsonString = JsonConvert.SerializeObject(dte);
+            return jsonString;
+        }
+        public string ObtenerDocumento_Afecto(List<Backline.Entidades.DetalleFactura> detalle, Backline.Entidades.Factura Factura)
+        {
+            SimpleFactura.Dte dte = new SimpleFactura.Dte();
+
+            dte.Documento = new SimpleFactura.Documento();
+
+            dte.Documento.Encabezado = new SimpleFactura.Encabezado();
+
+            dte.Documento.Encabezado.IdDoc = new SimpleFactura.IdDoc();
+            dte.Documento.Encabezado.IdDoc.TipoDTE = Factura.Tipo_Boleta;
+            dte.Documento.Encabezado.IdDoc.FchEmis = Factura.FechaFormateada;
+            dte.Documento.Encabezado.IdDoc.FchVenc = Factura.FechaFormateada;
+
+            dte.Documento.Encabezado.Emisor = new SimpleFactura.Emisor();
+            dte.Documento.Encabezado.Emisor.RUTEmisor = SessionH.Usuario.RutEmpresa;
+            dte.Documento.Encabezado.Emisor.RznSocEmisor = SessionH.Usuario.NombreEmpresa;
+            dte.Documento.Encabezado.Emisor.GiroEmisor = SessionH.Usuario.Giro_Impreso.Trim();
+            dte.Documento.Encabezado.Emisor.DirOrigen = SessionH.Usuario.Direccion_Sucursal.Trim();
+            dte.Documento.Encabezado.Emisor.CmnaOrigen = SessionH.Usuario.Comuna.Trim();
+            dte.Documento.Encabezado.Emisor.CiudadOrigen = SessionH.Usuario.Ciudad.Trim();
+
+            dte.Documento.Encabezado.Receptor = new SimpleFactura.Receptor();
+            dte.Documento.Encabezado.Receptor.RUTRecep = Factura.Rut;
+            dte.Documento.Encabezado.Receptor.RznSocRecep = Factura.Contribuyente;
+            dte.Documento.Encabezado.Receptor.DirRecep = SessionH.Usuario.Comuna.Trim();
+            dte.Documento.Encabezado.Receptor.CmnaRecep = SessionH.Usuario.Comuna.Trim();
+            dte.Documento.Encabezado.Receptor.CiudadRecep = SessionH.Usuario.Ciudad.Trim();
+
+            SimpleFactura.Detalle detalleBoleta = new SimpleFactura.Detalle();
             int contador = 1;
             decimal montoNeto = 0;
             decimal montoIVA = 0;
             decimal montoTotal = 0;
             dte.Documento.Detalle = new List<SimpleFactura.Detalle>();
 
-            if (Factura.Tipo_Boleta == 41)
-            {
-                foreach (var a in detalle)
-                {
-                    detalleBoleta.NroLinDet = "1";
-                    detalleBoleta.NmbItem = a.DescripcionProducto;
-                    detalleBoleta.QtyItem = a.Cantidad.ToString();
-                    detalleBoleta.UnmdItem = "un";
-                    detalleBoleta.PrcItem = a.Valor.ToString();
-                    detalleBoleta.MontoItem = a.Valor.ToString();
-                    detalleBoleta.IndExe = 1;
-                }
-                dte.Documento.Encabezado.Totales = new SimpleFactura.Totales();
-                dte.Documento.Encabezado.Totales.MntTotal = Factura.Total.ToString();
-                dte.Documento.Encabezado.Totales.MntExe = Factura.Total.ToString();
-
-                
-                dte.Documento.Detalle.Add(detalleBoleta);
-            }
-            if (Factura.Tipo_Boleta == 39)
-            {
+         
                 foreach (var d in detalle)
                 {
                     detalleBoleta.NroLinDet = contador.ToString();
@@ -469,7 +518,7 @@ namespace VentaSimpleWeb.Controllers
                 dte.Documento.Encabezado.Totales.IVA = Math.Round(montoIVA, 0).ToString();
                 dte.Documento.Encabezado.Totales.MntTotal = Math.Round(montoTotal, 0).ToString();
                 dte.Documento.Encabezado.Totales.MntExe = "0";
-            }
+            
 
             string jsonString = JsonConvert.SerializeObject(dte);
             return jsonString;
