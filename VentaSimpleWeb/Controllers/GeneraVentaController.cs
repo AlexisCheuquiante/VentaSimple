@@ -27,7 +27,7 @@ namespace VentaSimpleWeb.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-
+            Session["ListaPrestaciones"] = null;
             return View();
         }
 
@@ -78,31 +78,44 @@ namespace VentaSimpleWeb.Controllers
                     idContribuyente = contribuyente.Id;
                     rutListo = contribuyente.Rut.ToUpper();
                 }
-                if (SessionH.Usuario.Ocupa_Prestaciones == true)
-                {
-                    entity.Glosa = entity.PrestacionStr;
-                }
 
                 List<Backline.Entidades.DetalleFactura> detalleArticulos = new List<Backline.Entidades.DetalleFactura>();
                 Backline.Entidades.DetalleFactura detalle = new Backline.Entidades.DetalleFactura();
-                if (SessionH.Usuario.Emp_Id == 7)
+                if (SessionH.Usuario.Ocupa_Prestaciones == false)
                 {
-                    detalle.Cantidad = entity.Cantidad;
-                    detalle.DescripcionProducto = "Peaje cementerio";
-                    detalle.Valor = 800;
-                    entity.Tipa_Id = 0;
-                    entity.Glosa = "Peaje cementerio";
-                    entity.Total = 800;
-                }
-                else
-                {
-                    detalle.Cantidad = entity.Cantidad;
-                    detalle.DescripcionProducto = entity.Glosa;
-                    detalle.Valor = entity.Total;
-                }
-                
+                    if (SessionH.Usuario.Emp_Id == 7)
+                    {
+                        detalle.Cantidad = entity.Cantidad;
+                        detalle.DescripcionProducto = "Peaje cementerio";
+                        detalle.Valor = 800;
+                        entity.Tipa_Id = 0;
+                        entity.Glosa = "Peaje cementerio";
+                        entity.Total = 800;
+                    }
+                    else
+                    {
+                        detalle.Cantidad = entity.Cantidad;
+                        detalle.DescripcionProducto = entity.Glosa;
+                        detalle.Valor = entity.Total;
+                    }
 
-                detalleArticulos.Add(detalle);
+
+                    detalleArticulos.Add(detalle);
+                }
+                if (SessionH.Usuario.Ocupa_Prestaciones == true)
+                {
+                    List<Backline.Entidades.DetalleFactura> listadoPrestaciones = Session["ListaPrestaciones"] as List<Backline.Entidades.DetalleFactura>;
+                    if (listadoPrestaciones.Count > 0)
+                    {
+                        detalleArticulos = listadoPrestaciones;
+                        var glosa = "";
+                        foreach (var a in listadoPrestaciones)
+                        {
+                            glosa = glosa + "-" + a.DescripcionProducto;
+                        }
+                        entity.Glosa = glosa;
+                    }
+                }
 
                 if (idContribuyente != 0)
                 {
@@ -585,6 +598,57 @@ namespace VentaSimpleWeb.Controllers
 
             string jsonString = JsonConvert.SerializeObject(credenciales);
             return jsonString;
+        }
+        public JsonResult AgregarPrestacion(Backline.Entidades.DetalleFactura entity)
+        {
+            try
+            {
+                if (Session["ListaPrestaciones"] == null)
+                {
+                    List<Backline.Entidades.DetalleFactura> listadoPrestaciones = new List<Backline.Entidades.DetalleFactura>();
+                    listadoPrestaciones.Add(entity);
+                    Session["ListaPrestaciones"] = listadoPrestaciones;
+                }
+                else
+                {
+                    List<Backline.Entidades.DetalleFactura> listadoPrestaciones = Session["ListaPrestaciones"] as List<Backline.Entidades.DetalleFactura>;
+                    listadoPrestaciones.Add(entity);
+                    Session["ListaPrestaciones"] = listadoPrestaciones;
+                }
+                
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "exito", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+        }
+        public JsonResult QuitarPrestacion(int id)
+        {
+            try
+            {
+
+                List<Backline.Entidades.DetalleFactura> listadoPrestaciones = Session["ListaPrestaciones"] as List<Backline.Entidades.DetalleFactura>;
+                List<Backline.Entidades.DetalleFactura> listadoPrestacionesNueva = new List<Backline.Entidades.DetalleFactura>();
+                foreach (var a in listadoPrestaciones)
+                {
+                    if (a.IdLineaProducto != id)
+                    {
+                        listadoPrestacionesNueva.Add(a);
+                    }
+
+                }
+                listadoPrestaciones = listadoPrestacionesNueva;
+                Session["ListaPrestaciones"] = listadoPrestaciones;
+
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = listadoPrestaciones, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult() { ContentEncoding = Encoding.Default, Data = "error", JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+
+
         }
     }
 }

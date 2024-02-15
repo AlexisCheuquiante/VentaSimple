@@ -116,7 +116,9 @@ namespace Backline.Entidades
 
         public int StockActual { get; set; }
 
-     
-
+        public int Id_Prestacion { get; set; }
+        public string Prestacion_Str { get; set; }
+        public int IdLineaProducto { get; set; }
+        public decimal Valor_Prestacion { get; set; }
     }
 }

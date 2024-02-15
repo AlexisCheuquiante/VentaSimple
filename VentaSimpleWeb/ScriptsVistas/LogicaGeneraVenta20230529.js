@@ -1,5 +1,7 @@
 ﻿var _idContribuyente = [];
 var _arrayPrestaciones = [];
+var _idLineaProducto = 1;
+var _arrayProductosAgregados = [];
 
 $(document).ready(function () {
 
@@ -12,7 +14,7 @@ $(document).ready(function () {
 
             if (item.Id == idPrestacion) {
 
-                $('#txtValor').val(item.Valor);
+                $('#txtValorPrestacion').val(item.Valor);
                 
             }
         });
@@ -307,4 +309,128 @@ function ObtenerPrestaciones() {
         }
     });
 
+}
+function AgregarPrestacion() {
+
+    if (ValidaAgregar() === false) {
+        //alert('no valido');
+        return;
+    }
+
+    var DetalleProducto = {
+        IdLineaProducto: _idLineaProducto,
+        Cantidad: 1,
+        Id_Prestacion: $('#cmbPrestaciones').val(),
+        DescripcionProducto: $('#cmbPrestaciones').dropdown('get text'),
+        Valor: $('#txtValorPrestacion').val(),
+    };
+
+    _idLineaProducto++;
+
+    $.ajax({
+        url: window.urlAgregarPrestacion,
+        type: 'POST',
+        data: { entity: DetalleProducto },
+        success: function (data) {
+            _arrayProductosAgregados.push(DetalleProducto);
+            document.getElementById("txtValorPrestacion").value = "";
+            $('#cmbPrestaciones').dropdown('clear');
+            ObtenerPrestaciones();
+            $('#DivMessajeErrorGeneralAgregar').addClass("hidden");
+            PintaGrid();
+            //if (data === 'exito') {
+            //    location.reload();
+            //}
+            //if (data === 'error') {
+            //    $('#divErroLogin').removeClass("hidden");
+            //}
+
+        },
+        error: function (ex) {
+            alert('Error al agregar el producto');
+        }
+    });
+
+}
+function LimpiaEstilosAgregar() {
+    //Limpio el estilo Error antes de validar
+    $('#divcmbPrestaciones').removeClass("error");
+    $('#divtxtValorPrestacion').removeClass("error");
+}
+function ValidaAgregar() {
+    var esValido = true;
+    var errores = [];
+
+    LimpiaEstilosAgregar();
+
+    if ($('#cmbPrestaciones').val() < 1) {
+        $('#divcmbPrestaciones').addClass("error");
+        errores.push('Debe seleccionar al menos una prestación para agregar');
+    }
+    if ($('#txtValorPrestacion').val() === '') {
+        $('#divtxtValorPrestacion').addClass("error");
+        errores.push('Debe indicar el valor de la prestación');
+    }
+
+
+    if (errores.length > 0) {
+        var mensaje = '';
+        $('#DivMessajeErrorGeneralAgregar').removeClass("hidden");
+
+        for (i = 0; i < errores.length; i++) {
+            mensaje += '<li>' + errores[i] + '</li>';
+        }
+
+        mensaje += '</ul>';
+        $('#listMessajeErrorAgregar').empty();
+
+        $('#listMessajeErrorAgregar').prepend(mensaje);
+
+        // showMessage('#divMensajeNuevoCamion', 'danger', mensaje);
+        return false;
+    }
+    else {
+        return true;
+    }
+
+
+}
+function PintaGrid() {
+    var total = 0;
+    var tabla = "<table class='ui celled table'>";
+    tabla = tabla + "<thead><tr><th></th><th>Prestación</th><th>Valor</th></tr></thead>";
+    tabla = tabla + "<tbody>";
+    $.each(_arrayProductosAgregados, function (value, item) {
+        tabla = tabla + "<tr>";
+        tabla = tabla + "<td><button type='button' style='width:50px;' class='ui icon red button' onclick='QuitarPrestacion(" + item.IdLineaProducto + ",0);'><i class='trash icon'></i></button></td><td>" + item.DescripcionProducto + "</td><td>" + item.Valor + "</td>";
+        /*<button class='ui icon red button' ><i class='trash alternate icon'></i></button>*/
+            
+        
+        tabla = tabla + "</tr>";
+        total = total + parseInt(item.Valor);
+    });
+
+    document.getElementById("txtValor").value = total;
+    $('#grdDatos').html(tabla);
+}
+function QuitarPrestacion(id) {
+
+    if (id > 0) {
+        $.ajax({
+            url: window.urlQuitarPrestacion,
+            type: 'POST',
+            data: { id: id },
+            success: function (data) {
+                if (data != null) {
+
+                    _arrayProductosAgregados = data;
+                    PintaGrid();
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                showMessage('body', 'danger', 'Ocurrió un error al eliminar la prestacion.' + data);
+            }
+        });
+    }
 }

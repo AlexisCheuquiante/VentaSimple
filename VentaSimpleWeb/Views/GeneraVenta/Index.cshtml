@@ -37,6 +37,8 @@
         var urlInsertarFactura = '@Url.Action("InsertarFactura", "GeneraVenta")';
         var urlObtenerTiposPago = '@Url.Action("ObtenerTiposPago", "GeneraVenta")';
         var urlObtenerPrestaciones = '@Url.Action("ObtenerPrestaciones", "GeneraVenta")';
+        var urlAgregarPrestacion = '@Url.Action("AgregarPrestacion", "GeneraVenta")';
+        var urlQuitarPrestacion = '@Url.Action("QuitarPrestacion", "GeneraVenta")';
 
         $(document).ready(function () {
 
@@ -59,183 +61,230 @@
                     </h5>
                 </div>
                 @*<img class="ui fluid image" src="~/Recursos/Imagenes/LogoEsyser_v2.png" />*@
-            <div class="modal-body">
-                <div class="image content">
-                    <div class="ui info message">
-                        @if (SessionH.Usuario.OcupaRut == true)
-                        {
-                            <div class="ui purple icon message">
-                                <i class="eye icon"></i>
-                                <div class="content">
-                                    <div class="header">
-                                        Atención!
+                <div class="modal-body">
+                    <div class="image content">
+                        <div class="ui info message">
+                            @if (SessionH.Usuario.OcupaRut == true)
+                            {
+                                <div class="ui purple icon message">
+                                    <i class="eye icon"></i>
+                                    <div class="content">
+                                        <div class="header">
+                                            Atención!
+                                        </div>
+                                        <p>Al momento de digitar un RUT debes realizarlo sin puntos ni guion.</p>
                                     </div>
-                                    <p>Al momento de digitar un RUT debes realizarlo sin puntos ni guion.</p>
                                 </div>
+                            }
+                            <div class="ui form">
+                                <form>
+                                    @if (SessionH.Usuario.OcupaRut == false)
+                                    {
+                                        if (SessionH.Usuario.Ocupa_Prestaciones == true)
+                                        {
+                                            <div class="two fields">
+                                                <div id="divcmbPrestaciones" class="field" style="width:100%">
+                                                    <label>Prestaciones</label>
+                                                    <select id="cmbPrestaciones" name="cmbPrestaciones" class="ui search selection dropdown">
+                                                    </select>
+                                                </div>
+                                                <div class="field">
+                                                    <label>Buscar</label>
+                                                    <button id="btnBuscarFiltro" class="ui blue icon button" onclick="BusquedaFiltro_Normal();return false">
+                                                        <i class="search icon"></i><font style="vertical-align: inherit;">
+                                                            <font style="vertical-align: inherit;">
+
+                                                            </font>
+                                                        </font>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="two fields">
+                                                <div id="divtxtDetalle" style="width:100%" class="field">
+                                                    <label>Detalle de la venta</label>
+                                                    <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <div class="two fields">
+                                            <div id="divcmbTipoPago" class="field" style="width:100%">
+                                                <label>Tipo de pago</label>
+                                                <select id="cmbTipoPago" name="cmbTipoPago" class="ui search selection dropdown">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="two fields">
+                                            <div id="divtxtCantidad" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></label>
+                                                <input id="txtCantidad" type="number" value="1" placeholder="" autocomplete="off" style="text-transform:uppercase;" readonly>
+                                            </div>
+                                            <div id="divtxtValor" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
+                                                <input id="txtValor" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (SessionH.Usuario.OcupaRut == true)
+                                    {
+                                        <div class="two fields">
+                                            <div id="divtxtRut" style="width:40%" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rut</font></font></label>
+                                                <input id="txtRut" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;" onblur="ObtenerContribuyente();">
+                                            </div>
+                                            <div id="divtxtContribuyente" style="width:100%" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contribuyente</font></font></label>
+                                                <input id="txtContribuyente" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                            </div>
+                                        </div>
+                                        if (SessionH.Usuario.Ocupa_Prestaciones == true)
+                                        {
+                                            <div class="two fields">
+                                                <div id="divcmbPrestaciones" class="field" style="width:100%">
+                                                    <label>Prestaciones</label>
+                                                    <select id="cmbPrestaciones" name="cmbPrestaciones" class="ui search selection dropdown">
+                                                    </select>
+                                                </div>
+                                                <div id="divtxtValorPrestacion" class="field">
+                                                    <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor Prestacion</font></font></label>
+                                                    <input id="txtValorPrestacion" type="number" placeholder="" autocomplete="off" readonly>
+                                                </div>
+                                                <div class="field" style="width:15%">
+                                                    <label>Agregar</label>
+                                                    <button id="btnBuscarFiltro" class="ui blue icon button" onclick="AgregarPrestacion();return false">
+                                                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                                                            <font style="vertical-align: inherit;">
+
+                                                            </font>
+                                                        </font>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <table id="grdDatos" class="ui celled table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Prestación</th>
+                                                        <th>Valor</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <div class="two fields">
+                                                <div id="divtxtDetalle" style="width:100%" class="field">
+                                                    <label>Detalle de la venta</label>
+                                                    <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="two fields">
+                                            <div id="divcmbTipoPago" class="field" style="width:100%">
+                                                <label>Tipo de pago</label>
+                                                <select id="cmbTipoPago" name="cmbTipoPago" class="ui search selection dropdown">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="two fields">
+                                            <div id="divtxtCantidad" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></label>
+                                                <input id="txtCantidad" type="number" value="1" placeholder="" autocomplete="off" style="text-transform:uppercase;" readonly>
+                                            </div>
+                                            <div id="divtxtValor" class="field">
+                                                <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
+                                                <input id="txtValor" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
+                                            </div>
+                                        </div>
+                                    }
+                                </form>
                             </div>
-                        }
-                        <div class="ui form">
-                            <form>
-                                @if (SessionH.Usuario.OcupaRut == false)
-                                {
-                                    if (SessionH.Usuario.Ocupa_Prestaciones == true)
-                                    {
-                                        <div class="two fields">
-                                            <div id="divcmbPrestaciones" class="field" style="width:100%">
-                                                <label>Prestaciones</label>
-                                                <select id="cmbPrestaciones" name="cmbPrestaciones" class="ui search selection dropdown">
-                                                </select>
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="two fields">
-                                            <div id="divtxtDetalle" style="width:100%" class="field">
-                                                <label>Detalle de la venta</label>
-                                                <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
-                                            </div>
-                                        </div>
-                                    }
+                        </div>
+                    </div>
+                    <div id="divExito" class="ui icon hidden positive  message">
+                        <i class="stopwatch icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Éxito!!
+                            </div>
+                            <p>La boleta fue generada con éxito.</p>
+                        </div>
+                    </div>
+                    <div id="divError" class="ui icon hidden positive  message">
+                        <i class="stopwatch icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Error!!
+                            </div>
+                            <p>La boleta no fue generada.</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div id="DivMessajeErrorGeneral" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                Se han encontrado algunos problemas, revíselos...
+                            </div>
+                            <ul id="listMessajeError" class="list"></ul>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div id="DivMessajeErrorGeneralAgregar" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                Se han encontrado algunos problemas, revíselos...
+                            </div>
+                            <ul id="listMessajeErrorAgregar" class="list"></ul>
+                        </div>
+                    </div>
+                    <br />
+                    @if (SessionH.Usuario.Emp_Id == 7)
+                    {
+                        <button id="btnGuardarBoletaRapido" class="ui right labeled blue icon button" onclick="GuardarFacturaRapida();">
+                            <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    Emitir boleta rapida
+                                </font>
+                            </font>
+                        </button>
+                    }
+                    @if (SessionH.Usuario.Ocupa_Prestaciones == true)
+                    {
+                        <button id="btnGuardarBoleta" class="ui right labeled blue icon button" onclick="GuardarFactura_V2();">
+                            <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    Emitir boleta
+                                </font>
+                            </font>
+                        </button>
+                    }
+                    @if (SessionH.Usuario.Emp_Id != 7 && SessionH.Usuario.Ocupa_Prestaciones == false)
+                    {
+                        <button id="btnGuardarBoleta" class="ui right labeled blue icon button" onclick="GuardarFactura();">
+                            <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    Emitir boleta
+                                </font>
+                            </font>
+                        </button>
+                    }
 
-                                    <div class="two fields">
-                                        <div id="divcmbTipoPago" class="field" style="width:100%">
-                                            <label>Tipo de pago</label>
-                                            <select id="cmbTipoPago" name="cmbTipoPago" class="ui search selection dropdown">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="two fields">
-                                        <div id="divtxtCantidad" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></label>
-                                            <input id="txtCantidad" type="number" value="1" placeholder="" autocomplete="off" style="text-transform:uppercase;" readonly>
-                                        </div>
-                                        <div id="divtxtValor" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
-                                            <input id="txtValor" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
-                                        </div>
-                                    </div>
-                                }
-                                @if (SessionH.Usuario.OcupaRut == true)
-                                {
-                                    <div class="two fields">
-                                        <div id="divtxtRut" style="width:40%" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rut</font></font></label>
-                                            <input id="txtRut" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;" onblur="ObtenerContribuyente();">
-                                        </div>
-                                        <div id="divtxtContribuyente" style="width:100%" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contribuyente</font></font></label>
-                                            <input id="txtContribuyente" type="text" placeholder="" autocomplete="off" style="text-transform:uppercase;">
-                                        </div>
-                                    </div>
-                                    if (SessionH.Usuario.Ocupa_Prestaciones == true)
-                                    {
-                                        <div class="two fields">
-                                            <div id="divcmbPrestaciones" class="field" style="width:100%">
-                                                <label>Prestaciones</label>
-                                                <select id="cmbPrestaciones" name="cmbPrestaciones" class="ui search selection dropdown">
-                                                </select>
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="two fields">
-                                            <div id="divtxtDetalle" style="width:100%" class="field">
-                                                <label>Detalle de la venta</label>
-                                                <textarea id="txtDetalle" style="text-transform:uppercase;" autocomplete="off"></textarea>
-                                            </div>
-                                        </div>
-                                    }
-                                    <div class="two fields">
-                                        <div id="divcmbTipoPago" class="field" style="width:100%">
-                                            <label>Tipo de pago</label>
-                                            <select id="cmbTipoPago" name="cmbTipoPago" class="ui search selection dropdown">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="two fields">
-                                        <div id="divtxtCantidad" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></label>
-                                            <input id="txtCantidad" type="number" value="1" placeholder="" autocomplete="off" style="text-transform:uppercase;" readonly>
-                                        </div>
-                                        <div id="divtxtValor" class="field">
-                                            <label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></label>
-                                            <input id="txtValor" type="number" placeholder="" autocomplete="off" style="text-transform:uppercase;">
-                                        </div>
-                                    </div>
-                                }
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div id="divExito" class="ui icon hidden positive  message">
-                    <i class="stopwatch icon"></i>
-                    <div class="content">
-                        <div class="header">
-                            Éxito!!
-                        </div>
-                        <p>La boleta fue generada con éxito.</p>
-                    </div>
-                </div>
-                <div id="divError" class="ui icon hidden positive  message">
-                    <i class="stopwatch icon"></i>
-                    <div class="content">
-                        <div class="header">
-                            Error!!
-                        </div>
-                        <p>La boleta no fue generada.</p>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div id="DivMessajeErrorGeneral" class="ui error hidden message" style="margin-left:auto; margin-right:auto; width:100%">
-                        <i class="close icon"></i>
-                        <div class="header">
-                            Se han encontrado algunos problemas, revíselos...
-                        </div>
-                        <ul id="listMessajeError" class="list"></ul>
-                    </div>
-                </div>
-                <br />
-                @if (SessionH.Usuario.Emp_Id == 7)
-                {
-                    <button id="btnGuardarBoletaRapido" class="ui right labeled blue icon button" onclick="GuardarFacturaRapida();">
-                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
+                    <button class="ui right labeled red icon button" onclick="window.location.replace('/Home')">
+                        <i class="left arrow icon"></i><font style="vertical-align: inherit;">
                             <font style="vertical-align: inherit;">
-                                Emitir boleta rapida
+                                Volver
                             </font>
                         </font>
                     </button>
-                }
-                @if (SessionH.Usuario.Ocupa_Prestaciones == true)
-                {
-                    <button id="btnGuardarBoleta" class="ui right labeled blue icon button" onclick="GuardarFactura_V2();">
-                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">
-                                Emitir boleta
-                            </font>
-                        </font>
-                    </button>
-                }
-                @if (SessionH.Usuario.Emp_Id != 7 && SessionH.Usuario.Ocupa_Prestaciones == false)
-                {
-                    <button id="btnGuardarBoleta" class="ui right labeled blue icon button" onclick="GuardarFactura();">
-                        <i class="check circle icon"></i><font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">
-                                Emitir boleta
-                            </font>
-                        </font>
-                    </button>
-                }
-
-                <button class="ui right labeled red icon button" onclick="window.location.replace('/Home')">
-                    <i class="left arrow icon"></i><font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">
-                            Volver
-                        </font>
-                    </font>
-                </button>
-            </div>
+                </div>
             </div>
         </div>
     </div>
