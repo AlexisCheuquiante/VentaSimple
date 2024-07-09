@@ -36,7 +36,7 @@ namespace Backline.DAL
         {
             List<Backline.Entidades.Usuario> listaUsuarios = new List<Backline.Entidades.Usuario>();
             Database db = DatabaseFactory.CreateDatabase("baseDatosFarmacias");
-            DbCommand dbCommand = db.GetStoredProcCommand("SP_USR_USUARIO_LEER");
+            DbCommand dbCommand = db.GetStoredProcCommand("SP_USR_USUARIO_LEER_V2");
 
             db.AddInParameter(dbCommand, "ID", DbType.Int32, usuarios.Id != 0 ? usuarios.Id : (object)null);
             db.AddInParameter(dbCommand, "EMP_ID", DbType.Int32, usuarios.Emp_Id != 0 ? usuarios.Emp_Id : (object)null);
@@ -74,6 +74,7 @@ namespace Backline.DAL
                 int DIRECCION_SUCURSAL = reader.GetOrdinal("DIRECCION_SUCURSAL");
                 int COMUNA = reader.GetOrdinal("COMUNA");
                 int CIUDAD = reader.GetOrdinal("CIUDAD");
+                int SELECCIONA_TIPO_BOLETA = reader.GetOrdinal("SELECCIONA_TIPO_BOLETA");
 
                 while (reader.Read())
                 {
@@ -106,6 +107,7 @@ namespace Backline.DAL
                     OBJ.Direccion_Sucursal = (String)(!reader.IsDBNull(DIRECCION_SUCURSAL) ? reader.GetValue(DIRECCION_SUCURSAL) : string.Empty);
                     OBJ.Comuna = (String)(!reader.IsDBNull(COMUNA) ? reader.GetValue(COMUNA) : string.Empty);
                     OBJ.Ciudad = (String)(!reader.IsDBNull(CIUDAD) ? reader.GetValue(CIUDAD) : string.Empty);
+                    OBJ.Selecciona_Tipo_Boleta = (bool)(!reader.IsDBNull(SELECCIONA_TIPO_BOLETA) ? reader.GetValue(SELECCIONA_TIPO_BOLETA) : false);
                     //EndFields
 
                     listaUsuarios.Add(OBJ);

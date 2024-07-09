@@ -132,6 +132,17 @@ namespace VentaSimpleWeb.Controllers
                 entity.EstId = SessionH.Usuario.Est_Id;
                 entity.Tido_Id = 1;
                 entity.Es_Afecta = datos[0].EsAfecta;
+                if (SessionH.Usuario.Selecciona_Tipo_Boleta == true)
+                {
+                    if (entity.Tipo_Boleta_Seleccionado == false)
+                    {
+                        entity.Es_Afecta = true;
+                    }
+                    else
+                    {
+                        entity.Es_Afecta = false;
+                    }
+                }
                 Backline.DAL.BoletaDAL.InsertarFacturaV2(entity);
                 var idBoleta = entity.Id;
 
@@ -166,6 +177,17 @@ namespace VentaSimpleWeb.Controllers
                 }
                 if (SessionH.Usuario.Facturador == "superfactura")
                 {
+                    if (SessionH.Usuario.Selecciona_Tipo_Boleta == true)
+                    {
+                        if (entity.Tipo_Boleta_Seleccionado == false)
+                        {
+                            SessionH.Usuario.EsAfecta = true;
+                        }
+                        else
+                        {
+                            SessionH.Usuario.EsAfecta = false;
+                        }
+                    }
                     if (SessionH.Usuario.EsAfecta == true)
                     {
                         validadaSII = Utiles.GenerarBoletaElectronica(detalleArticulos, entity, Backline.DTE.Enums.TipoDocumento.BoletaElectronica, out folioSII, out rutaPDF, out apiResult);
@@ -192,6 +214,17 @@ namespace VentaSimpleWeb.Controllers
                 if (SessionH.Usuario.Facturador == "SimpleFactura")
                 {
                     Session["ultimoFolio"] = null;
+                    if (SessionH.Usuario.Selecciona_Tipo_Boleta == true)
+                    {
+                        if (entity.Tipo_Boleta_Seleccionado == false)
+                        {
+                            SessionH.Usuario.EsAfecta = true;
+                        }
+                        else
+                        {
+                            SessionH.Usuario.EsAfecta = false;
+                        }
+                    }
 
                     if (SessionH.Usuario.EsAfecta == false) 
                     {
@@ -274,16 +307,26 @@ namespace VentaSimpleWeb.Controllers
             string descripcionOperacion;
             long folio_facele;
             string rut = SessionH.Usuario.RutEmpresa.Trim();
-            int tipoDTE = 39;
+            int tipoDTE = 0;
+
+            if (SessionH.Usuario.EsAfecta == true)
+            {
+                tipoDTE = 39;
+            }
+            else
+            {
+                tipoDTE = 41;
+            }
             generaDTEFormato formato = generaDTEFormato.XML;
             Factura.RazonSocial = SessionH.Usuario.NombreEmpresa;
             Factura.RutEmpresa = SessionH.Usuario.RutEmpresa.Trim();
-            string xml = FacEleUtils.Utiles.ObtieneXMLBoleta (Factura, detalle);
-            //Hualpen (EXENTAS)
-            if (SessionH.Usuario.Emp_Id == 62 || SessionH.Usuario.Emp_Id == 63 || SessionH.Usuario.Emp_Id == 21)
+            string xml = "";
+            if (tipoDTE == 39)
             {
-                tipoDTE = 41;
-                xml = "";
+                xml = FacEleUtils.Utiles.ObtieneXMLBoleta(Factura, detalle);
+            }
+            else
+            {
                 xml = FacEleUtils.Utiles.ObtieneXMLBoletaExenta(Factura, _detalleArticulo);
             }
 
@@ -441,8 +484,9 @@ namespace VentaSimpleWeb.Controllers
             dte.Documento.Encabezado.Receptor.CmnaRecep = SessionH.Usuario.Comuna.Trim();
             dte.Documento.Encabezado.Receptor.CiudadRecep = SessionH.Usuario.Ciudad.Trim();
 
-            SimpleFactura.Detalle detalleBoleta = new SimpleFactura.Detalle();
+            
 
+            int contador = 1;
             decimal montoNeto = 0;
             decimal montoIVA = 0;
             decimal montoTotal = 0;
@@ -451,13 +495,18 @@ namespace VentaSimpleWeb.Controllers
 
             foreach (var a in detalle)
             {
-                detalleBoleta.NroLinDet = "1";
+                SimpleFactura.Detalle detalleBoleta = new SimpleFactura.Detalle();
+
+                detalleBoleta.NroLinDet = contador.ToString();
                 detalleBoleta.NmbItem = a.DescripcionProducto;
                 detalleBoleta.QtyItem = a.Cantidad.ToString();
                 detalleBoleta.UnmdItem = "un";
                 detalleBoleta.PrcItem = a.Valor.ToString();
                 detalleBoleta.MontoItem = a.Valor.ToString();
                 detalleBoleta.IndExe = 1;
+
+                dte.Documento.Detalle.Add(detalleBoleta);
+                contador++;
             }
             dte.Documento.Encabezado.Totales = new SimpleFactura.Totales();
             dte.Documento.Encabezado.Totales.MntNeto = montoNeto.ToString();
@@ -466,7 +515,7 @@ namespace VentaSimpleWeb.Controllers
             dte.Documento.Encabezado.Totales.MntExe = Factura.Total.ToString();
 
 
-            dte.Documento.Detalle.Add(detalleBoleta);
+            
 
 
 

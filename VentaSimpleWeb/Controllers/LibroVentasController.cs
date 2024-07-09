@@ -109,13 +109,13 @@ namespace VentaSimpleWeb.Controllers
             List<Backline.Entidades.Factura> lista = Session["registrosEncontrados"] as List<Backline.Entidades.Factura>;
             if (SessionH.Usuario.Emp_Id == 14)
             {
-                string[] columns = { "TipoDocumentoStr", "FechaMostrar", "NumeroSII", "DocumentoReferencia", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago", "NulaStr" };
+                string[] columns = { "TipoDocumentoStr", "FechaMostrar", "NumeroSII", "DocumentoReferencia", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago", "Nula" };
                 byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
                 return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
             }
             else
             {
-                string[] columns = { "FechaMostrar", "NumeroSII", "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago", "NulaStr" };
+                string[] columns = { "FechaMostrar", "NumeroSII", "Rut", "Contribuyente", "Glosa", "Total", "Usuario", "Sucursal", "TipoPago", "Nula" };
                 byte[] filecontent = Code.ExcelExportHelper.ExportExcel(lista, "Listado de ventas", true, columns);
                 return File(filecontent, Code.ExcelExportHelper.ExcelContentType, "listaVentas_" + timestamp + ".xlsx");
             }

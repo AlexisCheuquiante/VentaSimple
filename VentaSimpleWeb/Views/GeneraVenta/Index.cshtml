@@ -78,6 +78,16 @@
                             }
                             <div class="ui form">
                                 <form>
+                                    @if (SessionH.Usuario.Selecciona_Tipo_Boleta == true)
+                                    {
+                                        <div class="field">
+                                            <div class="ui toggle checkbox">
+                                                <input id="checkBoletaExenta" name="checkBoletaExenta" type="checkbox">
+                                                <label>Es boleta exenta</label>
+                                            </div>
+                                        </div>
+                                    }
+
                                     @if (SessionH.Usuario.OcupaRut == false)
                                     {
                                         if (SessionH.Usuario.Ocupa_Prestaciones == true)
@@ -188,11 +198,14 @@
                                             </div>
                                         }
                                         <div class="two fields">
+
+
                                             <div id="divcmbTipoPago" class="field" style="width:100%">
                                                 <label>Tipo de pago</label>
                                                 <select id="cmbTipoPago" name="cmbTipoPago" class="ui search selection dropdown">
                                                 </select>
                                             </div>
+
                                         </div>
                                         <div class="two fields">
                                             <div id="divtxtCantidad" class="field">

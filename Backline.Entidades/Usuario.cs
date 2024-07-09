@@ -36,5 +36,6 @@ namespace Backline.Entidades
         public string Direccion_Sucursal { get; set; }
         public string Comuna { get; set; }
         public string Ciudad { get; set; }
+        public bool Selecciona_Tipo_Boleta { get; set; }
     }
 }

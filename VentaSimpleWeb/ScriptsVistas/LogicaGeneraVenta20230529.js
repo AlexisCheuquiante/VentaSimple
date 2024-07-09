@@ -2,6 +2,7 @@
 var _arrayPrestaciones = [];
 var _idLineaProducto = 1;
 var _arrayProductosAgregados = [];
+var _tipo_Boleta_Seleccionado = [];
 
 $(document).ready(function () {
 
@@ -18,6 +19,17 @@ $(document).ready(function () {
                 
             }
         });
+
+    });
+    $('#checkBoletaExenta').change(function () {
+
+        if ($('#checkBoletaExenta').is(':checked')) {
+
+            _tipo_Boleta_Seleccionado = true;
+        }
+        else {
+            _tipo_Boleta_Seleccionado = false;
+        }
 
     });
  
@@ -68,6 +80,7 @@ function GuardarFactura() {
         Glosa: $('#txtDetalle').val(),
         Total: $('#txtValor').val(),
         Tipa_Id: $('#cmbTipoPago').val(),
+        Tipo_Boleta_Seleccionado: _tipo_Boleta_Seleccionado,
     };
 
     $.ajax({

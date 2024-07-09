@@ -231,5 +231,6 @@ namespace Backline.Entidades
                 }
             }
         }
+        public bool Tipo_Boleta_Seleccionado { get; set; }
     }
 }
